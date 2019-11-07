@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int typeIndex;
 
     /**
-     * Launches when the page appears; sets up the types on the left side of the screen and loads
+     * Runs when the activity launches; sets up the types on the left side of the screen and loads
      * the default words in on the right side of the screen
      */
     @Override
@@ -211,6 +211,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         typeToWordMapping.put("Food", food);
     }
 
+    /**
+     * Responsible for handling clicks for the types and words in the scrolling columns.
+     * When a type is selected, it is highlighted and its words are shown in the right scrolling
+     * view. When a word is selected, the next activity is launched (the quiz) for the word
+     */
     public void onClick(View v) {
 
         ImageView topIV = findViewById(R.id.TopImageView);
@@ -280,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 newIntent.putExtra("word", selectedWord);
                 newIntent.putExtra("wrong_words", wrongWords);
                 startActivityForResult(newIntent, 1);
-                //startActivity(newIntent);
             }
         }
 
@@ -292,6 +296,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Responsible for getting the result of the quiz. When RESULT_OK, then the quiz was passed,
+     * so the word will be unlocked
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -301,6 +309,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 wordViews.get(wordIndex).setBackgroundColor(Color.parseColor("#ffe5e9"));
             }
         }
-    }//onActivityResult
-
+    }
 }

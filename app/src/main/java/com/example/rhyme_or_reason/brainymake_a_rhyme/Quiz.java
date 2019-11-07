@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -38,6 +39,10 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     ImageView starIV3;
     int correctStreak = 0;
 
+    /**
+     * Runs when the activity launches; sets up the screen elements for selecting the word
+     * TODO: Declutter; Separate into functions
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,11 +101,13 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         repeat_params.gravity = CENTER;
 
         // NOTE: Not a button (so can't click - just an ImageView right now)
-        ImageView repeatIV = findViewById(R.id.RepeatButton);
+        ImageButton repeatIV = findViewById(R.id.RepeatButton);
 
         repeatIV.setLayoutParams(repeat_params);
+        repeatIV.setTag("Repeat Button");
 
         repeatIV.setBackgroundResource(R.drawable.repeat);
+        repeatIV.setOnClickListener(Quiz.this);
 
         LinearLayout encompassing = findViewById(R.id.EncompassingLL);
 
@@ -139,7 +146,6 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
         star_params3.setMargins(400,0,0,0);
 
-
         star_params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         star_params2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         star_params3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -157,6 +163,10 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         mPlayer.start();
     }
 
+    /**
+     * Picks out the wrong answers and places them in the boxes; then places the correct answer
+     * randomly in one of the boxes
+     */
     public void setChoices()
     {
         // NOTE: NEEDS 5+ WORDS PER CATEGORY TO WORK
@@ -221,63 +231,72 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * Responsible for handling clicks for the four choices. Will also recognize when the repeat
+     * button has been pressed and play the word again.
+     */
     public void onClick(View v)
     {
-        if (correctChoiceNum.equals(v.getTag())) {
-            correctStreak += 1;
-            if (correctStreak == 1) {
-                starIV.setVisibility(View.VISIBLE);
-                starIV.setBackgroundResource(R.drawable.gold_star_blank);
-            } else if (correctStreak == 2) {
-                starIV2.setVisibility(View.VISIBLE);
-                starIV2.setBackgroundResource(R.drawable.gold_star_blank);
-            } else if (correctStreak == 3) {
-                starIV3.setVisibility(View.VISIBLE);
-                starIV3.setBackgroundResource(R.drawable.gold_star_blank);
-
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                dialog.setTitle("Congratulations!");
-                dialog.setMessage("You Unlocked " + lockedWord.getText());
-                //dialog.setPositiveButton("OK", Quiz.this);
-                dialog.show();
-
-                // Exit quiz
-                Handler returnHandler = new Handler();
-                returnHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("result",true);
-                        setResult(Activity.RESULT_OK,returnIntent);
-                        finish();
-                    }
-                }, 2000);   // 2 seconds
-
-
-            }
-        } else {
-            // Switch to silver stars
-
-            starIV.setBackgroundResource(R.drawable.silver_star_blank);
-            starIV2.setBackgroundResource(R.drawable.silver_star_blank);
-            starIV3.setBackgroundResource(R.drawable.silver_star_blank);
-
-            correctStreak = 0;
-        }
-
-        // Don't want any sound when going back to the main menu
-        if (correctStreak != 3) {
-            setChoices();
-            // Play the word
-
+        if (v.getTag().equals("Repeat Button")) {
             int audioResourceID = getResources().getIdentifier(lockedWord.getAudioName(), "raw", getPackageName());
             MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mPlayer.start();
+        } else {
+            if (correctChoiceNum.equals(v.getTag())) {
+                correctStreak += 1;
+                if (correctStreak == 1) {
+                    starIV.setVisibility(View.VISIBLE);
+                    starIV.setBackgroundResource(R.drawable.gold_star_blank);
+                } else if (correctStreak == 2) {
+                    starIV2.setVisibility(View.VISIBLE);
+                    starIV2.setBackgroundResource(R.drawable.gold_star_blank);
+                } else if (correctStreak == 3) {
+                    starIV3.setVisibility(View.VISIBLE);
+                    starIV3.setBackgroundResource(R.drawable.gold_star_blank);
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                    dialog.setTitle("Congratulations!");
+                    dialog.setMessage("You Unlocked " + lockedWord.getText());
+                    //dialog.setPositiveButton("OK", Quiz.this);
+                    dialog.show();
+
+                    // Exit quiz
+                    Handler returnHandler = new Handler();
+                    returnHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("result", true);
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+                        }
+                    }, 2000);   // 2 seconds
+                }
+            } else {
+                // Switch to silver stars
+
+                starIV.setBackgroundResource(R.drawable.silver_star_blank);
+                starIV2.setBackgroundResource(R.drawable.silver_star_blank);
+                starIV3.setBackgroundResource(R.drawable.silver_star_blank);
+
+                correctStreak = 0;
+            }
+
+            // Don't want any sound when going back to the main menu
+            if (correctStreak != 3) {
+                setChoices();
+                // Play the word
+
+                int audioResourceID = getResources().getIdentifier(lockedWord.getAudioName(), "raw", getPackageName());
+                MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
+                mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mPlayer.start();
+            }
         }
     }
 
     /**
-     * Handles back press click; takes user back to previous activity
+     * Handles back press click; takes user back to previous activity (word select screen)
      *
      * @param view Automatic parameter for user interaction
      */
