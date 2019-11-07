@@ -1,11 +1,15 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -155,6 +159,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
     public void setChoices()
     {
+        // NOTE: NEEDS 5+ WORDS PER CATEGORY TO WORK
+
         int randomInteger = (new Random()).nextInt(4) + 1;
 
         int randomFirstChoice = (new Random()).nextInt(wrongWords.size());
@@ -221,17 +227,40 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
             correctStreak += 1;
             if (correctStreak == 1) {
                 starIV.setVisibility(View.VISIBLE);
+                starIV.setBackgroundResource(R.drawable.gold_star_blank);
             } else if (correctStreak == 2) {
                 starIV2.setVisibility(View.VISIBLE);
+                starIV2.setBackgroundResource(R.drawable.gold_star_blank);
             } else if (correctStreak == 3) {
                 starIV3.setVisibility(View.VISIBLE);
-                onBackPressed();
+                starIV3.setBackgroundResource(R.drawable.gold_star_blank);
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Congratulations!");
+                dialog.setMessage("You Unlocked " + lockedWord.getText());
+                //dialog.setPositiveButton("OK", Quiz.this);
+                dialog.show();
+
                 // Exit quiz
+                Handler returnHandler = new Handler();
+                returnHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result",true);
+                        setResult(Activity.RESULT_OK,returnIntent);
+                        finish();
+                    }
+                }, 2000);   // 2 seconds
+
+
             }
         } else {
-            starIV.setVisibility(View.INVISIBLE);
-            starIV2.setVisibility(View.INVISIBLE);
-            starIV3.setVisibility(View.INVISIBLE);
+            // Switch to silver stars
+
+            starIV.setBackgroundResource(R.drawable.silver_star_blank);
+            starIV2.setBackgroundResource(R.drawable.silver_star_blank);
+            starIV3.setBackgroundResource(R.drawable.silver_star_blank);
+
             correctStreak = 0;
         }
 
@@ -254,5 +283,16 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
+    }
+
+    /**
+     * Called when the user has passed the quiz and acknowledges the congratulatory prompt
+     */
+    public void onPassedQuiz()
+    {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result",true);
+        setResult(Activity.RESULT_OK,returnIntent);
+        finish();
     }
 }

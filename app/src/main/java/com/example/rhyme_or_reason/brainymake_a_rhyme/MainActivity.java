@@ -1,5 +1,6 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<String> typeList = new ArrayList<>();
     HashMap<String, ArrayList<Word> > typeToWordMapping = new HashMap<String, ArrayList<Word> >();
     String activeType = "";
+    Word selectedWord;
+    int wordIndex;
+    int typeIndex;
 
     /**
      * Launches when the page appears; sets up the types on the left side of the screen and loads
@@ -70,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ArrayList<Word> wordList = typeToWordMapping.get(currType);
 
+        wordViews = new ArrayList<>(); // Wipe out existing entries
+
         for (int index = 0; index < wordList.size(); ++index) {
             Button tempWord = new Button(this);
 
@@ -113,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         typeToWordMapping.put("Animals", animals);
 
+        /*
         // Birds
         typeList.add("Birds");
         ArrayList<Word> birds = new ArrayList<>();
@@ -125,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         birds.add(new Word("Swan", true, "swan", "swan"));
 
         typeToWordMapping.put("Birds", birds);
+        */
 
         typeList.add("Body Parts");
         ArrayList<Word> bodyParts = new ArrayList<>();
@@ -137,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bodyParts.add(new Word("Hair", true, "hair", "hair"));
         bodyParts.add(new Word("Hand", true, "hand", "hand"));
         //bodyParts.add(new Word("Head", true, "head", "head"));
+        bodyParts.add(new Word("Mouth", true, "mouth", "mouth"));
+        bodyParts.add(new Word("Nose", true, "nose", "nose"));
 
         typeToWordMapping.put("Body Parts", bodyParts);
 
@@ -164,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //colors.add(new Word("Orange", true, "orange", "orange"));
         colors.add(new Word("Purple", true, "purple", "purple"));
         //colors.add(new Word("Red", true, "red", "red"));
+        colors.add(new Word("Silver", true, "silver", "silver"));
+        colors.add(new Word("Yellow", true, "yellow", "yellow"));
 
         typeToWordMapping.put("Colors", colors);
 
@@ -176,6 +188,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         describing.add(new Word("Hot", true, "hot", "hot"));
         //describing.add(new Word("Loud", true, "loud", "loud"));
         //describing.add(new Word("Naughty", true, "naughty", "naughty"));
+        describing.add(new Word("Old", true, "old", "old"));
+        describing.add(new Word("Quiet", true, "quiet", "quiet"));
+        describing.add(new Word("Silly", true, "silly", "silly"));
 
         typeToWordMapping.put("Describing", describing);
 
@@ -189,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //food.add(new Word("Carrots", true, "carrots", "carrots"));
         //food.add(new Word("Cone", true, "cone", "cone"));
         food.add(new Word("Cookies", true, "cookies", "cookies"));
+        food.add(new Word("Corn", true, "corn", "corn"));
+        food.add(new Word("Grapes", true, "grapes", "grapes"));
+        food.add(new Word("Nuts", true, "nuts", "nuts"));
 
         typeToWordMapping.put("Food", food);
     }
@@ -197,30 +215,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ImageView topIV = findViewById(R.id.TopImageView);
 
-        for (int index = 0; index < typeViews.size(); ++index) {
-            typeViews.get(index).setBackgroundColor(Color.parseColor("#add8e6"));
-        }
+        Boolean updatingActiveType = false;
 
         // Check all Types first
         if (v.getTag().equals("Animals")) {
             topIV.setBackgroundResource(R.drawable.paw);
+            updatingActiveType = true;
+            activeType = "Animals";
         } else if (v.getTag().equals("Birds")) {
             topIV.setBackgroundResource(R.drawable.bird);
+            updatingActiveType = true;
+            activeType = "Birds";
         } else if (v.getTag().equals("Body Parts")) {
             topIV.setBackgroundResource(R.drawable.ankle);
+            updatingActiveType = true;
+            activeType = "Body Parts";
         } else if (v.getTag().equals("Clothing")) {
             topIV.setBackgroundResource(R.drawable.clothes);
+            updatingActiveType = true;
+            activeType = "Clothing";
         } else if (v.getTag().equals("Colors")) {
             topIV.setBackgroundResource(R.drawable.blue);
+            updatingActiveType = true;
+            activeType = "Colors";
         } else if (v.getTag().equals("Describing")) {
             topIV.setBackgroundResource(R.drawable.cloudy);
+            updatingActiveType = true;
+            activeType = "Describing";
         } else if (v.getTag().equals("Food")) {
             topIV.setBackgroundResource(R.drawable.apple);
+            updatingActiveType = true;
+            activeType = "Food";
+        }
+
+        // Only clear out the type background colors if a new type is selected
+        if (updatingActiveType) {
+            for (int index = 0; index < typeViews.size(); ++index) {
+                typeViews.get(index).setBackgroundColor(Color.parseColor("#add8e6"));
+            }
         }
 
         Boolean switchingActivities = false;
 
-        if (!activeType.equals("")) {
+        if (!updatingActiveType) {
             ArrayList<Word> wordList = typeToWordMapping.get(activeType);
 
             ArrayList<String> wrongWords = new ArrayList<>();
@@ -237,10 +274,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             if (switchingActivities) {
+                wordIndex = matchIndex;
+                selectedWord = wordList.get(matchIndex);
                 Intent newIntent = new Intent(this, Quiz.class);
-                newIntent.putExtra("word", wordList.get(matchIndex));
+                newIntent.putExtra("word", selectedWord);
                 newIntent.putExtra("wrong_words", wrongWords);
-                startActivity(newIntent);
+                startActivityForResult(newIntent, 1);
+                //startActivity(newIntent);
             }
         }
 
@@ -251,4 +291,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             updateWordList((String) v.getTag());
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                selectedWord.setUnlocked();
+                wordViews.get(wordIndex).setBackgroundColor(Color.parseColor("#ffe5e9"));
+            }
+        }
+    }//onActivityResult
+
 }
