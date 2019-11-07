@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Quiz">
+
+    <LinearLayout
+        android:id="@+id/EncompassingLL"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <Button
+                android:id="@+id/BackButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="ClickedBackButton"
+                android:text="&lt;"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif" />
+
+            <Button
+                android:id="@+id/HelpButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="ClickedHelpButton"
+                android:text="HELP"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/TopImageView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@android:color/holo_orange_light" />
+
+        <TextView
+            android:id="@+id/QuizLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Quiz Time!"
+            android:textAlignment="gravity"
+            android:textAllCaps="false"
+            android:textColor="#666"
+            android:textSize="40sp"/>
+
+
+        <TextView
+            android:id="@+id/TapWordLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Tap The Word"
+            android:textAlignment="gravity"
+            android:textAllCaps="false"
+            android:textColor="#666"
+            android:textSize="40sp"/>
+
+        <LinearLayout
+            android:id="@+id/TopTwoOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+
+        <LinearLayout
+                android:id="@+id/BottomTwoOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"/>
+
+        <ImageView
+            android:id="@+id/RepeatButton"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

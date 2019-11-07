@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Brainy Make-A-Rhyme</string>
+    <string name="title_activity_quiz">Quiz</string>
 </resources>

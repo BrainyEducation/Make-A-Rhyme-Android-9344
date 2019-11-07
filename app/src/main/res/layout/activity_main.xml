@@ -17,20 +17,6 @@
             android:orientation="horizontal"
             android:paddingTop="10dp">
 
-            <CheckedTextView
-                android:id="@+id/TopLabel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:gravity="center"
-                android:text="Category"
-                android:textAlignment="gravity"
-                android:textAllCaps="false"
-                android:textColor="#666"
-                android:textSize="40sp" />
-
-
             <Button
                 android:id="@+id/BackButton"
                 style="?android:attr/borderlessButtonStyle"
@@ -42,6 +28,19 @@
                 android:textColor="#666"
                 android:textSize="30sp"
                 android:typeface="serif" />
+
+            <Button
+                android:id="@+id/HelpButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="ClickedHelpButton"
+                android:text="HELP"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif"
+                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
 
