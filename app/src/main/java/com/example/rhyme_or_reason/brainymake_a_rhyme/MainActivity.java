@@ -3,8 +3,10 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,6 +31,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Word selectedWord;
     int wordIndex;
     int typeIndex;
+    int height;
+    int width;
+    int elementWidth;
+    int elementHeight;
+    final int ELEMENTS_ON_SCREEN = 5;
+    final int NUM_COLUMNS = 2;
+    final int TEXT_HEIGHT = 200;
+    final int SEPARATOR_HEIGHT = 10;
+    final float LOCKED_ALPHA = 0.3f;
 
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
@@ -39,11 +50,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Display sizing set-up
+        Display display = getWindowManager().getDefaultDisplay();
+        Point screenSize = new Point();
+        display.getSize(screenSize);
+        width = screenSize.x;
+        height = screenSize.y;
+        //elementHeight = height / ELEMENTS_ON_SCREEN;
+        elementWidth = width / NUM_COLUMNS;
+        elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
+
         LinearLayout typeLL = findViewById(R.id.TypeLL);
 
         loadTypeToWordMappings();
 
         for (int index = 0; index < typeList.size(); ++index) {
+
             Button tempType = new Button(this);
 
             tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -51,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempType.setText(typeList.get(index));
             tempType.setTag(typeList.get(index)); // Set tag to the name of the type
             tempType.setBackgroundColor(Color.parseColor("#add8e6"));
+            tempType.setTextSize(20);
             tempType.setOnClickListener(MainActivity.this);
 
             typeViews.add(tempType);
@@ -77,24 +100,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wordViews = new ArrayList<>(); // Wipe out existing entries
 
         for (int index = 0; index < wordList.size(); ++index) {
-            Button tempWord = new Button(this);
 
-            tempWord.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            //LinearLayout textAndImage = new LinearLayout(this);
 
-            tempWord.setOnClickListener(MainActivity.this);
+            Button tempWordImage = new Button(this);
 
-            tempWord.setTag(wordList.get(index).getText());
-            tempWord.setText(wordList.get(index).getText());
+            tempWordImage.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, elementHeight));
+
+            //tempTypeImage.setText(typeList.get(index));
+            tempWordImage.setTag(wordList.get(index).getText());
+            //tempWordImage.setBackgroundColor(Color.parseColor("#add8e6"));
+            //tempTypeImage.setTextSize(20);
+            tempWordImage.setOnClickListener(MainActivity.this);
+            //tempWordImage.setBackgroundResource(R.drawable.paw);
+            int resourceID = getResources().getIdentifier(wordList.get(index).getImageName(), "drawable", getPackageName());
+            tempWordImage.setBackgroundResource(resourceID);
+
+            Button tempWordText = new Button(this);
+
+            tempWordText.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, TEXT_HEIGHT));
+
+            tempWordText.setOnClickListener(MainActivity.this);
+
+            tempWordText.setTag(wordList.get(index).getText());
+            tempWordText.setText(wordList.get(index).getText());
+            tempWordText.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            tempWordText.setTextColor(Color.parseColor("#000000"));
+            tempWordText.setTextSize(20);
+
+            View separator = new View(this);
+
+            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
+
+            //tempWordText.setBackgroundResource(R.drawable.paw);
+
+
             if (wordList.get(index).getLockedStatus()) {
                 // Is Locked
-                tempWord.setBackgroundColor(Color.parseColor("#cccccc"));
+                tempWordImage.setAlpha(LOCKED_ALPHA);
+                //tempWordImage.setBackgroundColor(Color.parseColor("#cccccc"));
             } else {
                 // Is Unlocked
-                tempWord.setBackgroundColor(Color.parseColor("#ffe5e9"));
+                tempWordImage.setAlpha(1);
+                //tempWordImage.setBackgroundColor(Color.parseColor("#ffe5e9"));
             }
 
-            wordViews.add(tempWord);
-            wordLL.addView(tempWord);
+
+            //textAndImage.addView(tempWordImage);
+            //textAndImage.addView(tempWordText);
+
+            wordViews.add(tempWordImage);
+            //wordLL.addView(textAndImage);
+            wordLL.addView(tempWordImage);
+            wordLL.addView(tempWordText);
+            wordLL.addView(separator);
         }
     }
 
@@ -218,37 +277,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void onClick(View v) {
 
-        ImageView topIV = findViewById(R.id.TopImageView);
+
+        //ImageView topIV = findViewById(R.id.TopImageView);
 
         Boolean updatingActiveType = false;
 
         // Check all Types first
         if (v.getTag().equals("Animals")) {
-            topIV.setBackgroundResource(R.drawable.paw);
+            //topIV.setBackgroundResource(R.drawable.paw);
             updatingActiveType = true;
             activeType = "Animals";
         } else if (v.getTag().equals("Birds")) {
-            topIV.setBackgroundResource(R.drawable.bird);
+            //topIV.setBackgroundResource(R.drawable.bird);
             updatingActiveType = true;
             activeType = "Birds";
         } else if (v.getTag().equals("Body Parts")) {
-            topIV.setBackgroundResource(R.drawable.ankle);
+            //topIV.setBackgroundResource(R.drawable.ankle);
             updatingActiveType = true;
             activeType = "Body Parts";
         } else if (v.getTag().equals("Clothing")) {
-            topIV.setBackgroundResource(R.drawable.clothes);
+            //topIV.setBackgroundResource(R.drawable.clothes);
             updatingActiveType = true;
             activeType = "Clothing";
         } else if (v.getTag().equals("Colors")) {
-            topIV.setBackgroundResource(R.drawable.blue);
+            //topIV.setBackgroundResource(R.drawable.blue);
             updatingActiveType = true;
             activeType = "Colors";
         } else if (v.getTag().equals("Describing")) {
-            topIV.setBackgroundResource(R.drawable.cloudy);
+            //topIV.setBackgroundResource(R.drawable.cloudy);
             updatingActiveType = true;
             activeType = "Describing";
         } else if (v.getTag().equals("Food")) {
-            topIV.setBackgroundResource(R.drawable.apple);
+            //topIV.setBackgroundResource(R.drawable.apple);
             updatingActiveType = true;
             activeType = "Food";
         }
@@ -306,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 selectedWord.setUnlocked();
-                wordViews.get(wordIndex).setBackgroundColor(Color.parseColor("#ffe5e9"));
+                wordViews.get(wordIndex).setAlpha(1);
             }
         }
     }

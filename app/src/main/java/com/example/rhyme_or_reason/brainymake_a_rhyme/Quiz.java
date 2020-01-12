@@ -59,12 +59,16 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
         choice1 = new Button(this);
         choice1.setTag("1");
+        choice1.setTextSize(20);
         choice2 = new Button(this);
         choice2.setTag("2");
+        choice2.setTextSize(20);
         choice3 = new Button(this);
         choice3.setTag("3");
+        choice3.setTextSize(20);
         choice4 = new Button(this);
         choice4.setTag("4");
+        choice4.setTextSize(20);
 
         choice1.setOnClickListener(this);
         choice2.setOnClickListener(this);
