@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -35,12 +37,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int width;
     int elementWidth;
     int elementHeight;
+    final String typeBgColor = "#C0ffC0";
     final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
     final int SEPARATOR_HEIGHT = 10;
     final float LOCKED_ALPHA = 0.3f;
-
+    Typeface imprima;
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
      * the default words in on the right side of the screen
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //elementHeight = height / ELEMENTS_ON_SCREEN;
         elementWidth = width / NUM_COLUMNS;
         elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
+        imprima = ResourcesCompat.getFont(this, R.font.imprima);
+
 
         LinearLayout typeLL = findViewById(R.id.TypeLL);
 
@@ -72,12 +77,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             tempType.setText(typeList.get(index));
             tempType.setTag(typeList.get(index)); // Set tag to the name of the type
-            tempType.setBackgroundColor(Color.parseColor("#add8e6"));
-            tempType.setTextSize(20);
+            tempType.setBackgroundColor(Color.parseColor(typeBgColor));
+            tempType.setTextSize(30);
+            tempType.setTypeface(imprima);
             tempType.setOnClickListener(MainActivity.this);
+
+            View separator = new View(this);
+
+            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
 
             typeViews.add(tempType);
             typeLL.addView(tempType);
+            typeLL.addView(separator);
         }
 
         onClick(typeViews.get(0));
@@ -107,12 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             tempWordImage.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, elementHeight));
 
-            //tempTypeImage.setText(typeList.get(index));
             tempWordImage.setTag(wordList.get(index).getText());
-            //tempWordImage.setBackgroundColor(Color.parseColor("#add8e6"));
-            //tempTypeImage.setTextSize(20);
             tempWordImage.setOnClickListener(MainActivity.this);
-            //tempWordImage.setBackgroundResource(R.drawable.paw);
             int resourceID = getResources().getIdentifier(wordList.get(index).getImageName(), "drawable", getPackageName());
             tempWordImage.setBackgroundResource(resourceID);
 
@@ -126,31 +133,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempWordText.setText(wordList.get(index).getText());
             tempWordText.setBackgroundColor(Color.parseColor("#FFFFFF"));
             tempWordText.setTextColor(Color.parseColor("#000000"));
-            tempWordText.setTextSize(20);
+            tempWordText.setTextSize(30);
+            tempWordText.setTypeface(imprima);
 
             View separator = new View(this);
 
             separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
 
-            //tempWordText.setBackgroundResource(R.drawable.paw);
-
-
             if (wordList.get(index).getLockedStatus()) {
                 // Is Locked
                 tempWordImage.setAlpha(LOCKED_ALPHA);
-                //tempWordImage.setBackgroundColor(Color.parseColor("#cccccc"));
             } else {
                 // Is Unlocked
                 tempWordImage.setAlpha(1);
-                //tempWordImage.setBackgroundColor(Color.parseColor("#ffe5e9"));
             }
 
-
-            //textAndImage.addView(tempWordImage);
-            //textAndImage.addView(tempWordText);
-
             wordViews.add(tempWordImage);
-            //wordLL.addView(textAndImage);
             wordLL.addView(tempWordImage);
             wordLL.addView(tempWordText);
             wordLL.addView(separator);
@@ -316,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Only clear out the type background colors if a new type is selected
         if (updatingActiveType) {
             for (int index = 0; index < typeViews.size(); ++index) {
-                typeViews.get(index).setBackgroundColor(Color.parseColor("#add8e6"));
+                typeViews.get(index).setBackgroundColor(Color.parseColor(typeBgColor));
             }
         }
 

@@ -34,13 +34,13 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
                 android:gravity="center"
                 android:onClick="ClickedHelpButton"
                 android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif"
-                android:layout_alignParentRight="true"/>
+                android:typeface="monospace" />
 
         </RelativeLayout>
 
@@ -55,24 +55,26 @@
                 android:id="@+id/TypeLabel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:text="Type"
                 android:textAlignment="gravity"
                 android:textAllCaps="false"
                 android:textColor="#666"
-                android:textSize="40sp"
-                android:layout_weight="1"/>
+                android:textSize="40sp" />
 
 
             <TextView
                 android:id="@+id/WordLabel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:text="Word"
                 android:textColor="#666"
-                android:textSize="40sp"
-                android:layout_weight="1"/>
+                android:textSize="40sp" />
 
         </LinearLayout>
 

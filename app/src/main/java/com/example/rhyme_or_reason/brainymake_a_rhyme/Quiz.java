@@ -3,12 +3,14 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +40,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     ImageView starIV2;
     ImageView starIV3;
     int correctStreak = 0;
+    Typeface imprima;
+    final int textSize = 40;
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -51,24 +55,32 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         lockedWord = (Word)getIntent().getSerializableExtra("word");
         wrongWords = getIntent().getStringArrayListExtra("wrong_words");
 
+        imprima = ResourcesCompat.getFont(this, R.font.imprima);
+
         int resourceID = getResources().getIdentifier(lockedWord.getImageName(), "drawable", getPackageName());
 
         ImageView topIV = findViewById(R.id.TopImageView);
 
         topIV.setBackgroundResource(resourceID);
+        topIV.setOnClickListener(Quiz.this);
+        topIV.setTag("Repeat Button");
 
         choice1 = new Button(this);
         choice1.setTag("1");
-        choice1.setTextSize(20);
+        choice1.setTextSize(textSize);
+        choice1.setTypeface(imprima);
         choice2 = new Button(this);
         choice2.setTag("2");
-        choice2.setTextSize(20);
+        choice2.setTextSize(textSize);
+        choice2.setTypeface(imprima);
         choice3 = new Button(this);
         choice3.setTag("3");
-        choice3.setTextSize(20);
+        choice3.setTextSize(textSize);
+        choice3.setTypeface(imprima);
         choice4 = new Button(this);
         choice4.setTag("4");
-        choice4.setTextSize(20);
+        choice4.setTextSize(textSize);
+        choice4.setTypeface(imprima);
 
         choice1.setOnClickListener(this);
         choice2.setOnClickListener(this);

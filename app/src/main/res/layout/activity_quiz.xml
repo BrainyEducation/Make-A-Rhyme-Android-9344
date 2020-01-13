@@ -35,16 +35,17 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:onClick="ClickedHelpButton"
                 android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif"
-                android:layout_alignParentRight="true"/>
+                android:typeface="serif" />
         </RelativeLayout>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/TopImageView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
@@ -54,24 +55,26 @@
             android:id="@+id/QuizLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/imprima"
             android:gravity="center"
             android:text="Quiz Time!"
             android:textAlignment="gravity"
             android:textAllCaps="false"
             android:textColor="#666"
-            android:textSize="40sp"/>
+            android:textSize="40sp" />
 
 
         <TextView
             android:id="@+id/TapWordLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/imprima"
             android:gravity="center"
             android:text="Tap The Word"
             android:textAlignment="gravity"
             android:textAllCaps="false"
             android:textColor="#666"
-            android:textSize="40sp"/>
+            android:textSize="40sp" />
 
         <LinearLayout
             android:id="@+id/TopTwoOptions"
