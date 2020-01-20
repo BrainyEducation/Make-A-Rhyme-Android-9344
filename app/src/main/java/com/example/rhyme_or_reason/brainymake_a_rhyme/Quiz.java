@@ -3,6 +3,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -14,6 +15,8 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,151 +35,41 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     Word lockedWord;
     ArrayList<String> wrongWords;
     String correctChoiceNum = "0";
-    Button choice1;
-    Button choice2;
-    Button choice3;
-    Button choice4;
-    ImageView starIV;
-    ImageView starIV2;
-    ImageView starIV3;
+    Button choice1, choice2, choice3, choice4;
+    ImageView starIV1, starIV2, starIV3;
     int correctStreak = 0;
     Typeface imprima;
-    final int textSize = 40;
+    final String CHOICE_BOX_COLOR = "#9370DB";
+    int height, width;
+    int HEIGHT_UNIT;
+    ImageView topIV;
+    RelativeLayout topBar;
+    ImageButton repeatIV;
+    LinearLayout topTwoOptions, bottomTwoOptions, encompassing;
+    int lockedWordImageResourceID;
+    final int NUM_CHOICES = 4;
+    final int TEXT_SIZE = 40;
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
-     * TODO: Declutter; Separate into functions
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        lockedWord = (Word)getIntent().getSerializableExtra("word");
-        wrongWords = getIntent().getStringArrayListExtra("wrong_words");
+        loadIntentsAndViews();
+        sizingSetUp();
+        miscellaneousSetUp();
 
-        imprima = ResourcesCompat.getFont(this, R.font.imprima);
-
-        int resourceID = getResources().getIdentifier(lockedWord.getImageName(), "drawable", getPackageName());
-
-        ImageView topIV = findViewById(R.id.TopImageView);
-
-        topIV.setBackgroundResource(resourceID);
-        topIV.setOnClickListener(Quiz.this);
-        topIV.setTag("Repeat Button");
-
-        choice1 = new Button(this);
-        choice1.setTag("1");
-        choice1.setTextSize(textSize);
-        choice1.setTypeface(imprima);
-        choice2 = new Button(this);
-        choice2.setTag("2");
-        choice2.setTextSize(textSize);
-        choice2.setTypeface(imprima);
-        choice3 = new Button(this);
-        choice3.setTag("3");
-        choice3.setTextSize(textSize);
-        choice3.setTypeface(imprima);
-        choice4 = new Button(this);
-        choice4.setTag("4");
-        choice4.setTextSize(textSize);
-        choice4.setTypeface(imprima);
-
-        choice1.setOnClickListener(this);
-        choice2.setOnClickListener(this);
-        choice3.setOnClickListener(this);
-        choice4.setOnClickListener(this);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                300, 1
-        );
-        params.setMargins(5, 5, 5, 5);
-
-        choice1.setLayoutParams(params);
-        choice2.setLayoutParams(params);
-        choice3.setLayoutParams(params);
-        choice4.setLayoutParams(params);
-
+        createChoiceButtons();
         setChoices();
 
-        LinearLayout topLL = findViewById(R.id.TopTwoOptions);
-        LinearLayout bottomLL = findViewById(R.id.BottomTwoOptions);
+        createStarButtons();
 
-        topLL.addView(choice1);
-        topLL.addView(choice2);
+        performLayout();
 
-        bottomLL.addView(choice3);
-        bottomLL.addView(choice4);
-
-        LinearLayout.LayoutParams repeat_params = new LinearLayout.LayoutParams(
-                200,
-                200
-        );
-        repeat_params.setMargins(5, 5, 5, 5);
-        repeat_params.gravity = CENTER;
-
-        // NOTE: Not a button (so can't click - just an ImageView right now)
-        ImageButton repeatIV = findViewById(R.id.RepeatButton);
-
-        repeatIV.setLayoutParams(repeat_params);
-        repeatIV.setTag("Repeat Button");
-
-        repeatIV.setBackgroundResource(R.drawable.repeat);
-        repeatIV.setOnClickListener(Quiz.this);
-
-        LinearLayout encompassing = findViewById(R.id.EncompassingLL);
-
-        // Stars
-
-        starIV = new ImageView(this);
-        starIV2 = new ImageView(this);
-        starIV3 = new ImageView(this);
-
-        starIV.setBackgroundResource(R.drawable.gold_star_blank);
-        starIV2.setBackgroundResource(R.drawable.gold_star_blank);
-        starIV3.setBackgroundResource(R.drawable.gold_star_blank);
-
-        starIV.setVisibility(View.INVISIBLE); // Hide star 1
-        starIV2.setVisibility(View.INVISIBLE); // Hide star 2
-        starIV3.setVisibility(View.INVISIBLE); // Hide star 3
-
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-
-        RelativeLayout.LayoutParams star_params = new RelativeLayout.LayoutParams(
-                200,
-                200
-        );
-
-        RelativeLayout.LayoutParams star_params2 = new RelativeLayout.LayoutParams(
-                200,
-                200
-        );
-
-        star_params2.setMargins(200,0,0,0);
-
-        RelativeLayout.LayoutParams star_params3 = new RelativeLayout.LayoutParams(
-                200,
-                200
-        );
-
-        star_params3.setMargins(400,0,0,0);
-
-        star_params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        star_params2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        star_params3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
-        relativeLayout.addView(starIV, star_params);
-        relativeLayout.addView(starIV2, star_params2);
-        relativeLayout.addView(starIV3, star_params3);
-
-        encompassing.addView(relativeLayout);
-
-        // Play the word
-        int audioResourceID = getResources().getIdentifier(lockedWord.getAudioName(), "raw", getPackageName());
-        MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
-        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mPlayer.start();
+        playWordAudio();
     }
 
     /**
@@ -187,7 +80,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     {
         // NOTE: NEEDS 5+ WORDS PER CATEGORY TO WORK
 
-        int randomInteger = (new Random()).nextInt(4) + 1;
+        int randomInteger = (new Random()).nextInt(NUM_CHOICES) + 1;
 
         int randomFirstChoice = (new Random()).nextInt(wrongWords.size());
         String wrongWord1 = wrongWords.get(randomFirstChoice);
@@ -215,22 +108,24 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         while (true) {
             int randomFourthChoice = (new Random()).nextInt(wrongWords.size());
             wrongWord4 = wrongWords.get(randomFourthChoice);
-            if (!wrongWord4.equals(wrongWord1) && !wrongWord4.equals(wrongWord2) && !wrongWord4.equals(wrongWord3)) {
+            if (!wrongWord4.equals(wrongWord1) &&
+                    !wrongWord4.equals(wrongWord2) &&
+                    !wrongWord4.equals(wrongWord3)) {
                 break;
             }
         }
 
         choice1.setText(wrongWord1);
-        choice1.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice1.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
 
         choice2.setText(wrongWord2);
-        choice2.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice2.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
 
         choice3.setText(wrongWord3);
-        choice3.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice3.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
 
         choice4.setText(wrongWord4);
-        choice4.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice4.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
 
         if (randomInteger == 1) {
             choice1.setText(lockedWord.getText());
@@ -254,16 +149,13 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v)
     {
         if (v.getTag().equals("Repeat Button")) {
-            int audioResourceID = getResources().getIdentifier(lockedWord.getAudioName(), "raw", getPackageName());
-            MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
-            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mPlayer.start();
+            playWordAudio();
         } else {
             if (correctChoiceNum.equals(v.getTag())) {
                 correctStreak += 1;
                 if (correctStreak == 1) {
-                    starIV.setVisibility(View.VISIBLE);
-                    starIV.setBackgroundResource(R.drawable.gold_star_blank);
+                    starIV1.setVisibility(View.VISIBLE);
+                    starIV1.setBackgroundResource(R.drawable.gold_star_blank);
                 } else if (correctStreak == 2) {
                     starIV2.setVisibility(View.VISIBLE);
                     starIV2.setBackgroundResource(R.drawable.gold_star_blank);
@@ -274,7 +166,6 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                     dialog.setTitle("Congratulations!");
                     dialog.setMessage("You Unlocked " + lockedWord.getText());
-                    //dialog.setPositiveButton("OK", Quiz.this);
                     dialog.show();
 
                     // Exit quiz
@@ -291,7 +182,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
             } else {
                 // Switch to silver stars
 
-                starIV.setBackgroundResource(R.drawable.silver_star_blank);
+                starIV1.setBackgroundResource(R.drawable.silver_star_blank);
                 starIV2.setBackgroundResource(R.drawable.silver_star_blank);
                 starIV3.setBackgroundResource(R.drawable.silver_star_blank);
 
@@ -301,12 +192,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
             // Don't want any sound when going back to the main menu
             if (correctStreak != 3) {
                 setChoices();
-                // Play the word
-
-                int audioResourceID = getResources().getIdentifier(lockedWord.getAudioName(), "raw", getPackageName());
-                MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
-                mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mPlayer.start();
+                playWordAudio();
             }
         }
     }
@@ -329,5 +215,184 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         returnIntent.putExtra("result",true);
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
+    }
+
+    /**
+     * Creates the buttons that serve as options for the word being spoken
+     */
+    public void createChoiceButtons()
+    {
+        choice1 = new Button(this);
+        choice1.setTag("1");
+        choice1.setTextSize(TEXT_SIZE);
+        choice1.setTypeface(imprima);
+        choice2 = new Button(this);
+        choice2.setTag("2");
+        choice2.setTextSize(TEXT_SIZE);
+        choice2.setTypeface(imprima);
+        choice3 = new Button(this);
+        choice3.setTag("3");
+        choice3.setTextSize(TEXT_SIZE);
+        choice3.setTypeface(imprima);
+        choice4 = new Button(this);
+        choice4.setTag("4");
+        choice4.setTextSize(TEXT_SIZE);
+        choice4.setTypeface(imprima);
+
+        choice1.setOnClickListener(this);
+        choice2.setOnClickListener(this);
+        choice3.setOnClickListener(this);
+        choice4.setOnClickListener(this);
+
+        topTwoOptions.addView(choice1);
+        topTwoOptions.addView(choice2);
+        bottomTwoOptions.addView(choice3);
+        bottomTwoOptions.addView(choice4);
+    }
+
+    /**
+     * Creates the buttons that serve as options for the word being spoken
+     */
+    public void loadIntentsAndViews()
+    {
+        lockedWord = (Word)getIntent().getSerializableExtra("word");
+        wrongWords = getIntent().getStringArrayListExtra("wrong_words");
+
+        topIV = findViewById(R.id.TopImageView);
+        topBar = findViewById(R.id.topLayout);
+        repeatIV = findViewById(R.id.RepeatButton);
+        topTwoOptions = findViewById(R.id.TopTwoOptions);
+        bottomTwoOptions = findViewById(R.id.BottomTwoOptions);
+        encompassing = findViewById(R.id.EncompassingLL);
+    }
+
+    /**
+     * Called when the page first loads; gets dimensions to help calculate how to dynamically lay
+     * out the screen
+     */
+    public void sizingSetUp()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point screenSize = new Point();
+        display.getSize(screenSize);
+        width = screenSize.x;
+        height = screenSize.y;
+
+        HEIGHT_UNIT = height / 10; // Ten height units to allocate on the screen
+    }
+
+    /**
+     * Handles set-up that would otherwise be in onCreate that doesn't belong in any other function
+     */
+    public void miscellaneousSetUp()
+    {
+        lockedWordImageResourceID = getResources().getIdentifier(lockedWord.getImageName(), "drawable", getPackageName());
+        imprima = ResourcesCompat.getFont(this, R.font.imprima);
+
+        topIV.setBackgroundResource(lockedWordImageResourceID);
+        topIV.setOnClickListener(Quiz.this);
+        topIV.setTag("Repeat Button"); // Can be clicked to repeat the word
+
+        repeatIV.setBackgroundResource(R.drawable.repeat);
+        repeatIV.setOnClickListener(Quiz.this);
+        repeatIV.setTag("Repeat Button"); // Can be clicked to repeat the word
+    }
+
+    /**
+     * Handles set-up for the three star images that indicate quiz progress
+     */
+    public void createStarButtons()
+    {
+        starIV1 = new ImageView(this);
+        starIV2 = new ImageView(this);
+        starIV3 = new ImageView(this);
+
+        starIV1.setBackgroundResource(R.drawable.gold_star_blank);
+        starIV2.setBackgroundResource(R.drawable.gold_star_blank);
+        starIV3.setBackgroundResource(R.drawable.gold_star_blank);
+
+        starIV1.setVisibility(View.INVISIBLE); // Hide star 1
+        starIV2.setVisibility(View.INVISIBLE); // Hide star 2
+        starIV3.setVisibility(View.INVISIBLE); // Hide star 3
+    }
+
+    /**
+     * Plays the sound file for the word being learned
+     */
+    public void playWordAudio() {
+        int audioResourceID = getResources().getIdentifier(lockedWord.getAudioName(), "raw", getPackageName());
+        MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
+    }
+
+    /**
+     * Called when the page first loads; lays out elements dynamically based on screen dimensions
+     */
+    public void performLayout()
+    {
+        // Top Bar (Back Button and Help)
+        topBar.getLayoutParams().height = HEIGHT_UNIT;
+        topBar.getLayoutParams().width = width;
+        topBar.requestLayout();
+
+        // Image View (Picture of Word Being Quizzed)
+        topIV.getLayoutParams().height = 3 * HEIGHT_UNIT;
+        topIV.getLayoutParams().width = 3 * HEIGHT_UNIT; // Square images -> same height and width
+        topIV.requestLayout();
+
+        // Word Choices (1 Correct, 3 Incorrect)
+        LinearLayout.LayoutParams choiceParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                2 * HEIGHT_UNIT - 10, 1
+        );
+        choiceParams.setMargins(5, 5, 5, 5);
+
+        choice1.setLayoutParams(choiceParams);
+        choice2.setLayoutParams(choiceParams);
+        choice3.setLayoutParams(choiceParams);
+        choice4.setLayoutParams(choiceParams);
+
+        // Repeat Button (To repeat word audio)
+        LinearLayout.LayoutParams repeat_params = new LinearLayout.LayoutParams(
+                HEIGHT_UNIT,
+                HEIGHT_UNIT
+        );
+        repeat_params.setMargins(0, 0, 0, 0);
+        repeat_params.gravity = CENTER;
+
+        repeatIV.setLayoutParams(repeat_params);
+
+        // Star Buttons (3, side by side)
+        RelativeLayout starRelativeLayout = new RelativeLayout(this);
+
+        RelativeLayout.LayoutParams star_params1 = new RelativeLayout.LayoutParams(
+                HEIGHT_UNIT,
+                HEIGHT_UNIT
+        );
+
+        RelativeLayout.LayoutParams star_params2 = new RelativeLayout.LayoutParams(
+                HEIGHT_UNIT,
+                HEIGHT_UNIT
+        );
+
+        star_params2.setMargins(HEIGHT_UNIT,0,0,0);
+
+        RelativeLayout.LayoutParams star_params3 = new RelativeLayout.LayoutParams(
+                HEIGHT_UNIT,
+                HEIGHT_UNIT
+        );
+
+        star_params3.setMargins(2 * HEIGHT_UNIT,0,0,0);
+
+        star_params1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        star_params2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        star_params3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        starRelativeLayout.addView(starIV1, star_params1);
+        starRelativeLayout.addView(starIV2, star_params2);
+        starRelativeLayout.addView(starIV3, star_params3);
+
+        encompassing.addView(starRelativeLayout);
     }
 }

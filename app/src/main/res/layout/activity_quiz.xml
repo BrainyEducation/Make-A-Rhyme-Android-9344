@@ -16,7 +16,7 @@
             android:layout_width="fill_parent"
             android:layout_height="70dp"
             android:orientation="horizontal"
-            android:paddingTop="10dp">
+            android:background="#eee">
 
             <Button
                 android:id="@+id/BackButton"
@@ -28,7 +28,8 @@
                 android:text="&lt;"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif" />
+                android:typeface="serif"
+                android:padding="0dp"/>
 
             <Button
                 android:id="@+id/HelpButton"
@@ -42,39 +43,17 @@
                 android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif" />
+                android:typeface="serif"
+                android:padding="0dp"/>
         </RelativeLayout>
 
         <ImageButton
             android:id="@+id/TopImageView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="@android:color/holo_orange_light" />
-
-        <TextView
-            android:id="@+id/QuizLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/imprima"
-            android:gravity="center"
-            android:text="Quiz Time!"
-            android:textAlignment="gravity"
-            android:textAllCaps="false"
-            android:textColor="#666"
-            android:textSize="40sp" />
-
-
-        <TextView
-            android:id="@+id/TapWordLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/imprima"
-            android:gravity="center"
-            android:text="Tap The Word"
-            android:textAlignment="gravity"
-            android:textAllCaps="false"
-            android:textColor="#666"
-            android:textSize="40sp" />
+            android:layout_gravity="center"
+            android:background="@android:color/holo_orange_light"
+            android:padding="0dp"/>
 
         <LinearLayout
             android:id="@+id/TopTwoOptions"
@@ -91,7 +70,8 @@
         <ImageButton
             android:id="@+id/RepeatButton"
             android:layout_height="match_parent"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:padding="0dp"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

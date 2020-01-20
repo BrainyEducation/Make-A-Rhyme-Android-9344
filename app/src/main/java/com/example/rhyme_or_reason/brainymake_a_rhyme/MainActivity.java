@@ -15,35 +15,39 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.view.Gravity.CENTER;
 import static java.util.Arrays.asList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ArrayList<View>typeViews = new ArrayList<>();
-    ArrayList<View>wordViews = new ArrayList<>();
+    ArrayList<View> typeViews = new ArrayList<>();
+    ArrayList<View> wordViews = new ArrayList<>();
     ArrayList<String> typeList = new ArrayList<>();
     HashMap<String, ArrayList<Word> > typeToWordMapping = new HashMap<String, ArrayList<Word> >();
     String activeType = "";
     Word selectedWord;
-    int wordIndex;
-    int typeIndex;
-    int height;
-    int width;
-    int elementWidth;
-    int elementHeight;
+    int wordIndex, typeIndex;
+    int height, width, elementWidth, elementHeight;
     final String typeBgColor = "#C0ffC0";
     final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
     final int SEPARATOR_HEIGHT = 10;
     final float LOCKED_ALPHA = 0.3f;
+    final int TEXT_SIZE = 30;
     Typeface imprima;
+    LinearLayout typeLL;
+    LinearLayout wordLL;
+    RelativeLayout topBar;
+    int HEIGHT_UNIT;
+
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
      * the default words in on the right side of the screen
@@ -53,46 +57,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Display sizing set-up
-        Display display = getWindowManager().getDefaultDisplay();
-        Point screenSize = new Point();
-        display.getSize(screenSize);
-        width = screenSize.x;
-        height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
-        elementWidth = width / NUM_COLUMNS;
-        elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
-        imprima = ResourcesCompat.getFont(this, R.font.imprima);
+        loadIntentsAndViews();
+        sizingSetUp();
+        miscellaneousSetUp();
 
-
-        LinearLayout typeLL = findViewById(R.id.TypeLL);
+        performLayout();
 
         loadTypeToWordMappings();
 
-        for (int index = 0; index < typeList.size(); ++index) {
-
-            Button tempType = new Button(this);
-
-            tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-            tempType.setText(typeList.get(index));
-            tempType.setTag(typeList.get(index)); // Set tag to the name of the type
-            tempType.setBackgroundColor(Color.parseColor(typeBgColor));
-            tempType.setTextSize(30);
-            tempType.setTypeface(imprima);
-            tempType.setOnClickListener(MainActivity.this);
-
-            View separator = new View(this);
-
-            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
-
-            typeViews.add(tempType);
-            typeLL.addView(tempType);
-            typeLL.addView(separator);
-        }
+        setUpTypes();
 
         onClick(typeViews.get(0));
-        //updateWordList("Animals"); // Default Set-Up
     }
 
     /**
@@ -103,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void updateWordList(String currType)
     {
         activeType = currType;
-        LinearLayout wordLL = findViewById(R.id.WordLL);
         wordLL.removeAllViews(); // Removes the current buttons
 
         ArrayList<Word> wordList = typeToWordMapping.get(currType);
@@ -111,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wordViews = new ArrayList<>(); // Wipe out existing entries
 
         for (int index = 0; index < wordList.size(); ++index) {
-
-            //LinearLayout textAndImage = new LinearLayout(this);
 
             Button tempWordImage = new Button(this);
 
@@ -131,9 +103,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             tempWordText.setTag(wordList.get(index).getText());
             tempWordText.setText(wordList.get(index).getText());
-            tempWordText.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            tempWordText.setTextColor(Color.parseColor("#000000"));
-            tempWordText.setTextSize(30);
+            tempWordText.setBackgroundColor(Color.WHITE);
+            tempWordText.setTextColor(Color.BLACK);
+            tempWordText.setTextSize(TEXT_SIZE);
             tempWordText.setTypeface(imprima);
 
             View separator = new View(this);
@@ -275,40 +247,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void onClick(View v) {
 
-
-        //ImageView topIV = findViewById(R.id.TopImageView);
-
         Boolean updatingActiveType = false;
 
         // Check all Types first
-        if (v.getTag().equals("Animals")) {
-            //topIV.setBackgroundResource(R.drawable.paw);
-            updatingActiveType = true;
-            activeType = "Animals";
-        } else if (v.getTag().equals("Birds")) {
-            //topIV.setBackgroundResource(R.drawable.bird);
-            updatingActiveType = true;
-            activeType = "Birds";
-        } else if (v.getTag().equals("Body Parts")) {
-            //topIV.setBackgroundResource(R.drawable.ankle);
-            updatingActiveType = true;
-            activeType = "Body Parts";
-        } else if (v.getTag().equals("Clothing")) {
-            //topIV.setBackgroundResource(R.drawable.clothes);
-            updatingActiveType = true;
-            activeType = "Clothing";
-        } else if (v.getTag().equals("Colors")) {
-            //topIV.setBackgroundResource(R.drawable.blue);
-            updatingActiveType = true;
-            activeType = "Colors";
-        } else if (v.getTag().equals("Describing")) {
-            //topIV.setBackgroundResource(R.drawable.cloudy);
-            updatingActiveType = true;
-            activeType = "Describing";
-        } else if (v.getTag().equals("Food")) {
-            //topIV.setBackgroundResource(R.drawable.apple);
-            updatingActiveType = true;
-            activeType = "Food";
+        for (int index = 0; index < typeList.size(); ++index) {
+            if (v.getTag().equals(typeList.get(index))) {
+                updatingActiveType = true;
+                activeType = typeList.get(index);
+            }
         }
 
         // Only clear out the type background colors if a new type is selected
@@ -366,6 +312,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selectedWord.setUnlocked();
                 wordViews.get(wordIndex).setAlpha(1);
             }
+        }
+    }
+
+    /**
+     * Called when the page first loads; gets dimensions to help calculate how to dynamically lay
+     * out the screen
+     */
+    public void sizingSetUp()
+    {
+        // Display sizing set-up
+        Display display = getWindowManager().getDefaultDisplay();
+        Point screenSize = new Point();
+        display.getSize(screenSize);
+        width = screenSize.x;
+        height = screenSize.y;
+        //elementHeight = height / ELEMENTS_ON_SCREEN;
+        elementWidth = width / NUM_COLUMNS;
+        elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
+
+        HEIGHT_UNIT = height / 10;
+    }
+
+    /**
+     * Handles set-up that would otherwise be in onCreate that doesn't belong in any other function
+     */
+    public void miscellaneousSetUp()
+    {
+        imprima = ResourcesCompat.getFont(this, R.font.imprima);
+    }
+
+    /**
+     * Creates the buttons that serve as options for the word being spoken
+     */
+    public void loadIntentsAndViews()
+    {
+        typeLL = findViewById(R.id.TypeLL);
+        wordLL = findViewById(R.id.WordLL);
+        topBar = findViewById(R.id.topLayout);
+    }
+
+    /**
+     * Called when the page first loads; lays out elements dynamically based on screen dimensions
+     */
+    public void performLayout()
+    {
+        // Top Bar (Back Button and Help)
+        topBar.getLayoutParams().height = HEIGHT_UNIT;
+        topBar.getLayoutParams().width = width;
+        topBar.requestLayout();
+    }
+
+    /**
+     * Called when the page first loads; lays out left column of types
+     */
+    public void setUpTypes() {
+        for (int index = 0; index < typeList.size(); ++index) {
+
+            Button tempType = new Button(this);
+
+            tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+            tempType.setText(typeList.get(index));
+            tempType.setTag(typeList.get(index)); // Set tag to the name of the type
+            tempType.setBackgroundColor(Color.parseColor(typeBgColor));
+            tempType.setTextSize(TEXT_SIZE);
+            tempType.setTypeface(imprima);
+            tempType.setOnClickListener(MainActivity.this);
+
+            View separator = new View(this);
+
+            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
+
+            typeViews.add(tempType);
+            typeLL.addView(tempType);
+            typeLL.addView(separator);
         }
     }
 }
