@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempWordText.setOnClickListener(MainActivity.this);
 
             tempWordText.setTag(wordList.get(index).getText());
-            tempWordText.setText(wordList.get(index).getText());
+            tempWordText.setText(wordList.get(index).getText().toLowerCase());
             tempWordText.setBackgroundColor(Color.parseColor("#FFFFFF"));
             tempWordText.setTextColor(Color.parseColor("#000000"));
             tempWordText.setTextSize(30);

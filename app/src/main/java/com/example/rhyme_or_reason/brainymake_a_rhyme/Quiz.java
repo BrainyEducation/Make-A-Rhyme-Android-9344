@@ -220,29 +220,29 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
-        choice1.setText(wrongWord1);
+        choice1.setText(wrongWord1.toLowerCase());
         choice1.setBackgroundColor(Color.parseColor("#9370DB"));
 
-        choice2.setText(wrongWord2);
+        choice2.setText(wrongWord2.toLowerCase());
         choice2.setBackgroundColor(Color.parseColor("#9370DB"));
 
-        choice3.setText(wrongWord3);
+        choice3.setText(wrongWord3.toLowerCase());
         choice3.setBackgroundColor(Color.parseColor("#9370DB"));
 
-        choice4.setText(wrongWord4);
+        choice4.setText(wrongWord4.toLowerCase());
         choice4.setBackgroundColor(Color.parseColor("#9370DB"));
 
         if (randomInteger == 1) {
-            choice1.setText(lockedWord.getText());
+            choice1.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "1";
         } else if (randomInteger == 2) {
-            choice2.setText(lockedWord.getText());
+            choice2.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "2";
         } else if (randomInteger == 3) {
-            choice3.setText(lockedWord.getText());
+            choice3.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "3";
         } else if (randomInteger == 4) {
-            choice4.setText(lockedWord.getText());
+            choice4.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "4";
         }
     }
