@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int width;
     int elementWidth;
     int elementHeight;
-    final String typeBgColor = "#C0ffC0";
+    final String typeBgColor = "#f4faf8";//"#C0ffC0";
     final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
@@ -112,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int index = 0; index < wordList.size(); ++index) {
 
-            //LinearLayout textAndImage = new LinearLayout(this);
+            LinearLayout textAndImage = new LinearLayout(this);
+            textAndImage.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            textAndImage.setOrientation(LinearLayout.VERTICAL);
 
             Button tempWordImage = new Button(this);
 
@@ -147,10 +149,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Is Unlocked
                 tempWordImage.setAlpha(1);
             }
-
+            textAndImage.addView(tempWordImage);
+            textAndImage.addView(tempWordText);
             wordViews.add(tempWordImage);
-            wordLL.addView(tempWordImage);
-            wordLL.addView(tempWordText);
+            wordLL.addView(textAndImage);
             wordLL.addView(separator);
         }
     }
@@ -348,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!switchingActivities) {
             // Only executes if the selected item was a Type (will leave screen for new activity if not)
-            v.setBackgroundColor(Color.parseColor("#9370DB"));
+            v.setBackgroundColor(Color.parseColor("#c8e6c2"));//"#9370DB"));
 
             updateWordList((String) v.getTag());
         }

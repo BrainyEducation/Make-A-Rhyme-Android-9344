@@ -41,6 +41,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     ImageView starIV3;
     int correctStreak = 0;
     Typeface imprima;
+    int buttonColor = Color.parseColor("#f4faf8");
     final int textSize = 40;
 
     /**
@@ -221,16 +222,16 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         }
 
         choice1.setText(wrongWord1);
-        choice1.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice1.setBackgroundColor(buttonColor);
 
         choice2.setText(wrongWord2);
-        choice2.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice2.setBackgroundColor(buttonColor);
 
         choice3.setText(wrongWord3);
-        choice3.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice3.setBackgroundColor(buttonColor);
 
         choice4.setText(wrongWord4);
-        choice4.setBackgroundColor(Color.parseColor("#9370DB"));
+        choice4.setBackgroundColor(buttonColor);
 
         if (randomInteger == 1) {
             choice1.setText(lockedWord.getText());
