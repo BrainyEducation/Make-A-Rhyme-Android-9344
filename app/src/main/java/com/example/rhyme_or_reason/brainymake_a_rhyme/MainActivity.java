@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<View> wordViews = new ArrayList<>();
     ArrayList<String> typeList = new ArrayList<>();
     HashMap<String, ArrayList<Word> > typeToWordMapping = new HashMap<String, ArrayList<Word> >();
+    HashMap<String, ArrayList<Integer>> typeToImageMapping = new HashMap<String, ArrayList<Integer>>();
     String activeType = "";
     Word selectedWord;
     int wordIndex, typeIndex;
@@ -238,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         food.add(new Word("Nuts", true, "nuts", "nuts"));
 
         typeToWordMapping.put("Food", food);
+
+        generateTypeToImageMappings();
     }
 
     /**
@@ -369,9 +373,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setUpTypes() {
         for (int index = 0; index < typeList.size(); ++index) {
 
+
+
+
             Button tempType = new Button(this);
 
             tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
 
             tempType.setText(typeList.get(index));
             tempType.setTag(typeList.get(index)); // Set tag to the name of the type
@@ -386,7 +394,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             typeViews.add(tempType);
             typeLL.addView(tempType);
+            typeLL.addView(generateImagePreview(tempType));
             typeLL.addView(separator);
+
+
         }
+    }
+
+    private LinearLayout generateImagePreview(Button exampleButton) {
+        LinearLayout linearElement = new LinearLayout(this);
+        for (int i = 0; i < 2; i++) {
+            ImageView sampleImage = new ImageView(this);
+            sampleImage.setLayoutParams(new LinearLayout.LayoutParams(TEXT_HEIGHT, TEXT_HEIGHT));
+            sampleImage.getLayoutParams().height = TEXT_HEIGHT;
+            int pictureResourceID = R.drawable.plum;
+            if (typeToImageMapping.containsKey(exampleButton.getText().toString())) {
+                pictureResourceID = typeToImageMapping.get(exampleButton.getText()).get(i);
+            }
+            sampleImage.setImageResource(pictureResourceID);
+            linearElement.addView(sampleImage);
+        }
+        return linearElement;
+    }
+
+    private void generateTypeToImageMappings() {
+        ArrayList<Integer> animalList = new ArrayList<Integer>();
+        animalList.add(R.drawable.ape);
+        animalList.add(R.drawable.cat);
+        ArrayList<Integer> bodyParts = new ArrayList<Integer>();
+        bodyParts.add(R.drawable.ankle);
+        bodyParts.add(R.drawable.hand);
+        typeToImageMapping.put("Animals", animalList);
+        typeToImageMapping.put("Body Parts", bodyParts);
     }
 }
