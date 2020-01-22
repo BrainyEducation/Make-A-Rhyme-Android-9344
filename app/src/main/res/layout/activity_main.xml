@@ -30,6 +30,25 @@
                 android:typeface="serif"
                 android:padding="0dp"/>
 
+            <ImageButton
+                android:id="@+id/ScrollUpBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:src="@drawable/up_arrow" />
+
+            <ImageButton
+                android:id="@+id/ScrollDownBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:src="@drawable/down_arrow" />
+
             <Button
                 android:id="@+id/HelpButton"
                 style="?android:attr/borderlessButtonStyle"
@@ -81,11 +100,10 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/ScrollingCols"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <ScrollView
@@ -118,28 +136,7 @@
 
             </ScrollView>
 
-            <ImageButton
-                android:id="@+id/ScrollUpBtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/up_arrow"
-                />
-
-            <ImageButton
-                android:id="@+id/ScrollDownBtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/down_arrow"
-                />
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

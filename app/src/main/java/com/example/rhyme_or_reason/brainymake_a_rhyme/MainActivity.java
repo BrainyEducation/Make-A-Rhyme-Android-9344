@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton up_btn;
     private ImageButton down_btn;
 
-
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
      * the default words in on the right side of the screen
@@ -66,6 +67,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         up_btn = findViewById(R.id.ScrollUpBtn);
         down_btn = findViewById(R.id.ScrollDownBtn);
 
+        up_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollview.smoothScrollBy(0, -500);
+            }
+        });
+
+        down_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollview.smoothScrollBy(0, 500);
+            }
+        });
         loadIntentsAndViews();
         sizingSetUp();
         miscellaneousSetUp();
@@ -78,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         onClick(typeViews.get(0));
     }
+
 
     /**
      * Responsible for changing the words on the right side of the screen when a type is selected;
