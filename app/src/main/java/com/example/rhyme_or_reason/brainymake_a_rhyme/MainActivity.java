@@ -240,8 +240,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         food.add(new Word("Nuts", true, "nuts", "nuts"));
 
         typeToWordMapping.put("Food", food);
-
-        generateTypeToImageMappings();
     }
 
     /**
@@ -373,13 +371,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setUpTypes() {
         for (int index = 0; index < typeList.size(); ++index) {
 
-
-
-
             Button tempType = new Button(this);
 
             tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
 
             tempType.setText(typeList.get(index));
             tempType.setTag(typeList.get(index)); // Set tag to the name of the type
@@ -396,8 +390,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             typeLL.addView(tempType);
             typeLL.addView(generateImagePreview(tempType));
             typeLL.addView(separator);
-
-
         }
     }
 
@@ -405,26 +397,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout linearElement = new LinearLayout(this);
         for (int i = 0; i < 2; i++) {
             ImageView sampleImage = new ImageView(this);
-            sampleImage.setLayoutParams(new LinearLayout.LayoutParams(TEXT_HEIGHT, TEXT_HEIGHT));
-            sampleImage.getLayoutParams().height = TEXT_HEIGHT;
+            sampleImage.setLayoutParams(new LinearLayout.LayoutParams(elementHeight / 2, elementHeight / 2));
+            //sampleImage.getLayoutParams().height = TEXT_HEIGHT;
             int pictureResourceID = R.drawable.plum;
-            if (typeToImageMapping.containsKey(exampleButton.getText().toString())) {
-                pictureResourceID = typeToImageMapping.get(exampleButton.getText()).get(i);
+
+            if (typeToWordMapping.containsKey(exampleButton.getText().toString())) {
+                ArrayList<Word> wordsForSelectedType = typeToWordMapping.get(exampleButton.getText().toString());
+                pictureResourceID = getResources().getIdentifier(wordsForSelectedType.get(i).getImageName(), "drawable", getPackageName());
             }
+
             sampleImage.setImageResource(pictureResourceID);
             linearElement.addView(sampleImage);
         }
         return linearElement;
-    }
-
-    private void generateTypeToImageMappings() {
-        ArrayList<Integer> animalList = new ArrayList<Integer>();
-        animalList.add(R.drawable.ape);
-        animalList.add(R.drawable.cat);
-        ArrayList<Integer> bodyParts = new ArrayList<Integer>();
-        bodyParts.add(R.drawable.ankle);
-        bodyParts.add(R.drawable.hand);
-        typeToImageMapping.put("Animals", animalList);
-        typeToImageMapping.put("Body Parts", bodyParts);
     }
 }
