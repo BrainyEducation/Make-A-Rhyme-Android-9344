@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -47,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout wordLL;
     RelativeLayout topBar;
     int HEIGHT_UNIT;
+    private ScrollView scrollview;
+    private ImageButton up_btn;
+    private ImageButton down_btn;
+
 
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
@@ -56,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        scrollview = findViewById(R.id.WordScrollView);
+        up_btn = findViewById(R.id.ScrollUpBtn);
+        down_btn = findViewById(R.id.ScrollDownBtn);
 
         loadIntentsAndViews();
         sizingSetUp();
