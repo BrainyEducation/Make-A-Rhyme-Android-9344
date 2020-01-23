@@ -128,16 +128,16 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         choice4.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
 
         if (randomInteger == 1) {
-            choice1.setText(lockedWord.getText());
+            choice1.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "1";
         } else if (randomInteger == 2) {
-            choice2.setText(lockedWord.getText());
+            choice2.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "2";
         } else if (randomInteger == 3) {
-            choice3.setText(lockedWord.getText());
+            choice3.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "3";
         } else if (randomInteger == 4) {
-            choice4.setText(lockedWord.getText());
+            choice4.setText(lockedWord.getText().toLowerCase());
             correctChoiceNum = "4";
         }
     }
