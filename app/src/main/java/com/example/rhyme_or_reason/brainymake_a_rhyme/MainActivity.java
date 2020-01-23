@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         up_btnW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type_scrollview.smoothScrollBy(0, -500);
+                word_scrollview.smoothScrollBy(0, -500);
             }
         });
         down_btnW.setOnClickListener(new View.OnClickListener() {
