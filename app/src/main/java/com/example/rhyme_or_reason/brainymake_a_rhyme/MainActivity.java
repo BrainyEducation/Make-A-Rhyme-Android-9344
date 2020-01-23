@@ -6,10 +6,13 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,11 +51,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Typeface imprima;
     LinearLayout typeLL;
     LinearLayout wordLL;
+    LinearLayout typeWrapper;
     RelativeLayout topBar;
     int HEIGHT_UNIT;
-    private ScrollView scrollview;
-    private ImageButton up_btn;
-    private ImageButton down_btn;
+    private ScrollView word_scrollview;
+    private ScrollView type_scrollview;
+    private ImageButton up_btnW;
+    private ImageButton down_btnW;
+    private ImageButton up_btnT;
+    private ImageButton down_btnT;
 
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
@@ -63,21 +70,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scrollview = findViewById(R.id.WordScrollView);
-        up_btn = findViewById(R.id.ScrollUpBtn);
-        down_btn = findViewById(R.id.ScrollDownBtn);
-
-        up_btn.setOnClickListener(new View.OnClickListener() {
+        word_scrollview = findViewById(R.id.WordScrollView);
+        type_scrollview = findViewById(R.id.TypeScrollView);
+        up_btnW = findViewById(R.id.WordScrollUpBtn);
+        down_btnW = findViewById(R.id.WordScrollDownBtn);
+        up_btnT = findViewById(R.id.TypeScrollUpBtn);
+        down_btnT = findViewById(R.id.TypeScrollDownBtn);
+        up_btnW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scrollview.smoothScrollBy(0, -500);
+                type_scrollview.smoothScrollBy(0, -500);
             }
         });
-
-        down_btn.setOnClickListener(new View.OnClickListener() {
+        down_btnW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scrollview.smoothScrollBy(0, 500);
+                word_scrollview.smoothScrollBy(0, 500);
+            }
+        });
+        up_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, -500);
+            }
+        });
+        down_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, 500);
             }
         });
         loadIntentsAndViews();
@@ -103,6 +123,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         activeType = currType;
         wordLL.removeAllViews(); // Removes the current buttons
+
+//        up_btnW = new ImageButton(this);
+//        up_btnW.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//        up_btnW.setImageResource(R.drawable.up_arrow);
+//        up_btnW.setBackground(null);
+//        up_btnW.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                type_scrollview.smoothScrollBy(0, -500);
+//            }
+//        });
+//        type_scrollview.addView(up_btnT);
 
         ArrayList<Word> wordList = typeToWordMapping.get(currType);
 
@@ -149,6 +181,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             wordLL.addView(tempWordText);
             wordLL.addView(separator);
         }
+//        down_btnW = new FloatingActionButton(this);
+//        down_btnW.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//        down_btnW.setImageResource(R.drawable.down_arrow);
+//        down_btnW.setBackground(null);
+//        down_btnW.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                word_scrollview.smoothScrollBy(0, 500);
+//            }
+//        });
+//        wordLL.addView(down_btnW);
     }
 
     /**
@@ -374,6 +417,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         typeLL = findViewById(R.id.TypeLL);
         wordLL = findViewById(R.id.WordLL);
         topBar = findViewById(R.id.topLayout);
+//        typeWrapper = findViewById(R.id.TypeWrapper);
+//        scrollColumns = findViewById(R.id.ScrollingCols);
     }
 
     /**
@@ -391,8 +436,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Called when the page first loads; lays out left column of types
      */
     public void setUpTypes() {
+//        up_btnT = new ImageButton(this);
+//        up_btnT.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//        up_btnT.setImageResource(R.drawable.up_arrow);
+//        up_btnT.setBackground(null);
+//        up_btnT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                type_scrollview.smoothScrollBy(0, -500);
+//            }
+//        });
+//        scrollColumns.addView(up_btnT);
         for (int index = 0; index < typeList.size(); ++index) {
-
             Button tempType = new Button(this);
 
             tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -407,10 +462,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             View separator = new View(this);
 
             separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
-
+            //up_btnT.setLayoutParams();
             typeViews.add(tempType);
             typeLL.addView(tempType);
             typeLL.addView(separator);
         }
+//        down_btnT = new ImageButton(this);
+//        down_btnT.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+//        down_btnT.setImageResource(R.drawable.down_arrow);
+//        down_btnT.setBackground(null);
+//        down_btnT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                type_scrollview.smoothScrollBy(0, 500);
+//            }
+//        });
+//        typeWrapper.addView(down_btnT, 0);
+//        typeWrapper.addView(typeLL, 1);
     }
 }

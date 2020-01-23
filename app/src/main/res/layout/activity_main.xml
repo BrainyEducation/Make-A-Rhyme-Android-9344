@@ -30,25 +30,6 @@
                 android:typeface="serif"
                 android:padding="0dp"/>
 
-            <ImageButton
-                android:id="@+id/ScrollUpBtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="68dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:src="@drawable/up_arrow" />
-
-            <ImageButton
-                android:id="@+id/ScrollDownBtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical"
-                android:src="@drawable/down_arrow" />
-
             <Button
                 android:id="@+id/HelpButton"
                 style="?android:attr/borderlessButtonStyle"
@@ -101,31 +82,55 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <ImageButton
+                android:id="@+id/TypeScrollUpBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/up_arrow"></ImageButton>
+
+            <ImageButton
+                android:id="@+id/WordScrollUpBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/up_arrow"></ImageButton>
+        </LinearLayout>
+
+        <RelativeLayout
             android:id="@+id/ScrollingCols"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ScrollView
                 android:id="@+id/TypeScrollView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
                 android:layout_weight="1">
 
-                <LinearLayout
-                    android:id="@+id/TypeLL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/TypeLL"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                        </LinearLayout>
 
             </ScrollView>
 
             <ScrollView
                 android:id="@+id/WordScrollView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true">
 
                 <LinearLayout
                     android:id="@+id/WordLL"
@@ -136,7 +141,29 @@
 
             </ScrollView>
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_height="30dp">
+                <ImageButton
+                    android:id="@+id/TypeScrollDownBtn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_weight="3"
+                    android:src="@drawable/down_arrow"></ImageButton>
+
+                <ImageButton
+                    android:id="@+id/WordScrollDownBtn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_weight="3"
+                    android:src="@drawable/down_arrow"></ImageButton>
+            </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
