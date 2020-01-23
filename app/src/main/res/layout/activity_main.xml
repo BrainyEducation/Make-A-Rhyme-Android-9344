@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/topLayout"
             android:layout_width="fill_parent"
             android:layout_height="70dp"
-            android:orientation="horizontal"
-            android:background="#eee">
+            android:background="@color/colorMenuBar"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/BackButton"
@@ -91,13 +92,15 @@
                 android:id="@+id/TypeScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:paddingRight="2dp">
 
                 <LinearLayout
                     android:id="@+id/TypeLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="#FFF">
                 </LinearLayout>
 
             </ScrollView>
@@ -106,13 +109,15 @@
                 android:id="@+id/WordScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:paddingLeft="2dp">
 
                 <LinearLayout
                     android:id="@+id/WordLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="#FFF">
                 </LinearLayout>
 
             </ScrollView>

@@ -8,15 +8,17 @@
 
     <LinearLayout
         android:id="@+id/EncompassingLL"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/topLayout"
             android:layout_width="fill_parent"
             android:layout_height="70dp"
-            android:orientation="horizontal"
-            android:background="#eee">
+            android:background="@color/colorMenuBar"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/BackButton"
@@ -52,20 +54,22 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_gravity="center"
-            android:background="@android:color/holo_orange_light"
+            android:background="@color/colorBackground"
             android:padding="0dp"/>
 
         <LinearLayout
             android:id="@+id/TopTwoOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:padding="0dp"/>
 
         <LinearLayout
-                android:id="@+id/BottomTwoOptions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"/>
+            android:id="@+id/BottomTwoOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="0dp"/>
 
         <ImageButton
             android:id="@+id/RepeatButton"

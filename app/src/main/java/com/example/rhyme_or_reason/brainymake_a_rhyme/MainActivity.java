@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Word selectedWord;
     int wordIndex, typeIndex;
     int height, width, elementWidth, elementHeight;
-    final String typeBgColor = "#C0ffC0";
+    final String typeBgColor = "#f4faf8";
     final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempWordText.setOnClickListener(MainActivity.this);
 
             tempWordText.setTag(wordList.get(index).getText());
-            tempWordText.setText(wordList.get(index).getText().toLowerCase());
+            tempWordText.setText(wordList.get(index).getText());
             tempWordText.setBackgroundColor(Color.WHITE);
             tempWordText.setTextColor(Color.BLACK);
             tempWordText.setTextSize(TEXT_SIZE);
@@ -251,18 +252,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Boolean updatingActiveType = false;
 
+        int typeIndex = -1;
+
         // Check all Types first
         for (int index = 0; index < typeList.size(); ++index) {
             if (v.getTag().equals(typeList.get(index))) {
                 updatingActiveType = true;
                 activeType = typeList.get(index);
+                typeViews.get(index).setBackgroundColor(Color.parseColor("#c8e6c2"));
+                typeIndex = index;
             }
         }
 
         // Only clear out the type background colors if a new type is selected
         if (updatingActiveType) {
             for (int index = 0; index < typeViews.size(); ++index) {
-                typeViews.get(index).setBackgroundColor(Color.parseColor(typeBgColor));
+                if (typeIndex != index) {
+                    typeViews.get(index).setBackgroundColor(Color.parseColor(typeBgColor));
+                }
             }
         }
 
@@ -294,12 +301,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
         if (!switchingActivities) {
             // Only executes if the selected item was a Type (will leave screen for new activity if not)
-            v.setBackgroundColor(Color.parseColor("#9370DB"));
+            //v.setBackgroundColor(Color.parseColor("#c8e6c2"));//"#9370DB"));
 
             updateWordList((String) v.getTag());
         }
+
     }
 
     /**
@@ -369,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Called when the page first loads; lays out left column of types
      */
     public void setUpTypes() {
+
         for (int index = 0; index < typeList.size(); ++index) {
 
             Button tempType = new Button(this);
@@ -399,7 +409,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ImageView sampleImage = new ImageView(this);
             sampleImage.setLayoutParams(new LinearLayout.LayoutParams(elementHeight / 2, elementHeight / 2));
             //sampleImage.getLayoutParams().height = TEXT_HEIGHT;
-            int pictureResourceID = R.drawable.plum;
+            int pictureResourceID = 0;
+            sampleImage.setOnClickListener(MainActivity.this);
+            sampleImage.setTag(exampleButton.getText().toString());
 
             if (typeToWordMapping.containsKey(exampleButton.getText().toString())) {
                 ArrayList<Word> wordsForSelectedType = typeToWordMapping.get(exampleButton.getText().toString());

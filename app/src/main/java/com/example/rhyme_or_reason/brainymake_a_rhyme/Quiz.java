@@ -39,7 +39,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     ImageView starIV1, starIV2, starIV3;
     int correctStreak = 0;
     Typeface imprima;
-    final String CHOICE_BOX_COLOR = "#9370DB";
+    //final String CHOICE_BOX_COLOR = "#9370DB";
     int height, width;
     int HEIGHT_UNIT;
     ImageView topIV;
@@ -49,6 +49,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     int lockedWordImageResourceID;
     final int NUM_CHOICES = 4;
     final int TEXT_SIZE = 40;
+    int buttonColor = Color.parseColor("#f4faf8");
+    //final int textSize = 40;
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -116,16 +118,16 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         }
 
         choice1.setText(wrongWord1);
-        choice1.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
+        choice1.setBackgroundColor(buttonColor);
 
         choice2.setText(wrongWord2);
-        choice2.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
+        choice2.setBackgroundColor(buttonColor);
 
         choice3.setText(wrongWord3);
-        choice3.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
+        choice3.setBackgroundColor(buttonColor);
 
         choice4.setText(wrongWord4);
-        choice4.setBackgroundColor(Color.parseColor(CHOICE_BOX_COLOR));
+        choice4.setBackgroundColor(buttonColor);
 
         if (randomInteger == 1) {
             choice1.setText(lockedWord.getText().toLowerCase());
