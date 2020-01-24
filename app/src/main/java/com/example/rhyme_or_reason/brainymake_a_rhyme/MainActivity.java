@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int SEPARATOR_HEIGHT = 10;
     final float LOCKED_ALPHA = 0.3f;
     final int TEXT_SIZE = 30;
-    final boolean HELLO = true;
+    final boolean HELLO = false;
     Typeface imprima;
     LinearLayout typeLL;
     LinearLayout wordLL;
