@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final String typeBgColor = "#C0ffC0";
     final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
+    final int POSTER = 4;
     final int TEXT_HEIGHT = 200;
     final int SEPARATOR_HEIGHT = 10;
     final float LOCKED_ALPHA = 0.3f;
