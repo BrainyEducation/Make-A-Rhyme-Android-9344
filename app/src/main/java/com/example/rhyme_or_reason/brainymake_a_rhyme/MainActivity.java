@@ -72,36 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        word_scrollview = findViewById(R.id.WordScrollView);
-        type_scrollview = findViewById(R.id.TypeScrollView);
-        up_btnW = findViewById(R.id.WordScrollUpBtn);
-        down_btnW = findViewById(R.id.WordScrollDownBtn);
-        up_btnT = findViewById(R.id.TypeScrollUpBtn);
-        down_btnT = findViewById(R.id.TypeScrollDownBtn);
-        up_btnW.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                word_scrollview.smoothScrollBy(0, -500);
-            }
-        });
-        down_btnW.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                word_scrollview.smoothScrollBy(0, 500);
-            }
-        });
-        up_btnT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                type_scrollview.smoothScrollBy(0, -500);
-            }
-        });
-        down_btnT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                type_scrollview.smoothScrollBy(0, 500);
-            }
-        });
         loadIntentsAndViews();
         sizingSetUp();
         miscellaneousSetUp();
@@ -424,6 +394,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void loadIntentsAndViews()
     {
+        word_scrollview = findViewById(R.id.WordScrollView);
+        type_scrollview = findViewById(R.id.TypeScrollView);
+        up_btnW = findViewById(R.id.WordScrollUpBtn);
+        down_btnW = findViewById(R.id.WordScrollDownBtn);
+        up_btnT = findViewById(R.id.TypeScrollUpBtn);
+        down_btnT = findViewById(R.id.TypeScrollDownBtn);
+        up_btnW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                word_scrollview.smoothScrollBy(0, -500);
+            }
+        });
+        down_btnW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                word_scrollview.smoothScrollBy(0, 500);
+            }
+        });
+        up_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, -500);
+            }
+        });
+        down_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, 500);
+            }
+        });
         typeLL = findViewById(R.id.TypeLL);
         wordLL = findViewById(R.id.WordLL);
         topBar = findViewById(R.id.topLayout);
@@ -501,4 +501,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return linearElement;
     }
+
+    public void ClickedBackButton(View view) {
+        onBackPressed();
+    }
+
 }
