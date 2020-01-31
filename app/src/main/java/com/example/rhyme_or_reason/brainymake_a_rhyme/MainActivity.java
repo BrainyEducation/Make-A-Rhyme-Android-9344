@@ -210,14 +210,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //animals.add(new Word("bear", true, "bear", "bear"));
         //animals.add(new Word("bee", true, "bee", "bee"));
         animals.add(new Word("cat", true, "cat", "cat"));
+        animals.add(new Word("camel", true, "camel", "camel"));
         //animals.add(new Word("centipede", true, "centipede", "centipede"));
         animals.add(new Word("collie", true, "collie", "collie"));
         animals.add(new Word("cow", true, "cow", "cow"));
         animals.add(new Word("dog", true, "dog", "dog"));
+        animals.add(new Word("dogs", true, "dogs", "dogs"));
+        //animals.add(new Word("donkey", true, "donkey", "donkey"));
+        animals.add(new Word("fox", true, "fox", "fox"));
+        animals.add(new Word("goat", true, "goat", "goat"));
+        animals.add(new Word("kitten", true, "kitten", "kitten"));
+        animals.add(new Word("mole", true, "mole", "mole"));
+        //animals.add(new Word("monkey", true, "monkey", "monkey"));
+        animals.add(new Word("moth", true, "moth", "moth"));
+        animals.add(new Word("mouse", true, "mouse", "mouse"));
+        //animals.add(new Word("pets", true, "pets", "pets"));
+        animals.add(new Word("rabbit", true, "rabbit", "rabbit"));
+        animals.add(new Word("sheep", true, "sheep", "sheep"));
+        animals.add(new Word("skunk", true, "skunk", "skunk"));
+        animals.add(new Word("snail", true, "snail", "snail"));
+        animals.add(new Word("swan", true, "swan", "swan"));
+        //animals.add(new Word("tiger", true, "tiger", "tiger"));
+        //animals.add(new Word("toad", true, "toad", "toad"));
+        animals.add(new Word("wasp", true, "wasp", "wasp"));
+        animals.add(new Word("wolf", true, "wolf", "wolf"));
+        animals.add(new Word("zebra", true, "zebra", "zebra"));
 
         typeToWordMapping.put("Animals", animals);
 
-        /*
+
         // Birds
         typeList.add("Birds");
         ArrayList<Word> birds = new ArrayList<>();
@@ -230,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         birds.add(new Word("swan", true, "swan", "swan"));
 
         typeToWordMapping.put("Birds", birds);
-        */
+
 
         typeList.add("Body Parts");
         ArrayList<Word> bodyParts = new ArrayList<>();
@@ -240,11 +261,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bodyParts.add(new Word("face", true, "face", "face"));
         //bodyParts.add(new Word("Feet", true, "feet", "feet"));
         bodyParts.add(new Word("foot", true, "foot", "foot"));
-        bodyParts.add(new Word("hair", true, "hair", "hair"));
+        //bodyParts.add(new Word("hair", true, "hair", "hair"));
         bodyParts.add(new Word("hand", true, "hand", "hand"));
         //bodyParts.add(new Word("Head", true, "head", "head"));
+        //bodyParts.add(new Word("lip", true, "lip", "lip"));
         bodyParts.add(new Word("mouth", true, "mouth", "mouth"));
         bodyParts.add(new Word("nose", true, "nose", "nose"));
+        //bodyParts.add(new Word("paw", true, "paw", "paw"));
+        //bodyParts.add(new Word("shin", true, "shin", "shin"));
+        //bodyParts.add(new Word("stripes", true, "stripes", "stripes"));
+        bodyParts.add(new Word("tail", true, "tail", "tail"));
+        //bodyParts.add(new Word("thigh", true, "thigh", "thigh"));
+        bodyParts.add(new Word("thumb", true, "thumb", "thumb"));
+        bodyParts.add(new Word("toe", true, "toe", "toe"));
 
         typeToWordMapping.put("Body Parts", bodyParts);
 
@@ -252,13 +281,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<Word> clothing = new ArrayList<>();
         clothing.add(new Word("boots", true, "boots", "boots"));
         clothing.add(new Word("clothes", true, "clothes", "clothes"));
+        //clothing.add(new Word("dress", true, "dress", "dress"));
         clothing.add(new Word("glove", true, "glove", "glove"));
         //clothing.add(new Word("hoodie", true, "hoodie", "hoodie"));
         //clothing.add(new Word("jacket", true, "jacket", "jacket"));
         clothing.add(new Word("purse", true, "purse", "purse"));
         //clothing.add(new Word("ring", true, "ring", "ring"));
         clothing.add(new Word("scarf", true, "scarf", "scarf"));
-        clothing.add(new Word("shirt", true, "shirt", "shirt"));
+        clothing.add(new Word("shirt", true, "skirt", "skirt"));
+        clothing.add(new Word("skirt", true, "shirt", "shirt"));
+        clothing.add(new Word("suit", true, "suit", "suit"));
+        clothing.add(new Word("tie", true, "tie", "tie"));
+        //clothing.add(new Word("veil", true, "veil", "veil"));
+        clothing.add(new Word("wig", true, "wig", "wig"));
 
         typeToWordMapping.put("Clothing", clothing);
 
@@ -273,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         colors.add(new Word("purple", true, "purple", "purple"));
         //colors.add(new Word("red", true, "red", "red"));
         colors.add(new Word("silver", true, "silver", "silver"));
+        //colors.add(new Word("white", true, "white", "white"));
         colors.add(new Word("yellow", true, "yellow", "yellow"));
 
         typeToWordMapping.put("Colors", colors);
@@ -286,9 +322,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         describing.add(new Word("hot", true, "hot", "hot"));
         //describing.add(new Word("loud", true, "loud", "loud"));
         //describing.add(new Word("naughty", true, "naughty", "naughty"));
-        describing.add(new Word("old", true, "old", "old"));
+        //describing.add(new Word("old", true, "old", "old"));
         describing.add(new Word("quiet", true, "quiet", "quiet"));
+        //describing.add(new Word("rude", true, "rude", "rude"));
         describing.add(new Word("silly", true, "silly", "silly"));
+        describing.add(new Word("sleepy", true, "sleepy", "sleepy"));
+        //describing.add(new Word("slow", true, "slow", "slow"));
+        //describing.add(new Word("smart", true, "smart", "smart"));
 
         typeToWordMapping.put("Describing", describing);
 
@@ -305,8 +345,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         food.add(new Word("corn", true, "corn", "corn"));
         food.add(new Word("grapes", true, "grapes", "grapes"));
         food.add(new Word("nuts", true, "nuts", "nuts"));
+        //food.add(new Word("hotdog", true, "hotdog", "hotdog"));
+        //food.add(new Word("lettuce", true, "lettuce", "lettuce"));
+        //food.add(new Word("milk", true, "milk", "milk"));
+        food.add(new Word("pie", true, "pie", "pie"));
+        food.add(new Word("plum", true, "plum", "plum"));
+        food.add(new Word("pretzel", true, "pretzel", "pretzel"));
+        //food.add(new Word("snack", true, "snack", "snack"));
+        //food.add(new Word("tea", true, "tea", "tea"));
 
         typeToWordMapping.put("Food", food);
+
+        typeList.add("Numbers");
+        ArrayList<Word>  numbers = new ArrayList<>();
+        numbers.add(new Word("five", true, "five", "five"));
+        numbers.add(new Word("six", true, "six", "six"));
+        //numbers.add(new Word("eight", true, "eight", "eight"));
+        //numbers.add(new Word("twelve", true, "twelve", "twelve"));
+        numbers.add(new Word("sixteen", true, "sixteen", "sixteen"));
+
+        typeToWordMapping.put("Numbers", numbers);
     }
 
     /**
