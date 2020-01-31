@@ -3,6 +3,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -33,10 +34,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     final String WORD_MARKERS = "[]";
     final int NUM_SPACES = 5;
     ArrayList<String> wordCodes = new ArrayList<>();
+    StoryAudioManager storyAudioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        storyAudioManager = new StoryAudioManager(this);
         setContentView(R.layout.activity_rhyme);
 
         sizingSetUp();
@@ -57,6 +60,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         //newIntent.putExtra("word", selectedWord);
         //newIntent.putExtra("wrong_words", wrongWords);
         startActivityForResult(newIntent, 1);
+        storyAudioManager.setContinueAudioFlag(false);
 
     }
 
@@ -235,14 +239,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
-        final StoryAudioManager storyAudioManager = new StoryAudioManager(this);
-        storyAudioManager.exampleAudio();
-        //storyAudioManager.play_story("Pet Party Picnic Story");
+        storyAudioManager.setContinueAudioFlag(true);
         Thread stopThread = new Thread() {
             @Override
             public void run() {
                 try {
-                    sleep(10000);
+                    sleep(1000);
                     storyAudioManager.play_story("Pet Party Picnic Story");
                 } catch (InterruptedException e) {
                     e.printStackTrace();

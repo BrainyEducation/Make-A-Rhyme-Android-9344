@@ -2,9 +2,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
@@ -13,14 +11,20 @@ public class StoryAudioManager {
 
     private Context context;
     private String resourcePath;
-    private StoryAudioMetadataManager mp3Data;
+    private StoryAudioConstants mp3Data;
+    private boolean continueAudioFlag = true;
 
     public StoryAudioManager(Context context) {
         this.context = context;
         String packageName = this.context.getPackageName();
         resourcePath = "android.resource://" + packageName + "/raw/";
-        mp3Data = new StoryAudioMetadataManager();
+        mp3Data = new StoryAudioConstants();
     }
+
+    public void setContinueAudioFlag(boolean flag) {
+        continueAudioFlag = flag;
+    }
+
 
     public void exampleAudio() {
 
@@ -44,8 +48,10 @@ public class StoryAudioManager {
 
     public void play_story(String storyName) {
         ArrayList<MediaPlayer> mediaPlayerSequence = new ArrayList<MediaPlayer>();
-        int numberOfFiles = mp3Data.storyNameToNumFilesMap.get(storyName);
-        String fileprefix = mp3Data.storyNameToFileNameMap.get(storyName);
+        StoryAudioConstantContainer constantContainer = mp3Data.storyNameToConstantContainer.get(storyName);
+        int numberOfFiles = constantContainer.numberOfFiles;
+        String fileprefix = constantContainer.fileNamePrefix;
+        ArrayList<Boolean> isThereARealBlankBetweenFiles = constantContainer.checkIfNeedSubstitution;
         for (int i = 1; i <= numberOfFiles; i++) {
             MediaPlayer mp = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(fileprefix + i,"raw",context.getPackageName()));
             mediaPlayerSequence.add(mp);
@@ -62,13 +68,34 @@ public class StoryAudioManager {
             });
             mp.start();
             while (lock[0]) {
+                if (!continueAudioFlag) {
+                    mp.stop();
+                    return;
+                }
                 continue;
             }
             mp.stop();
-            MediaPlayer mpex = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
-            mpex.start();
-            try {sleep(1000);} catch(Exception e) {e.printStackTrace();}
-            mpex.stop();
+
+            lock[0] = true;
+
+            if (isThereARealBlankBetweenFiles.get(i)) {
+                MediaPlayer mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
+                mpBlank.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        lock[0] = false;
+                    }
+                });
+                mpBlank.start();
+                while (lock[0]) {
+                    if (!continueAudioFlag) {
+                        mpBlank.stop();
+                        return;
+                    }
+                    continue;
+                }
+                mpBlank.stop();
+            }
         }
 
     }
