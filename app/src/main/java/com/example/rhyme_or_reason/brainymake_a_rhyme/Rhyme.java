@@ -235,5 +235,21 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
+        final StoryAudioManager storyAudioManager = new StoryAudioManager(this);
+        storyAudioManager.exampleAudio();
+        //storyAudioManager.play_story("Pet Party Picnic Story");
+        Thread stopThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    sleep(10000);
+                    storyAudioManager.play_story("Pet Party Picnic Story");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        stopThread.start();
+
     }
 }
