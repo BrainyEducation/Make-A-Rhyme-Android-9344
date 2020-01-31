@@ -39,7 +39,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         storyAudioManager = new StoryAudioManager(this);
+        setupAudioButton();
+
         setContentView(R.layout.activity_rhyme);
 
         sizingSetUp();
@@ -49,6 +52,21 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         loadIllustrationImage();
 
         petPartyPicnicSetUp();
+    }
+
+    /**
+     * This button plays the audio files relevant to the story. Note that
+     * there is currently a hardcoded value
+     */
+    public void setupAudioButton() {
+        Button playButton = findViewById(R.id.PlayAudio);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storyAudioManager.setContinueAudioFlag(true);
+                storyAudioManager.play_story("Pet Party Picnic Story");
+            }
+        });
     }
 
     /**
@@ -238,20 +256,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 rhymeTextLL.addView(textAndButton);
             }
         }
-
-        storyAudioManager.setContinueAudioFlag(true);
-        Thread stopThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(1000);
-                    storyAudioManager.play_story("Pet Party Picnic Story");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        stopThread.start();
 
     }
 }

@@ -5,19 +5,19 @@ import android.media.MediaPlayer;
 
 import java.util.ArrayList;
 
-import static java.lang.Thread.sleep;
-
 public class StoryAudioManager {
 
     private Context context;
-    private String resourcePath;
+
+    //contains constants defined for how the mp3 files will be sequentially played
     private StoryAudioConstants mp3Data;
+
+    //toggling this to false prevents any audio in play_story from running
     private boolean continueAudioFlag = true;
 
     public StoryAudioManager(Context context) {
         this.context = context;
         String packageName = this.context.getPackageName();
-        resourcePath = "android.resource://" + packageName + "/raw/";
         mp3Data = new StoryAudioConstants();
     }
 
@@ -27,9 +27,6 @@ public class StoryAudioManager {
 
 
     public void exampleAudio() {
-
-        String filename = resourcePath + "airplane.mp3";
-
         final MediaPlayer mp = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
         mp.start();
         Thread stopThread = new Thread() {
@@ -46,6 +43,12 @@ public class StoryAudioManager {
         stopThread.start();
     }
 
+    /**
+     * Syncs up the audio files for the story with the audio files that correspond to words
+     * that have filled in the blank. Currently, it does not have a parameter for passing in a list
+     *
+     * @param storyName
+     */
     public void play_story(String storyName) {
         ArrayList<MediaPlayer> mediaPlayerSequence = new ArrayList<MediaPlayer>();
         StoryAudioConstantContainer constantContainer = mp3Data.storyNameToConstantContainer.get(storyName);

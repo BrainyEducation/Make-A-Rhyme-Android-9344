@@ -32,6 +32,20 @@
                 android:padding="0dp"/>
 
             <Button
+                android:id="@+id/PlayAudio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="79dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="79dp"
+                android:layout_marginBottom="11dp"
+                android:layout_toStartOf="@+id/HelpButton"
+                android:layout_toEndOf="@+id/BackButton"
+                android:text="Placeholder" />
+
+            <Button
                 android:id="@+id/HelpButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
