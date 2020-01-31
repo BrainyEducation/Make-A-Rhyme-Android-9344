@@ -7,6 +7,8 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 public class StoryAudioManager {
 
     private Context context;
@@ -49,7 +51,7 @@ public class StoryAudioManager {
             mediaPlayerSequence.add(mp);
         }
 
-        for (int i = 1; i <= numberOfFiles; i++) {
+        for (int i = 0; i < numberOfFiles; i++) {
             final boolean[] lock = {true};
             MediaPlayer mp = mediaPlayerSequence.get(i);
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
@@ -62,6 +64,11 @@ public class StoryAudioManager {
             while (lock[0]) {
                 continue;
             }
+            mp.stop();
+            MediaPlayer mpex = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
+            mpex.start();
+            try {sleep(1000);} catch(Exception e) {e.printStackTrace();}
+            mpex.stop();
         }
 
     }
