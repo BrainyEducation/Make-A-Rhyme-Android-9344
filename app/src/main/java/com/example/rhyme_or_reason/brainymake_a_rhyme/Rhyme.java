@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -112,13 +113,13 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "And a [G_5_6_7] paired with its [B-1] best friend.\n" +
                 "You spread a bright blanket with places for six,\n" +
                 "and bowls for [D_5_6_7] food, [D_5_6_7] food, and a mix\n" +
-                "of treats for the picky [G_5_6_7].  For the rest\n" +
+                "of treats for the picky [G_5_6_7]. For the rest\n" +
                 "cold milk, [J-14] on napkins, and the best\n" +
                 "ice cream—chocolate, vanilla, strawberry—\n" +
                 "topped with sprinkles, [K-14], a bright red cherry,\n" +
-                "and butterscotch syrup!  Gosh it was yummy,\n" +
+                "and butterscotch syrup! Gosh it was yummy,\n" +
                 "Yum yummy in my tum, tum, tummy!\n" +
-                "The [D_5_6_7] and [D_5_6_7] and  [G_5_6_7] played so well,\n" +
+                "The [D_5_6_7] and [D_5_6_7] and [G_5_6_7] played so well,\n" +
                 "And everyone loved it, so I heard tell,\n" +
                 "The [A-1] bragged that you were so clever,\n" +
                 "And the [B-1] declared it the best party ever!";
@@ -129,19 +130,15 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         ArrayList<String> listOfLines = new ArrayList<>();
 
         for (int index = 0; index < storyText.length(); ++index) {
-            if (storyText.charAt(index) == ' ') {
+            if (storyText.charAt(index) == ' ' || storyText.charAt(index) == '\n') {
                 if (characterCounter > CHARACTER_LIMIT) {
                     characterCounter = 0;
                     listOfLines.add(currentLine);
                     currentLine = "";
                 } else {
                     ++characterCounter;
-                    currentLine += storyText.charAt(index);
+                    currentLine += ' ';
                 }
-            } else if (storyText.charAt(index) == '\n') {
-                characterCounter = 0;
-                listOfLines.add(currentLine);
-                currentLine = "";
             } else if (storyText.charAt(index) == WORD_MARKER_START) {
                 ++index; // Move to the initial character of the word's 'code'
                 String wordInfo = "";
@@ -149,6 +146,19 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     wordInfo += storyText.charAt(index);
                     ++index;
                 }
+
+                /*
+                // Used to get periods and spaces on same line as word to fill in.
+                while (index < storyText.length()) {
+                    if (Character.isLetterOrDigit(storyText.charAt(index))) {
+                        ++index;
+                        wordInfo += storyText.charAt(index);
+                    } else {
+                        --index;
+                        break;
+                    }
+                }
+                */
 
                 wordCodes.add(wordInfo);
 
@@ -169,7 +179,13 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 TextView singleLine = new TextView(this);
                 singleLine.setTextSize(TEXT_SIZE);
 
-                singleLine.setText(listOfLines.get(counter));
+                String currLine = listOfLines.get(counter);
+
+                if (currLine.charAt(0) == ' ') {
+                    currLine = currLine.substring(1);
+                }
+
+                singleLine.setText(currLine);
 
                 LinearLayout.LayoutParams line_params = new LinearLayout.LayoutParams(
                         width, (140) // TODO: Set to something meaningful
@@ -185,9 +201,15 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 String trimmed = listOfLines.get(counter).substring(0, listOfLines.get(counter).length() - 2);
 
+                if (trimmed.length() >= 2) {
+                    if (trimmed.charAt(0) == ' ') {
+                        trimmed = trimmed.substring(1);
+                    }
+                }
+
                 RelativeLayout textAndButton = new RelativeLayout(this);
 
-                textAndButton.setBackgroundColor(Color.GREEN);
+                //textAndButton.setBackgroundColor(Color.GREEN);
 
                 RelativeLayout.LayoutParams rL_params = new RelativeLayout.LayoutParams(
                         width, (140) // TODO: Set to something meaningful
@@ -201,7 +223,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 singleLine.setBackgroundColor(Color.GRAY);
 
                 RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
-                        (3 * width) / 4, (140) // TODO: Set to something meaningful
+                        ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
                 );
                 line_params.setMargins(0, 0, 0, 0);
                 line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
@@ -211,7 +233,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 Button blankButton = new Button(this);
 
-                blankButton.setBackgroundColor(Color.BLUE);
+                blankButton.setBackgroundColor(Color.LTGRAY);
                 blankButton.setOnClickListener(this);
 
 
