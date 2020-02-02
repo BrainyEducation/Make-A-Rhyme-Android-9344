@@ -1,8 +1,11 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -34,11 +37,16 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     final String WORD_MARKERS = "[]";
     final int NUM_SPACES = 5;
     ArrayList<String> wordCodes = new ArrayList<>();
+    ArrayList<Button> listOfButtons = new ArrayList<>();
+    int selectedButtonIndex;
+    Typeface imprima;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rhyme);
+
+        miscellaneousSetUp();
 
         sizingSetUp();
 
@@ -50,15 +58,18 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     /**
-     * TODO: Add Comment
+     * Occurs when the user selects an empty gap to fill with a word; saves the index of the button
+     * that needs to be filled in.
      */
     public void onClick(View v) {
 
         Intent newIntent = new Intent(this, MainActivity.class);
         //newIntent.putExtra("word", selectedWord);
         //newIntent.putExtra("wrong_words", wrongWords);
-        startActivityForResult(newIntent, 1);
 
+        selectedButtonIndex = (Integer)v.getTag();
+
+        startActivityForResult(newIntent, 1);
     }
 
     /**
@@ -103,8 +114,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         HEIGHT_UNIT = height / 10; // Ten height units to allocate on the screen
     }
 
-    public void petPartyPicnicSetUp()
-    {
+    public void petPartyPicnicSetUp() {
         String storyText = "Once on a pretend time didn’t you tell me\n" +
                 "How you hosted a happy pet-pair party?\n" +
                 "You decided on goodies to buy at the store,\n" +
@@ -166,13 +176,14 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 characterCounter = 0;
                 listOfLines.add(currentLine);
                 currentLine = "";
-            }
-            else {
+            } else {
                 // Normal character
                 ++characterCounter;
                 currentLine += storyText.charAt(index);
             }
         }
+
+        int buttonTag = 0;
 
         for (int counter = 0; counter < listOfLines.size(); ++counter) {
             if (!listOfLines.get(counter).contains(WORD_MARKERS)) {
@@ -186,6 +197,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 }
 
                 singleLine.setText(currLine);
+                singleLine.setTypeface(imprima);
 
                 LinearLayout.LayoutParams line_params = new LinearLayout.LayoutParams(
                         width, (140) // TODO: Set to something meaningful
@@ -218,9 +230,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 TextView singleLine = new TextView(this);
                 singleLine.setTextSize(TEXT_SIZE);
+                singleLine.setTypeface(imprima);
 
                 singleLine.setText(trimmed);
-                singleLine.setBackgroundColor(Color.GRAY);
+                //singleLine.setBackgroundColor(Color.GRAY);
 
                 RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
@@ -232,21 +245,27 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 singleLine.setId(1);
 
                 Button blankButton = new Button(this);
+                blankButton.setTextSize(TEXT_SIZE);
+                blankButton.setTypeface(imprima);
 
                 blankButton.setBackgroundColor(Color.LTGRAY);
                 blankButton.setOnClickListener(this);
+                blankButton.setTag(buttonTag);
+                ++buttonTag;
 
+                listOfButtons.add(blankButton);
 
                 RelativeLayout.LayoutParams button_params = new RelativeLayout.LayoutParams(
                         (width / 4), (140) // TODO: Set to something meaningful
                 );
 
-                button_params.setMargins(0,0,0,0);
+                button_params.setMargins(0, 0, 0, 0);
 
-                button_params.addRule(RelativeLayout.ALIGN_BOTTOM);
+                //button_params.addRule(RelativeLayout.ALIGN_BOTTOM);
 
                 blankButton.setLayoutParams(button_params);
                 blankButton.setId(2);
+                blankButton.setPadding(0,0,0,0);
                 button_params.addRule(RelativeLayout.RIGHT_OF, singleLine.getId());
 
 
@@ -256,6 +275,31 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 rhymeTextLL.addView(textAndButton);
             }
         }
-
     }
+
+    /**
+     * Responsible for getting the result of the quiz. When RESULT_OK, then the quiz was passed,
+     * so the word will be unlocked
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                //selectedWord.setUnlocked();
+                Word selected = (Word)data.getSerializableExtra("word");
+
+                listOfButtons.get(selectedButtonIndex).setText(selected.getText());
+            }
+        }
+    }
+
+    /**
+     * Handles set-up that would otherwise be in onCreate that doesn't belong in any other function
+     */
+    public void miscellaneousSetUp()
+    {
+        imprima = ResourcesCompat.getFont(this, R.font.imprima);
+    }
+
 }

@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<Word> animals = new ArrayList<>();
         animals.add(new Word("ape", true, "ape", "ape"));
         animals.add(new Word("bat", true, "bat", "bat"));
+        //animals.get(1).setUnlocked(); // temporarily unlock bat
         //animals.add(new Word("bear", true, "bear", "bear"));
         //animals.add(new Word("bee", true, "bee", "bee"));
         animals.add(new Word("cat", true, "cat", "cat"));
@@ -330,10 +331,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (switchingActivities) {
                 wordIndex = matchIndex;
                 selectedWord = wordList.get(matchIndex);
-                Intent newIntent = new Intent(this, Quiz.class);
-                newIntent.putExtra("word", selectedWord);
-                newIntent.putExtra("wrong_words", wrongWords);
-                startActivityForResult(newIntent, 1);
+
+                if (!selectedWord.getLockedStatus()) {
+                    Handler returnHandler = new Handler();
+                    returnHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("word", selectedWord);
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+                        }
+                    }, 0);   // Instantaneous
+                } else {
+                    Intent newIntent = new Intent(this, Quiz.class);
+                    newIntent.putExtra("word", selectedWord);
+                    newIntent.putExtra("wrong_words", wrongWords);
+                    startActivityForResult(newIntent, 1);
+                }
             }
         }
 
@@ -358,6 +372,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(resultCode == Activity.RESULT_OK){
                 selectedWord.setUnlocked();
                 wordViews.get(wordIndex).setAlpha(1);
+                // Exit quiz
+                Handler returnHandler = new Handler();
+                returnHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("word", selectedWord);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                }, 0);   // Instantaneous
+
             }
         }
     }
