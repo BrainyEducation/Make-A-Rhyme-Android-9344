@@ -12,6 +12,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +26,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     ImageView illustration;
     LinearLayout rhymeTextLL;
+    FrameLayout inside_frame;
+    ImageView img;
 
     int width;
     int height;
@@ -78,7 +81,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void loadIntentsAndViews()
     {
         illustration = findViewById(R.id.illustration);
-
+        inside_frame = findViewById(R.id.IllustrationFrame);
         rhymeTextLL = findViewById(R.id.RhymeLL);
     }
 
@@ -97,6 +100,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         illustration.setLayoutParams(illustration_params);
 
         illustration.setBackgroundResource(R.drawable.background_pet_party_picnic);
+
     }
 
     /**
@@ -268,7 +272,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 blankButton.setPadding(0,0,0,0);
                 button_params.addRule(RelativeLayout.RIGHT_OF, singleLine.getId());
 
-
                 textAndButton.addView(singleLine);
                 textAndButton.addView(blankButton);
 
@@ -290,8 +293,14 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 Word selected = (Word)data.getSerializableExtra("word");
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
+
+                img = new ImageView(this);
+                int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
+                img.setImageResource(resourceID);
+                inside_frame.addView(img);
             }
         }
+
     }
 
     /**
