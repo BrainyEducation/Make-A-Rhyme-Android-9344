@@ -15,6 +15,8 @@ public class StoryAudioManager {
     //toggling this to false prevents any audio in play_story from running
     private boolean continueAudioFlag = true;
 
+    private ArrayList<String> wordList;
+
     public StoryAudioManager(Context context) {
         this.context = context;
         String packageName = this.context.getPackageName();
@@ -23,6 +25,10 @@ public class StoryAudioManager {
 
     public void setContinueAudioFlag(boolean flag) {
         continueAudioFlag = flag;
+    }
+
+    public void setWordList(ArrayList<String> wordList) {
+        this.wordList = wordList;
     }
 
 
@@ -43,6 +49,10 @@ public class StoryAudioManager {
         stopThread.start();
     }
 
+    public MediaPlayer createMediaplayer(String s) {
+        return MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(s, "raw", context.getPackageName()));
+    }
+
     /**
      * Syncs up the audio files for the story with the audio files that correspond to words
      * that have filled in the blank. Currently, it does not have a parameter for passing in a list
@@ -56,7 +66,8 @@ public class StoryAudioManager {
         String fileprefix = constantContainer.fileNamePrefix;
         ArrayList<Boolean> isThereARealBlankBetweenFiles = constantContainer.checkIfNeedSubstitution;
         for (int i = 1; i <= numberOfFiles; i++) {
-            MediaPlayer mp = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(fileprefix + i,"raw",context.getPackageName()));
+            //MediaPlayer mp = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(fileprefix + i,"raw",context.getPackageName()));
+            MediaPlayer mp = createMediaplayer(fileprefix + i);
             mediaPlayerSequence.add(mp);
         }
 
@@ -82,7 +93,17 @@ public class StoryAudioManager {
             lock[0] = true;
 
             if (isThereARealBlankBetweenFiles.get(i)) {
-                MediaPlayer mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
+                MediaPlayer mpBlank;
+                if (wordList == null || i >= wordList.size()) {
+                    //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
+                    mpBlank = createMediaplayer("airplane");
+                } else {
+                    //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(wordList.get(i), "raw", context.getPackageName()));
+                    mpBlank = createMediaplayer(wordList.get(i));
+                    if (mpBlank == null) {
+                        mpBlank = createMediaplayer("airplane");
+                    }
+                }
                 mpBlank.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
                     @Override
                     public void onCompletion(MediaPlayer mp) {
