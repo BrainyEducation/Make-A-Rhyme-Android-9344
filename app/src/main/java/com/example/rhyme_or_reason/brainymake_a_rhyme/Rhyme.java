@@ -3,7 +3,6 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -13,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
 
 import java.util.ArrayList;
 

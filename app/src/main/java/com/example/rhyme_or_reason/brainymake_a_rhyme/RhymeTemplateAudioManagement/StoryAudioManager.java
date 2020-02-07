@@ -1,4 +1,4 @@
-package com.example.rhyme_or_reason.brainymake_a_rhyme;
+package com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -24,6 +24,11 @@ public class StoryAudioManager {
         mp3Data = new StoryAudioConstants();
     }
 
+    /**
+     * Changes whether the audio manager can play files. It is extremely important to set this to false
+     * when navigating from the rhyme screen to another screen.
+     * @param flag set this to true to enable audio playing, set this to false to stop any audio.
+     */
     public void setContinueAudioFlag(boolean flag) {
         continueAudioFlag = flag;
     }

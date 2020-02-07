@@ -1,4 +1,4 @@
-package com.example.rhyme_or_reason.brainymake_a_rhyme;
+package com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement;
 
 import java.util.ArrayList;
 

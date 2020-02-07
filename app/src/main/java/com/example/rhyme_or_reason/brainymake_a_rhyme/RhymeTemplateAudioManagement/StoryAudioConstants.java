@@ -1,7 +1,4 @@
-package com.example.rhyme_or_reason.brainymake_a_rhyme;
-
-import android.content.res.AssetManager;
-import android.graphics.Color;
+package com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
