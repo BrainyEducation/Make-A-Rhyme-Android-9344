@@ -415,6 +415,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
+            for(String s: typeToWordMapping.keySet()) {
+                if (s != activeType)
+                    for(Word w: typeToWordMapping.get(s))
+                        wrongWords.add(w.getText());
+            }
+
             if (switchingActivities) {
                 wordIndex = matchIndex;
                 selectedWord = wordList.get(matchIndex);
