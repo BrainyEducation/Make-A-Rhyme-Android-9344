@@ -48,8 +48,8 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/pictureLayout"
+        <FrameLayout
+            android:id="@+id/totalIllustration"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:orientation="vertical">
@@ -57,9 +57,9 @@
             <ImageView
                 android:id="@+id/illustration"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"/>
+                android:layout_height="match_parent"/>
 
-        </RelativeLayout>
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/ScrollingSection"

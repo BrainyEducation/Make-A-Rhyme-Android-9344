@@ -24,9 +24,9 @@ import static android.view.Gravity.CENTER;
 
 public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
+    FrameLayout totalIllustration;
     ImageView illustration;
     LinearLayout rhymeTextLL;
-    RelativeLayout pictureLayout;
     ImageView img;
 
     int width;
@@ -42,7 +42,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ArrayList<String> wordCodes = new ArrayList<>();
     ArrayList<Button> listOfButtons = new ArrayList<>();
     int selectedButtonIndex;
+    ArrayList<double[]> imageCoords = new ArrayList<>();
     Typeface imprima;
+    final double PICTURE_HEIGHT_SCALE = .1615;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         miscellaneousSetUp();
 
         sizingSetUp();
+
+        setImageCoords();
 
         loadIntentsAndViews();
 
@@ -80,6 +84,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void loadIntentsAndViews()
     {
+        totalIllustration = findViewById(R.id.totalIllustration);
+
         illustration = findViewById(R.id.illustration);
 
         rhymeTextLL = findViewById(R.id.RhymeLL);
@@ -91,17 +97,14 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void loadIllustrationImage()
     {
         // Illustration boundaries
-        pictureLayout = new RelativeLayout(this);
-        RelativeLayout.LayoutParams illustration_params = new RelativeLayout.LayoutParams(
+        LinearLayout.LayoutParams illustration_params = new LinearLayout.LayoutParams(
                 width, (int)(width * ASPECT_RATIO)
         );
         illustration_params.setMargins(0, 0, 0, 0);
         //illustration_params.gravity = CENTER;
 
-        illustration.setLayoutParams(illustration_params);
-        pictureLayout.setLayoutParams(illustration_params);
+        totalIllustration.setLayoutParams(illustration_params);
         illustration.setBackgroundResource(R.drawable.background_pet_party_picnic);
-        pictureLayout.addView(illustration);
     }
 
     /**
@@ -293,12 +296,26 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 //selectedWord.setUnlocked();
                 Word selected = (Word)data.getSerializableExtra("word");
 
+                System.out.println(wordCodes.get(selectedButtonIndex));
+
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
 
-                img = new ImageView(this);
-                int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
-                img.setImageResource(resourceID);
-                pictureLayout.addView(img);
+                if (selectedButtonIndex < imageCoords.size()) {
+
+                    img = new ImageView(this);
+
+                    // Image View (Picture of Word Being Quizzed)
+                    FrameLayout.LayoutParams img_params = new FrameLayout.LayoutParams(
+                            (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                    );
+                    img_params.setMargins((int) (imageCoords.get(selectedButtonIndex)[0]), (int) (imageCoords.get(selectedButtonIndex)[1]), 0, 0);
+
+                    img.setLayoutParams(img_params);
+
+                    int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
+                    img.setImageResource(resourceID);
+                    totalIllustration.addView(img);
+                }
             }
         }
 
@@ -310,6 +327,31 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void miscellaneousSetUp()
     {
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
+
     }
+
+    /**
+     * Currently only designed for Picnic; will add options later for others. Finds the relative
+     * position of the top left corner of the square-ish gray box in the illustration. For picnic,
+     * starts at left picture and rotates counter-clockwise.
+     */
+    public void setImageCoords()
+    {
+        double[] image1 = {width * .0985, width * ASPECT_RATIO * .3415};
+        double[] image2 = {width * .1593, width * ASPECT_RATIO * .5431};
+        double[] image3 = {width * .4832, width * ASPECT_RATIO * .5585};
+        double[] image4 = {width * .6321, width * ASPECT_RATIO * .4};
+        double[] image5 = {width * .5251, width * ASPECT_RATIO * .16};
+        double[] image6 = {width * .3312, width * ASPECT_RATIO * .1046};
+
+        imageCoords.add(image1);
+        imageCoords.add(image2);
+        imageCoords.add(image3);
+        imageCoords.add(image4);
+        imageCoords.add(image5);
+        imageCoords.add(image6);
+
+    }
+
 
 }
