@@ -26,7 +26,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     ImageView illustration;
     LinearLayout rhymeTextLL;
-    FrameLayout inside_frame;
+    RelativeLayout pictureLayout;
     ImageView img;
 
     int width;
@@ -81,7 +81,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void loadIntentsAndViews()
     {
         illustration = findViewById(R.id.illustration);
-        inside_frame = findViewById(R.id.IllustrationFrame);
+
         rhymeTextLL = findViewById(R.id.RhymeLL);
     }
 
@@ -91,16 +91,17 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void loadIllustrationImage()
     {
         // Illustration boundaries
-        LinearLayout.LayoutParams illustration_params = new LinearLayout.LayoutParams(
+        pictureLayout = new RelativeLayout(this);
+        RelativeLayout.LayoutParams illustration_params = new RelativeLayout.LayoutParams(
                 width, (int)(width * ASPECT_RATIO)
         );
         illustration_params.setMargins(0, 0, 0, 0);
-        illustration_params.gravity = CENTER;
+        //illustration_params.gravity = CENTER;
 
         illustration.setLayoutParams(illustration_params);
-
+        pictureLayout.setLayoutParams(illustration_params);
         illustration.setBackgroundResource(R.drawable.background_pet_party_picnic);
-
+        pictureLayout.addView(illustration);
     }
 
     /**
@@ -297,7 +298,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 img = new ImageView(this);
                 int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
                 img.setImageResource(resourceID);
-                inside_frame.addView(img);
+                pictureLayout.addView(img);
             }
         }
 
