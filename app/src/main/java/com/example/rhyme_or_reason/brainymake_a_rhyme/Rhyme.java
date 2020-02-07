@@ -51,7 +51,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         petPartyPicnicSetUp();
     }
 
-
+    /**
+     * Attach audio play button
+     */
+    public void onPlayAudio(View v) {
+        storyAudioManager.play_story_thread("Pet Party Picnic Story");
+    }
 
     /**
      * TODO: Add Comment
@@ -241,9 +246,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
-        storyAudioManager.setContinueAudioFlag(true);
         ArrayList<String> wordList = new ArrayList<String>();
         wordList.add("barn");
+        wordList.add("barn");
+        storyAudioManager.setWordList(wordList);
+
+        /*
         Thread stopThread = new Thread() {
             @Override
             public void run() {
@@ -256,6 +264,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             }
         };
         stopThread.start();
+        */
 
     }
 }

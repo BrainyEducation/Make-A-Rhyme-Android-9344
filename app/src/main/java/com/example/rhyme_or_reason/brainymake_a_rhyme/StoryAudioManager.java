@@ -2,6 +2,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -32,15 +33,19 @@ public class StoryAudioManager {
     }
 
 
-    public void exampleAudio() {
-        final MediaPlayer mp = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
-        mp.start();
+    public MediaPlayer createMediaplayer(String s) {
+        return MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(s, "raw", context.getPackageName()));
+    }
+
+
+    public void play_story_thread(final String storyName) {
+        setContinueAudioFlag(true);
         Thread stopThread = new Thread() {
             @Override
             public void run() {
                 try {
-                    sleep(500);
-                    mp.stop();
+                    sleep(1000);
+                    play_story(storyName);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -49,22 +54,19 @@ public class StoryAudioManager {
         stopThread.start();
     }
 
-    public MediaPlayer createMediaplayer(String s) {
-        return MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(s, "raw", context.getPackageName()));
-    }
-
     /**
      * Syncs up the audio files for the story with the audio files that correspond to words
      * that have filled in the blank. Currently, it does not have a parameter for passing in a list
      *
      * @param storyName
      */
-    public void play_story(String storyName) {
+    private void play_story(String storyName) {
         ArrayList<MediaPlayer> mediaPlayerSequence = new ArrayList<MediaPlayer>();
         StoryAudioConstantContainer constantContainer = mp3Data.storyNameToConstantContainer.get(storyName);
         int numberOfFiles = constantContainer.numberOfFiles;
         String fileprefix = constantContainer.fileNamePrefix;
         ArrayList<Boolean> isThereARealBlankBetweenFiles = constantContainer.checkIfNeedSubstitution;
+        int traversedBlanks = 0;
         for (int i = 1; i <= numberOfFiles; i++) {
             //MediaPlayer mp = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(fileprefix + i,"raw",context.getPackageName()));
             MediaPlayer mp = createMediaplayer(fileprefix + i);
@@ -89,19 +91,25 @@ public class StoryAudioManager {
                 continue;
             }
             mp.stop();
+            mp.release();
+
+            if (!continueAudioFlag) {
+                return;
+            }
 
             lock[0] = true;
 
             if (isThereARealBlankBetweenFiles.get(i)) {
                 MediaPlayer mpBlank;
-                if (wordList == null || i >= wordList.size()) {
-                    //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier("airplane","raw",context.getPackageName()));
-                    mpBlank = createMediaplayer("airplane");
+                if (wordList == null || traversedBlanks >= wordList.size() || wordList.get(traversedBlanks).equals("")) {
+                    Log.d("wordlist","word list error ");
+                    continue;
                 } else {
                     //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(wordList.get(i), "raw", context.getPackageName()));
-                    mpBlank = createMediaplayer(wordList.get(i));
+                    mpBlank = createMediaplayer(wordList.get(traversedBlanks));
                     if (mpBlank == null) {
-                        mpBlank = createMediaplayer("airplane");
+                        Log.d("wordlist", "mp3 file not found");
+                        continue;
                     }
                 }
                 mpBlank.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
@@ -119,6 +127,8 @@ public class StoryAudioManager {
                     continue;
                 }
                 mpBlank.stop();
+                mpBlank.release();
+                traversedBlanks++;
             }
         }
 
