@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,6 +35,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     final char WORD_MARKER_END = ']';
     final String WORD_MARKERS = "[]";
     final int NUM_SPACES = 5;
+    boolean displayPlayButton = true;
     ArrayList<String> wordCodes = new ArrayList<>();
     StoryAudioManager storyAudioManager;
 
@@ -56,7 +58,18 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      * Attach audio play button
      */
     public void onPlayAudio(View v) {
-        storyAudioManager.play_story_thread("Pet Party Picnic Story");
+        ImageButton iB = findViewById(R.id.playButton);
+
+        if (displayPlayButton) {
+            storyAudioManager.playStoryThread("Pet Party Picnic Story");
+            displayPlayButton = false;
+            iB.setImageResource(R.drawable.ic_pause);
+
+        } else {
+            storyAudioManager.setContinueAudioFlag(false);
+            displayPlayButton = true;
+            iB.setImageResource(R.drawable.ic_play);
+        }
     }
 
     /**
@@ -252,20 +265,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         wordList.add("barn");
         storyAudioManager.setWordList(wordList);
 
-        /*
-        Thread stopThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(1000);
-                    storyAudioManager.play_story("Pet Party Picnic Story");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        stopThread.start();
-        */
 
     }
 }
