@@ -165,10 +165,14 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                     starIV3.setVisibility(View.VISIBLE);
                     starIV3.setBackgroundResource(R.drawable.gold_star_blank);
 
+                    /*
                     AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                     dialog.setTitle("Congratulations!");
                     dialog.setMessage("You Unlocked " + lockedWord.getText());
                     dialog.show();
+                    */
+
+                    playPraise();
 
                     // Exit quiz
                     Handler returnHandler = new Handler();
@@ -327,6 +331,42 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
     }
+
+    /**
+     * Plays the sound file for a random praise word when the child passes a quiz.
+     */
+    public void playPraise() {
+
+        ArrayList<String> praiseAudioFiles = new ArrayList<>();
+        praiseAudioFiles.add("praise_awesome");
+        praiseAudioFiles.add("praise_brilliant");
+        praiseAudioFiles.add("praise_excellent");
+        praiseAudioFiles.add("praise_good_job");
+        praiseAudioFiles.add("praise_how_did_you_get_so_smart");
+        praiseAudioFiles.add("praise_magnificent");
+        praiseAudioFiles.add("praise_marvelous");
+        praiseAudioFiles.add("praise_outstanding");
+        praiseAudioFiles.add("praise_splendid");
+        praiseAudioFiles.add("praise_super_job");
+        praiseAudioFiles.add("praise_superb");
+        praiseAudioFiles.add("praise_superlative_work");
+        praiseAudioFiles.add("praise_terrific");
+        praiseAudioFiles.add("praise_tremendous");
+        praiseAudioFiles.add("praise_way_to_go");
+        praiseAudioFiles.add("praise_you_did_really_well");
+        praiseAudioFiles.add("praise_you_get_smarter_all_the_time");
+        praiseAudioFiles.add("praise_you_really_know_your_stuff");
+        praiseAudioFiles.add("praise_you_sure_know_a_lot_of_words");
+        praiseAudioFiles.add("praise_youre_a_really_brainy_kid");
+
+        int randAudioIndex = new Random().nextInt(praiseAudioFiles.size());
+
+        int audioResourceID = getResources().getIdentifier(praiseAudioFiles.get(randAudioIndex), "raw", getPackageName());
+        MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
+    }
+
 
     /**
      * Called when the page first loads; lays out elements dynamically based on screen dimensions
