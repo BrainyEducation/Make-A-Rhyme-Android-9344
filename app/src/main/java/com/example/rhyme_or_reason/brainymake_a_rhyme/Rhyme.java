@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,6 +30,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageView illustration;
     LinearLayout rhymeTextLL;
     ImageView img;
+    ImageButton rhymeUpBtn;
+    ImageButton rhymeDownBtn;
+    ScrollView rhymeScroll;
 
     int width;
     int height;
@@ -89,6 +94,23 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         illustration = findViewById(R.id.illustration);
 
         rhymeTextLL = findViewById(R.id.RhymeLL);
+
+        rhymeScroll = findViewById(R.id.RhymeScrollView);
+
+        rhymeUpBtn = findViewById(R.id.RhymeUpButton);
+        rhymeDownBtn = findViewById(R.id.RhymeDownButton);
+        rhymeUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rhymeScroll.smoothScrollBy(0, -500);
+            }
+        });
+        rhymeDownBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rhymeScroll.smoothScrollBy(0, 500);
+            }
+        });
     }
 
     /**
