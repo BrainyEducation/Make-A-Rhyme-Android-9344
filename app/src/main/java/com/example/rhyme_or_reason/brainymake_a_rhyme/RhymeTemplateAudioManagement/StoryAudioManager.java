@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaDataSource;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -137,7 +140,7 @@ public class StoryAudioManager {
             lock[0] = true;
 
             if (isThereARealBlankBetweenFiles.get(i)) {
-                if (wordList == null || traversedBlanks >= wordList.size() || wordList.get(traversedBlanks).equals("")) {
+                if (wordList == null || wordList.get(traversedBlanks).equals("")) {
                     continue;
                 } else {
                     //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(wordList.get(i), "raw", context.getPackageName()));
@@ -150,12 +153,20 @@ public class StoryAudioManager {
                     }
                 });
                 mediaPlayer.start();
+
+                /*
                 while (lock[0] && mediaPlayer.isPlaying()) {
                     if (!continueAudioFlag) {
                         break;
                     }
-                    continue;
+                    //continue;
                 }
+                */
+
+                while ( mediaPlayer.isPlaying()) {
+
+                }
+
                 mediaPlayer.stop();
                 traversedBlanks++;
             }
