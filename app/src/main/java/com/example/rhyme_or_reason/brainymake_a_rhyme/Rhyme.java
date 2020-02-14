@@ -56,6 +56,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     Typeface imprima;
     final double PICTURE_HEIGHT_SCALE = .1615;
     StoryAudioManager storyAudioManager;
+    ArrayList<String> wordList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -350,6 +351,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 //selectedWord.setUnlocked();
                 Word selected = (Word)data.getSerializableExtra("word");
 
+                wordList.set(selectedButtonIndex, selected.getText());
+
+                // Update the wordList
+                storyAudioManager.setWordList(wordList);
+
                 System.out.println(wordCodes.get(selectedButtonIndex));
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
@@ -407,27 +413,23 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         imageCoords.add(image5);
         imageCoords.add(image6);
 
-        ArrayList<String> wordList = new ArrayList<String>();
-        wordList.add("barn");
-        wordList.add("cat");
-        wordList.add("dog");
-        wordList.add("barn");
-        wordList.add("cat");
-        wordList.add("dog");
-        wordList.add("barn");
-        wordList.add("cat");
-        wordList.add("dog");
-        wordList.add("barn");
-        wordList.add("cat");
-        wordList.add("dog");
-        wordList.add("barn");
-        wordList.add("cat");
-        wordList.add("dog");
-        wordList.add("barn");
-        wordList.add("cat");
-        wordList.add("dog");
-        wordList.add("barn");
-        wordList.add("cat");
+        //ArrayList<String> wordList = new ArrayList<String>();
+        // TODO: Put this in the proper spot; currently just loading 15 blanks here for Pet Party
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
 
         storyAudioManager.setWordList(wordList);
 

@@ -141,10 +141,11 @@ public class StoryAudioManager {
 
             if (isThereARealBlankBetweenFiles.get(i)) {
                 if (wordList == null || wordList.get(traversedBlanks).equals("")) {
-                    continue;
+                    traversedBlanks++;
                 } else {
                     //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(wordList.get(i), "raw", context.getPackageName()));
                     setMediaPlayerFile(wordList.get(traversedBlanks));
+                    traversedBlanks++;
                 }
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
                     @Override
@@ -168,7 +169,6 @@ public class StoryAudioManager {
                 }
 
                 mediaPlayer.stop();
-                traversedBlanks++;
             }
         }
 
