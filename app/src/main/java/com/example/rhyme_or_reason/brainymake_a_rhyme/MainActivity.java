@@ -402,31 +402,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!updatingActiveType) {
             ArrayList<Word> wordList = typeToWordMapping.get(activeType);
 
-            ArrayList<String> wrongWords = new ArrayList<>();
+            ArrayList<String> categoryWords = new ArrayList<>();
+            ArrayList<String> lengthWords = new ArrayList<>();
+            ArrayList<String> letterWords = new ArrayList<>();
+            ArrayList<String> otherWords = new ArrayList<>();
 
             int matchIndex = -1;
 
             for (int index = 0; index < wordList.size(); ++index) {
                 if (!(v.getTag().equals(wordList.get(index).getText()))) {
-                    wrongWords.add(wordList.get(index).getText());
+                    categoryWords.add(wordList.get(index).getText());
                 } else {
                     matchIndex = index;
                     switchingActivities = true;
                 }
             }
+            wordIndex = matchIndex;
+            selectedWord = wordList.get(matchIndex);
 
             for(String s: typeToWordMapping.keySet()) {
                 if (s != activeType)
-                    for(Word w: typeToWordMapping.get(s))
-                        wrongWords.add(w.getText());
+                    for(Word w: typeToWordMapping.get(s)) {
+                        if (w.getText().length() == selectedWord.getText().length())
+                            lengthWords.add(w.getText());
+                        else if(w.getText().charAt(0) == selectedWord.getText().charAt(0))
+                            letterWords.add(w.getText());
+                        else
+                            otherWords.add(w.getText());
+                    }
             }
 
             if (switchingActivities) {
-                wordIndex = matchIndex;
-                selectedWord = wordList.get(matchIndex);
                 Intent newIntent = new Intent(this, Quiz.class);
                 newIntent.putExtra("word", selectedWord);
-                newIntent.putExtra("wrong_words", wrongWords);
+                newIntent.putExtra("category_words", categoryWords);
+                newIntent.putExtra("length_words", lengthWords);
+                newIntent.putExtra("letter_words", letterWords);
+                newIntent.putExtra("other_words", otherWords);
                 startActivityForResult(newIntent, 1);
             }
         }
