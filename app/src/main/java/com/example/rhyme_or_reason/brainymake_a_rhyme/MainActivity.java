@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton up_btnT;
     private ImageButton down_btnT;
 
+
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
      * the default words in on the right side of the screen

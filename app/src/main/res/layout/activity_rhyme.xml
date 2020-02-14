@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,11 +26,11 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:onClick="ClickedBackButton"
+                android:padding="0dp"
                 android:text="&lt;"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif"
-                android:padding="0dp"/>
+                android:typeface="serif" />
 
             <Button
                 android:id="@+id/HelpButton"
@@ -40,11 +41,11 @@
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:onClick="ClickedHelpButton"
+                android:padding="0dp"
                 android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif"
-                android:padding="0dp"/>
+                android:typeface="serif" />
 
         </RelativeLayout>
 
@@ -67,6 +68,22 @@
                 android:layout_gravity="bottom"
                 ></ImageButton>
         </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="92dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="89dp"
+            android:layout_marginBottom="6dp"
+            android:layout_toStartOf="@+id/HelpButton"
+            android:layout_toEndOf="@+id/BackButton"
+            android:background="@null"
+            android:onClick="onPlayAudio"
+            app:srcCompat="@drawable/ic_play" />
 
         <RelativeLayout
             android:id="@+id/ScrollingSection"
@@ -97,6 +114,7 @@
                 android:layout_alignParentBottom="true"
                 style="?android:attr/borderlessButtonStyle"
                 ></ImageButton>
+
         </RelativeLayout>
 
     </LinearLayout>

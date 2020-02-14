@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
+
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
@@ -33,6 +35,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageButton rhymeUpBtn;
     ImageButton rhymeDownBtn;
     ScrollView rhymeScroll;
+    ImageButton iB;
 
     int imageCoordIndex = 0;
     int width;
@@ -45,16 +48,19 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     final char WORD_MARKER_END = ']';
     final String WORD_MARKERS = "[]";
     final int NUM_SPACES = 5;
+    boolean displayPlayButton = true;
     ArrayList<String> wordCodes = new ArrayList<>();
     ArrayList<Button> listOfButtons = new ArrayList<>();
     int selectedButtonIndex;
     ArrayList<double[]> imageCoords = new ArrayList<>();
     Typeface imprima;
     final double PICTURE_HEIGHT_SCALE = .1615;
+    StoryAudioManager storyAudioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        storyAudioManager = new StoryAudioManager(this);
         setContentView(R.layout.activity_rhyme);
 
         miscellaneousSetUp();
@@ -71,8 +77,27 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     /**
+     * Attach audio play button
+     */
+    public void onPlayAudio(View v) {
+        //ImageButton iB = findViewById(R.id.playButton);
+
+        if (displayPlayButton) {
+            storyAudioManager.playStoryThread("Pet Party Picnic Story");
+            displayPlayButton = false;
+            iB.setImageResource(R.drawable.ic_pause);
+
+        } else {
+            storyAudioManager.setContinueAudioFlag(false);
+            displayPlayButton = true;
+            iB.setImageResource(R.drawable.ic_play);
+        }
+    }
+
+    /**
      * Occurs when the user selects an empty gap to fill with a word; saves the index of the button
      * that needs to be filled in.
+     * TODO: Add Comment
      */
     public void onClick(View v) {
 
@@ -83,6 +108,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         selectedButtonIndex = (Integer)v.getTag();
 
         startActivityForResult(newIntent, 1);
+        storyAudioManager.setContinueAudioFlag(false);
+        displayPlayButton = true;
+        iB.setImageResource(R.drawable.ic_play);
+
     }
 
     /**
@@ -97,6 +126,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         rhymeTextLL = findViewById(R.id.RhymeLL);
 
         rhymeScroll = findViewById(R.id.RhymeScrollView);
+
+        iB = findViewById(R.id.playButton);
 
         rhymeUpBtn = findViewById(R.id.RhymeUpButton);
         rhymeDownBtn = findViewById(R.id.RhymeDownButton);
@@ -375,6 +406,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         imageCoords.add(image4);
         imageCoords.add(image5);
         imageCoords.add(image6);
+
+        ArrayList<String> wordList = new ArrayList<String>();
+        wordList.add("barn");
+        wordList.add("barn");
+        storyAudioManager.setWordList(wordList);
+
 
     }
 
