@@ -13,6 +13,7 @@ public class StoryAudioConstants {
         String petPartyPicnicFilePrefix = "spr_1_";
         int petPartyPicinicFileQuantity = 20;
         //note that this list of booleans must match the number of files. The last boolean should ALWAYS BE FALSE
+        //boolean[] petPartyPicnicInterruptBooleans = {false, false, true, true, true, true, true, false, true, true, true, true, true, true, true, true, false, true, true, false};
         boolean[] petPartyPicnicInterruptBooleans = {false, false, true, true, true, true, true, false, true, true, true, true, true, true, true, true, false, true, true, false};
         ArrayList<Boolean> petPartyPicnicInterrupts = new ArrayList<Boolean>();
         for (boolean b : petPartyPicnicInterruptBooleans) {

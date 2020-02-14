@@ -262,7 +262,26 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         ArrayList<String> wordList = new ArrayList<String>();
         wordList.add("barn");
+        wordList.add("cat");
+        wordList.add("dog");
         wordList.add("barn");
+        wordList.add("cat");
+        wordList.add("dog");
+        wordList.add("barn");
+        wordList.add("cat");
+        wordList.add("dog");
+        wordList.add("barn");
+        wordList.add("cat");
+        wordList.add("dog");
+        wordList.add("barn");
+        wordList.add("cat");
+        wordList.add("dog");
+        wordList.add("barn");
+        wordList.add("cat");
+        wordList.add("dog");
+        wordList.add("barn");
+        wordList.add("cat");
+
         storyAudioManager.setWordList(wordList);
 
 
