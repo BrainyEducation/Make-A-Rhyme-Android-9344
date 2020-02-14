@@ -492,6 +492,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void miscellaneousSetUp()
     {
+        Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
     }
 
