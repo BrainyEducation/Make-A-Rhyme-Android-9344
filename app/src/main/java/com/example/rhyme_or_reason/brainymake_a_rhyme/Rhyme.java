@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.Emailer;
+
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
@@ -375,5 +377,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    public void ClickedHelpButton(View view) {
+        Emailer emailer = new Emailer();
+        Intent intent = emailer.createEmailIntent();
+        startActivity(Intent.createChooser(intent,"Choose Mail App"));
+    }
 
 }
