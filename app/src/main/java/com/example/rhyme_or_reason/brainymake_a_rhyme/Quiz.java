@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -33,7 +34,10 @@ import static android.view.Gravity.CENTER;
 public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
     Word lockedWord;
-    ArrayList<String> wrongWords;
+    ArrayList<String> categoryWords;
+    ArrayList<String> letterWords;
+    ArrayList<String> lengthWords;
+    ArrayList<String> otherWords;
     String correctChoiceNum = "0";
     Button choice1, choice2, choice3, choice4;
     ImageView starIV1, starIV2, starIV3;
@@ -73,75 +77,49 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
         playWordAudio();
     }
-
+    /**
+     * Picks a word from the selected category. If the category is empty, picks a word from otherwords
+     */
+    public String getRandomWord(ArrayList<String> list)
+    {
+        if(list.size() == 0)
+            return getRandomWord(otherWords);
+        int randomChoice = (new Random()).nextInt(list.size());
+        String wrongWord = list.get(randomChoice);
+        return wrongWord;
+    }
     /**
      * Picks out the wrong answers and places them in the boxes; then places the correct answer
      * randomly in one of the boxes
      */
     public void setChoices()
     {
-        // NOTE: NEEDS 5+ WORDS PER CATEGORY TO WORK
+        String wrongWord1 = getRandomWord(categoryWords);
+        String wrongWord2 = getRandomWord(lengthWords);
+        String wrongWord3 = getRandomWord(letterWords);
+        //pick the order of the words
+        ArrayList<Integer> order = new ArrayList<>();
+        order.add(0);
+        order.add(1);
+        order.add(2);
+        order.add(3);
+        Collections.shuffle(order);
+        String[] words = new String[]{lockedWord.getText(), wrongWord1, wrongWord2, wrongWord3};
 
-        int randomInteger = (new Random()).nextInt(NUM_CHOICES) + 1;
 
-        int randomFirstChoice = (new Random()).nextInt(wrongWords.size());
-        String wrongWord1 = wrongWords.get(randomFirstChoice);
-
-        String wrongWord2;
-
-        while (true) {
-            int randomSecondChoice = (new Random()).nextInt(wrongWords.size());
-            wrongWord2 = wrongWords.get(randomSecondChoice);
-            if (!wrongWord2.equals(wrongWord1)) {
-                break;
-            }
-        }
-
-        String wrongWord3;
-        while (true) {
-            int randomThirdChoice = (new Random()).nextInt(wrongWords.size());
-            wrongWord3 = wrongWords.get(randomThirdChoice);
-            if (!wrongWord3.equals(wrongWord1) && !wrongWord3.equals(wrongWord2)) {
-                break;
-            }
-        }
-
-        String wrongWord4;
-        while (true) {
-            int randomFourthChoice = (new Random()).nextInt(wrongWords.size());
-            wrongWord4 = wrongWords.get(randomFourthChoice);
-            if (!wrongWord4.equals(wrongWord1) &&
-                    !wrongWord4.equals(wrongWord2) &&
-                    !wrongWord4.equals(wrongWord3)) {
-                break;
-            }
-        }
-
-        choice1.setText(wrongWord1);
+        choice1.setText(words[order.get(0)].toLowerCase());
         choice1.setBackgroundColor(buttonColor);
 
-        choice2.setText(wrongWord2);
+        choice2.setText(words[order.get(1)].toLowerCase());
         choice2.setBackgroundColor(buttonColor);
 
-        choice3.setText(wrongWord3);
+        choice3.setText(words[order.get(2)].toLowerCase());
         choice3.setBackgroundColor(buttonColor);
 
-        choice4.setText(wrongWord4);
+        choice4.setText(words[order.get(3)].toLowerCase());
         choice4.setBackgroundColor(buttonColor);
 
-        if (randomInteger == 1) {
-            choice1.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "1";
-        } else if (randomInteger == 2) {
-            choice2.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "2";
-        } else if (randomInteger == 3) {
-            choice3.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "3";
-        } else if (randomInteger == 4) {
-            choice4.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "4";
-        }
+        correctChoiceNum = ""+(order.indexOf(0)+1);
     }
 
     /**
@@ -262,7 +240,10 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     public void loadIntentsAndViews()
     {
         lockedWord = (Word)getIntent().getSerializableExtra("word");
-        wrongWords = getIntent().getStringArrayListExtra("wrong_words");
+        categoryWords = getIntent().getStringArrayListExtra("category_words");
+        lengthWords = getIntent().getStringArrayListExtra("length_words");
+        letterWords = getIntent().getStringArrayListExtra("letter_words");
+        otherWords = getIntent().getStringArrayListExtra("other_words");
 
         topIV = findViewById(R.id.TopImageView);
         topBar = findViewById(R.id.topLayout);
