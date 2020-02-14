@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaDataSource;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -140,20 +143,7 @@ public class StoryAudioManager {
             } catch (InterruptedException e) {
                 Log.d("wait","broken");
             }
-            if (mediaPlayer.isPlaying() == false) {
-                mediaPlayer.start();
-            }
-
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    lock[0] = false;
-                }
-            });
-
-            //mediaPlayer.start();
-            Log.d("YEET", "Play successful");
-            while (lock[0] && mediaPlayer.isPlaying()) {
+            while (mediaPlayer.isPlaying()) {
                 if (!continueAudioFlag) {
                     break;
                 }
@@ -170,9 +160,7 @@ public class StoryAudioManager {
             if (isThereARealBlankBetweenFiles.get(i)) {
                 if (wordList == null || traversedBlanks >= wordList.size() || wordList.get(traversedBlanks).equals("")) {
                     Log.d("Blank detected","blank");
-                    continue;
                 } else {
-                    //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(wordList.get(i), "raw", context.getPackageName()));
                     setMediaPlayerFile(wordList.get(traversedBlanks));
                 }
                 mediaPlayer.start();
@@ -185,8 +173,8 @@ public class StoryAudioManager {
                     if (!continueAudioFlag) {
                         break;
                     }
-                    continue;
                 }
+
                 mediaPlayer.stop();
                 try {
                     Thread.sleep(200);
