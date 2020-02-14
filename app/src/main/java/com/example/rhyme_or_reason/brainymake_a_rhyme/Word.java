@@ -8,13 +8,15 @@ public class Word implements Serializable {
     private Boolean locked;
     private String imageName;
     private String audioName;
+    private String type;
 
-    public Word(String text, Boolean locked, String imageName, String audioName)
+    public Word(String text, Boolean locked, String imageName, String audioName, String type)
     {
         this.text = text;
         this.locked = locked;
         this.imageName = imageName;
         this.audioName = audioName;
+        this.type = type;
     }
 
     public void setUnlocked()
@@ -40,4 +42,6 @@ public class Word implements Serializable {
     {
         return this.audioName;
     }
+
+    public String getType() { return this.type; }
 }

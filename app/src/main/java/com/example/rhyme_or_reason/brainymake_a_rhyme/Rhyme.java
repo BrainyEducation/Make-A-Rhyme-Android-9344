@@ -34,6 +34,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageButton rhymeDownBtn;
     ScrollView rhymeScroll;
 
+    int imageCoordIndex = 0;
     int width;
     int height;
     int HEIGHT_UNIT;
@@ -321,22 +322,24 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 System.out.println(wordCodes.get(selectedButtonIndex));
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
-
-                if (selectedButtonIndex < imageCoords.size()) {
-
+                if (selected.getType().equals("animals") == true || selected.getType().equals("food") == true) {
+                    if (imageCoordIndex >= imageCoords.size()) {
+                        imageCoordIndex = 0;
+                    }
                     img = new ImageView(this);
 
                     // Image View (Picture of Word Being Quizzed)
                     FrameLayout.LayoutParams img_params = new FrameLayout.LayoutParams(
                             (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
                     );
-                    img_params.setMargins((int) (imageCoords.get(selectedButtonIndex)[0]), (int) (imageCoords.get(selectedButtonIndex)[1]), 0, 0);
+                    img_params.setMargins((int) (imageCoords.get(imageCoordIndex)[0]), (int) (imageCoords.get(imageCoordIndex)[1]), 0, 0);
 
                     img.setLayoutParams(img_params);
 
                     int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
                     img.setImageResource(resourceID);
                     totalIllustration.addView(img);
+                    imageCoordIndex++;
                 }
             }
         }
