@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,15 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageButton rhymeDownBtn;
     ScrollView rhymeScroll;
     ImageButton iB;
+
+    ImageView img1;
+    ImageView img2;
+    ImageView img3;
+    ImageView img4;
+    ImageView img5;
+    ImageView img6;
+
+    ArrayList<ImageView> illustrationIVs = new ArrayList<>();
 
     int imageCoordIndex = 0;
     int width;
@@ -68,11 +78,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         sizingSetUp();
 
-        setImageCoords();
-
         loadIntentsAndViews();
 
         loadIllustrationImage();
+
+        setImageCoords();
 
         petPartyPicnicSetUp();
     }
@@ -359,24 +369,32 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 System.out.println(wordCodes.get(selectedButtonIndex));
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
-                if (selected.getType().equals("animals") == true || selected.getType().equals("food") == true) {
-                    if (imageCoordIndex >= imageCoords.size()) {
-                        imageCoordIndex = 0;
+                if (selectedButtonIndex < imageCoords.size()) {
+
+                    try {
+                        totalIllustration.removeView(illustrationIVs.get(selectedButtonIndex));
+                    } catch (Exception e) {
+                        // Image Views haven't been set yet; create them
+                        Log.println(Log.WARN, "Remove ImgView", "No pre-existing image view found");
+                        loadIllustrationIVs();
+                        totalIllustration.removeView(illustrationIVs.get(selectedButtonIndex)); // now can remove the image
                     }
+                    /*
                     img = new ImageView(this);
 
                     // Image View (Picture of Word Being Quizzed)
                     FrameLayout.LayoutParams img_params = new FrameLayout.LayoutParams(
                             (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
                     );
-                    img_params.setMargins((int) (imageCoords.get(imageCoordIndex)[0]), (int) (imageCoords.get(imageCoordIndex)[1]), 0, 0);
+                    img_params.setMargins((int) (imageCoords.get(selectedButtonIndex)[0]), (int) (imageCoords.get(selectedButtonIndex)[1]), 0, 0);
 
                     img.setLayoutParams(img_params);
-
+                    */
                     int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
-                    img.setImageResource(resourceID);
-                    totalIllustration.addView(img);
-                    imageCoordIndex++;
+                    illustrationIVs.get(selectedButtonIndex).setImageResource(resourceID);
+                    //img.setImageResource(resourceID);
+                    totalIllustration.addView(illustrationIVs.get(selectedButtonIndex));
+                    //imageCoordIndex++;
                 }
             }
         }
@@ -432,7 +450,72 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         wordList.add("");
 
         storyAudioManager.setWordList(wordList);
+    }
 
+    public void loadIllustrationIVs() {
+        img1 = new ImageView(this);
+        img2 = new ImageView(this);
+        img3 = new ImageView(this);
+        img4 = new ImageView(this);
+        img5 = new ImageView(this);
+        img6 = new ImageView(this);
+
+        // Image View (Picture of Word Being Quizzed)
+        FrameLayout.LayoutParams img_params1 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params1.setMargins((int) (imageCoords.get(0)[0]), (int) (imageCoords.get(0)[1]), 0, 0);
+        img1.setLayoutParams(img_params1);
+
+        FrameLayout.LayoutParams img_params2 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params2.setMargins((int) (imageCoords.get(1)[0]), (int) (imageCoords.get(1)[1]), 0, 0);
+        img2.setLayoutParams(img_params2);
+
+        FrameLayout.LayoutParams img_params3 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params3.setMargins((int) (imageCoords.get(2)[0]), (int) (imageCoords.get(2)[1]), 0, 0);
+        img3.setLayoutParams(img_params3);
+
+        FrameLayout.LayoutParams img_params4 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params4.setMargins((int) (imageCoords.get(3)[0]), (int) (imageCoords.get(3)[1]), 0, 0);
+        img4.setLayoutParams(img_params4);
+
+        FrameLayout.LayoutParams img_params5 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params5.setMargins((int) (imageCoords.get(4)[0]), (int) (imageCoords.get(4)[1]), 0, 0);
+        img5.setLayoutParams(img_params5);
+
+        FrameLayout.LayoutParams img_params6 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params6.setMargins((int) (imageCoords.get(5)[0]), (int) (imageCoords.get(5)[1]), 0, 0);
+        img6.setLayoutParams(img_params6);
+
+        illustrationIVs.add(img1);
+        illustrationIVs.add(img2);
+        illustrationIVs.add(img3);
+        illustrationIVs.add(img4);
+        illustrationIVs.add(img5);
+        illustrationIVs.add(img6);
+
+        totalIllustration.addView(img1);
+        totalIllustration.addView(img2);
+        totalIllustration.addView(img3);
+        totalIllustration.addView(img4);
+        totalIllustration.addView(img5);
+        totalIllustration.addView(img6);
 
     }
 
