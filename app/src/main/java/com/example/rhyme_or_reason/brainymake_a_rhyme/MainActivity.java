@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
-    final int SEPARATOR_HEIGHT = 20;
+    //final int SEPARATOR_HEIGHT = 20;
     final float LOCKED_ALPHA = 0.3f;
     final int TEXT_SIZE = 30;
     Typeface imprima;
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             View separator = new View(this);
 
-            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
+            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, Constants.SEPARATOR_HEIGHT));
 
             if (wordList.get(index).getLockedStatus()) {
                 // Is Locked
@@ -563,7 +563,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             View separator = new View(this);
 
-            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
+            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, Constants.SEPARATOR_HEIGHT));
 
             separator.setBackgroundColor(getResources().getColor(R.color.colorBackground));
 

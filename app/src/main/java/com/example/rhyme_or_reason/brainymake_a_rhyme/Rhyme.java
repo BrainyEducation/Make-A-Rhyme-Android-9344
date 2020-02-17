@@ -51,7 +51,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     int width;
     int height;
     int HEIGHT_UNIT;
-    final double ASPECT_RATIO = 0.6802;
+    //final double ASPECT_RATIO = 0.6802;
     final int TEXT_SIZE = 30;
     int CHARACTER_LIMIT = 20; // TODO: Set this dynamically based on screen width
     final char WORD_MARKER_START = '[';
@@ -163,7 +163,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     {
         // Illustration boundaries
         LinearLayout.LayoutParams illustration_params = new LinearLayout.LayoutParams(
-                width, (int)(width * ASPECT_RATIO)
+                width, (int)(width * Constants.ASPECT_RATIO)
         );
         illustration_params.setMargins(0, 0, 0, 0);
         //illustration_params.gravity = CENTER;
@@ -417,12 +417,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void setImageCoords()
     {
-        double[] image1 = {width * .0985, width * ASPECT_RATIO * .3415};
-        double[] image2 = {width * .1593, width * ASPECT_RATIO * .5431};
-        double[] image3 = {width * .4832, width * ASPECT_RATIO * .5585};
-        double[] image4 = {width * .6321, width * ASPECT_RATIO * .4};
-        double[] image5 = {width * .5251, width * ASPECT_RATIO * .16};
-        double[] image6 = {width * .3312, width * ASPECT_RATIO * .1046};
+        double[] image1 = {width * .0985, width * Constants.ASPECT_RATIO * .3415};
+        double[] image2 = {width * .1593, width * Constants.ASPECT_RATIO * .5431};
+        double[] image3 = {width * .4832, width * Constants.ASPECT_RATIO * .5585};
+        double[] image4 = {width * .6321, width * Constants.ASPECT_RATIO * .4};
+        double[] image5 = {width * .5251, width * Constants.ASPECT_RATIO * .16};
+        double[] image6 = {width * .3312, width * Constants.ASPECT_RATIO * .1046};
 
         imageCoords.add(image1);
         imageCoords.add(image2);
