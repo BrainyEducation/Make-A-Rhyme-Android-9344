@@ -50,14 +50,35 @@ public class StoryAudioManager {
     }
 
 
-    public MediaPlayer createMediaplayer(String s) {
-        return MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(s, "raw", context.getPackageName()));
+    private void clearMediaPlayer() {
+        try {
+            mediaPlayer.stop();
+        } catch (Exception e) {
+            return;
+        }
+        try {
+            mediaPlayer.release();
+        } catch (Exception e) {
+            return;
+        }
+        try {
+            mediaPlayer.reset();
+        } catch (Exception e) {
+            return;
+        }
+        mediaPlayer = new MediaPlayer();
     }
 
     private void setMediaPlayerFile(String s) {
         AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(s, "raw",context.getPackageName()));
         try
         {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer.reset();
+            }
+            mediaPlayer = new MediaPlayer();
             mediaPlayer.reset();
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
             mediaPlayer.prepare();
@@ -102,6 +123,7 @@ public class StoryAudioManager {
      * @param storyName
      */
     private void play_story(String storyName) {
+        Log.d("story stuff",wordList.get(0));
         ArrayList<String> fileNames = new ArrayList<>();
         StoryAudioConstantContainer constantContainer = mp3Data.storyNameToConstantContainer.get(storyName);
         int numberOfFiles = constantContainer.numberOfFiles;
@@ -116,16 +138,12 @@ public class StoryAudioManager {
             final boolean[] lock = {true};
             setMediaPlayerFile(fileNames.get(i));
             mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    lock[0] = false;
-                }
-            });
-
-            //mediaPlayer.start();
-            Log.d("YEET", "Play successful");
-            while (lock[0] && mediaPlayer.isPlaying()) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Log.d("wait","broken");
+            }
+            while (mediaPlayer.isPlaying()) {
                 if (!continueAudioFlag) {
                     break;
                 }
@@ -136,39 +154,35 @@ public class StoryAudioManager {
                 return;
             }
 
-
             lock[0] = true;
 
-            if (isThereARealBlankBetweenFiles.get(i)) {
-                if (wordList == null || wordList.get(traversedBlanks).equals("")) {
-                    traversedBlanks++;
-                } else {
-                    //mpBlank = MediaPlayer.create(context.getApplicationContext(), context.getResources().getIdentifier(wordList.get(i), "raw", context.getPackageName()));
-                    setMediaPlayerFile(wordList.get(traversedBlanks));
-                    traversedBlanks++;
-                }
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        lock[0] = false;
-                    }
-                });
-                mediaPlayer.start();
 
-                /*
-                while (lock[0] && mediaPlayer.isPlaying()) {
+            if (isThereARealBlankBetweenFiles.get(i)) {
+                if (wordList == null || traversedBlanks >= wordList.size() || wordList.get(traversedBlanks).equals("")) {
+                    Log.d("Blank detected","blank");
+                } else {
+                    setMediaPlayerFile(wordList.get(traversedBlanks));
+                    //traversedBlanks++;
+                }
+                mediaPlayer.start();
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    Log.d("wait","broken");
+                }
+                while (mediaPlayer.isPlaying()) {
                     if (!continueAudioFlag) {
                         break;
                     }
-                    //continue;
-                }
-                */
-
-                while ( mediaPlayer.isPlaying()) {
-
                 }
 
                 mediaPlayer.stop();
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    Log.d("wait","broken");
+                }
+                traversedBlanks++;
             }
         }
 
