@@ -60,12 +60,13 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
             tempType.setText(templateOptions.get(index).getName());
-            tempType.setTag(templateOptions.get(index).getName()); // Set tag to the name of the type
+            tempType.setTag(index); // Set tag to the index in the ArrayList
             //tempType.setBackgroundColor(Color.parseColor(typeBgColor));
             tempType.setTextSize(TEXT_SIZE);
             tempType.setTypeface(imprima);
 
             ImageView rhymeImage = new ImageView(this);
+            rhymeImage.setTag(index);
             rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int)(width * Constants.ASPECT_RATIO)));
             int pictureResourceID = getResources().getIdentifier(templateOptions.get(index).getImageName(), "drawable", getPackageName());
 
@@ -98,9 +99,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
      */
     public void loadRhymeTemplates()
     {
-        RhymeTemplate petPartyPicnic = new RhymeTemplate("Pet Party Picnic", "background_pet_party_picnic", false, 6);
-        RhymeTemplate muddyPark = new RhymeTemplate("Muddy Park", "background_muddy_park", true, 5);
-        RhymeTemplate strangerParade = new RhymeTemplate("Stranger Parade", "background_stranger_parade", true, 19);
+        RhymeTemplate petPartyPicnic = new RhymeTemplate("Pet Party Picnic", "background_pet_party_picnic", false, 15, 6);
+        RhymeTemplate muddyPark = new RhymeTemplate("Muddy Park", "background_muddy_park", true, 13, 5);
+        RhymeTemplate strangerParade = new RhymeTemplate("Stranger Parade", "background_stranger_parade", true, 19, 19);
 
         templateOptions.add(petPartyPicnic);
         templateOptions.add(muddyPark);
@@ -147,6 +148,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
      * TODO: Add comment
      */
     public void onClick(View v) {
+
+        RhymeTemplate selectedRhymeTemplate = templateOptions.get((int)(v.getTag()));
+        Intent newIntent = new Intent(this, NewOrExistingRhyme.class);
+        newIntent.putExtra("rhyme_template", selectedRhymeTemplate);
+        startActivityForResult(newIntent, 1);
 
     }
 }

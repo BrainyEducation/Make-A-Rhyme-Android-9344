@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Quiz"
             android:label="@string/title_activity_quiz"
@@ -23,8 +23,7 @@
 
         <activity
             android:name=".Rhyme"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"
@@ -35,6 +34,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".NewOrExistingRhyme"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

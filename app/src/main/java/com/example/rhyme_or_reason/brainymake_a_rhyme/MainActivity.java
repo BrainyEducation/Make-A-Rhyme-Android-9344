@@ -97,18 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         activeType = currType;
         wordLL.removeAllViews(); // Removes the current buttons
 
-//        up_btnW = new ImageButton(this);
-//        up_btnW.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-//        up_btnW.setImageResource(R.drawable.up_arrow);
-//        up_btnW.setBackground(null);
-//        up_btnW.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                type_scrollview.smoothScrollBy(0, -500);
-//            }
-//        });
-//        type_scrollview.addView(up_btnT);
-
         ArrayList<Word> wordList = typeToWordMapping.get(currType);
 
         wordViews = new ArrayList<>(); // Wipe out existing entries

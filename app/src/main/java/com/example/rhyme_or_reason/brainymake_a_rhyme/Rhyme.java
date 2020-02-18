@@ -68,6 +68,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     StoryAudioManager storyAudioManager;
     ArrayList<String> wordList = new ArrayList<>();
 
+    RhymeTemplate currRhyme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +87,19 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         setImageCoords();
 
         petPartyPicnicSetUp();
+
+        //fillInRhyme();
     }
+
+
+    @Override
+    public void onWindowFocusChanged(boolean b)
+    {
+        super.onWindowFocusChanged(b);
+
+        fillInRhyme();
+    }
+
 
     /**
      * Attach audio play button
@@ -130,6 +144,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void loadIntentsAndViews()
     {
+        currRhyme = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
+
         totalIllustration = findViewById(R.id.totalIllustration);
 
         illustration = findViewById(R.id.illustration);
@@ -365,10 +381,15 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 // Update the wordList
                 storyAudioManager.setWordList(wordList);
+                currRhyme.updateChosenWords(selectedButtonIndex, selected);
 
                 System.out.println(wordCodes.get(selectedButtonIndex));
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
+
+                updateIllustration(selected, selectedButtonIndex);
+
+                /*
                 if (selectedButtonIndex < imageCoords.size()) {
 
                     try {
@@ -379,7 +400,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                         loadIllustrationIVs();
                         totalIllustration.removeView(illustrationIVs.get(selectedButtonIndex)); // now can remove the image
                     }
-                    /*
+
                     img = new ImageView(this);
 
                     // Image View (Picture of Word Being Quizzed)
@@ -389,13 +410,14 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     img_params.setMargins((int) (imageCoords.get(selectedButtonIndex)[0]), (int) (imageCoords.get(selectedButtonIndex)[1]), 0, 0);
 
                     img.setLayoutParams(img_params);
-                    */
+
                     int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
                     illustrationIVs.get(selectedButtonIndex).setImageResource(resourceID);
                     //img.setImageResource(resourceID);
                     totalIllustration.addView(illustrationIVs.get(selectedButtonIndex));
                     //imageCoordIndex++;
                 }
+                */
             }
         }
 
@@ -460,6 +482,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         img5 = new ImageView(this);
         img6 = new ImageView(this);
 
+        //img1.setBackgroundColor(Color.BLUE);
+
         // Image View (Picture of Word Being Quizzed)
         FrameLayout.LayoutParams img_params1 = new FrameLayout.LayoutParams(
                 (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
@@ -510,6 +534,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         illustrationIVs.add(img5);
         illustrationIVs.add(img6);
 
+        //this.addContentView(img1, img_params1);
+
         totalIllustration.addView(img1);
         totalIllustration.addView(img2);
         totalIllustration.addView(img3);
@@ -519,5 +545,62 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    /**
+     * Returns to the new/existing rhyme selection page and saves the current rhyme
+     */
+    public void ClickedBackButton(View view) {
+
+        currRhyme.saveRhymeTemplate(this.getApplicationContext());
+        onBackPressed();
+    }
+
+    public void fillInRhyme()
+    {
+        for (int index = 0; index < listOfButtons.size(); ++index) {
+            Word currWord = currRhyme.getChosenWords().get(index);
+            if (currWord != null && !currWord.getText().equals("")) {
+                listOfButtons.get(index).setText(currWord.getText());
+                wordList.set(index, currWord.getText());
+                storyAudioManager.setWordList(wordList);
+                updateIllustration(currWord, index);
+            }
+        }
+    }
+
+    /**
+     * Updates the top illustration to contain the new picture for the provided word
+     */
+    public void updateIllustration(Word selectedWord, int buttonIndex)
+    {
+        if (buttonIndex < imageCoords.size()) {
+
+            try {
+                totalIllustration.removeView(illustrationIVs.get(buttonIndex));
+            } catch (Exception e) {
+                // Image Views haven't been set yet; create them
+                Log.println(Log.WARN, "Remove ImgView", "No pre-existing image view found");
+                loadIllustrationIVs();
+                totalIllustration.removeView(illustrationIVs.get(buttonIndex)); // now can remove the image
+            }
+                    /*
+                    img = new ImageView(this);
+
+                    // Image View (Picture of Word Being Quizzed)
+                    FrameLayout.LayoutParams img_params = new FrameLayout.LayoutParams(
+                            (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                    );
+                    img_params.setMargins((int) (imageCoords.get(selectedButtonIndex)[0]), (int) (imageCoords.get(selectedButtonIndex)[1]), 0, 0);
+
+                    img.setLayoutParams(img_params);
+                    */
+            int resourceID = getResources().getIdentifier(selectedWord.getImageName(), "drawable", getPackageName());
+            illustrationIVs.get(buttonIndex).setImageResource(resourceID);
+            //img.setImageResource(resourceID);
+            Log.d("Children:", ((Integer)(totalIllustration.getChildCount())).toString());
+            totalIllustration.addView(illustrationIVs.get(buttonIndex));
+            Log.d("Children:", ((Integer)(totalIllustration.getChildCount())).toString());
+            //imageCoordIndex++;
+        }
+    }
 
 }
