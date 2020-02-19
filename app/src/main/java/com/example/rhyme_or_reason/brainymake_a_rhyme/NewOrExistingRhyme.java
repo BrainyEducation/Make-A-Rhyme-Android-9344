@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import static com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplate.getNumberOfExistingRhymes;
 import static com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplate.retrieveRhymeTemplate;
 
 public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClickListener {
@@ -87,27 +88,34 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     /**
      * Called when the page first loads; lays out the existing story templates created by the child
      */
-    public void loadExistingRhymes()
-    {
-        RhymeTemplate existing = retrieveRhymeTemplate(this.getApplicationContext());
-        // Fix the size once save correctly
-        for (int index = 0; index < 1; ++index) {
+    public void loadExistingRhymes() {
+
+        int numExistingRhymes = getNumberOfExistingRhymes(this.getApplicationContext());
+
+        for (int index = 0; index < numExistingRhymes; ++index) {
+
+            RhymeTemplate currRhyme = retrieveRhymeTemplate(this.getApplicationContext(), index);
+
+            /*
             Button tempType = new Button(this);
+
 
             tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-            tempType.setText(existing.getName());
+            tempType.setText(currRhyme.getName());
             tempType.setTag(index); // Set tag to the index in the ArrayList
             //tempType.setBackgroundColor(Color.parseColor(typeBgColor));
             tempType.setTextSize(TEXT_SIZE);
             tempType.setTypeface(imprima);
+            */
 
             ImageView rhymeImage = new ImageView(this);
             rhymeImage.setTag(index);
-            rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int)(width * Constants.ASPECT_RATIO)));
-            int pictureResourceID = getResources().getIdentifier(existing.getImageName(), "drawable", getPackageName());
+            rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int) (width * Constants.ASPECT_RATIO)));
+            int pictureResourceID = getResources().getIdentifier(currRhyme.getImageName(), "drawable", getPackageName());
 
-            tempType.setOnClickListener(this);
+            //tempType.setOnClickListener(this);
+
             rhymeImage.setOnClickListener(this);
 
             rhymeImage.setImageResource(pictureResourceID);
@@ -120,7 +128,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
             //up_btnT.setLayoutParams();
             //typeViews.add(tempType);
-            existingRhymesLL.addView(tempType);
+            //existingRhymesLL.addView(tempType);
             existingRhymesLL.addView(rhymeImage);
             existingRhymesLL.addView(separator);
         }
@@ -147,8 +155,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         if (v.getTag() == "NEW") {
             toSend = chosenRhymeTemplate;
         } else {
-            RhymeTemplate existing = retrieveRhymeTemplate(this.getApplicationContext());
-            toSend = existing;
+            RhymeTemplate selectedRhyme = retrieveRhymeTemplate(this.getApplicationContext(), (Integer)v.getTag());
+            toSend = selectedRhyme;
         }
 
         Intent newIntent = new Intent(this, Rhyme.class);

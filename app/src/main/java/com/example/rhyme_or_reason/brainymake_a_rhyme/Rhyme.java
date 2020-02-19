@@ -47,6 +47,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     ArrayList<ImageView> illustrationIVs = new ArrayList<>();
 
+    boolean insertedWord = false;
     int imageCoordIndex = 0;
     int width;
     int height;
@@ -374,6 +375,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
+
+                insertedWord = true;
+
                 //selectedWord.setUnlocked();
                 Word selected = (Word)data.getSerializableExtra("word");
 
@@ -550,7 +554,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void ClickedBackButton(View view) {
 
-        currRhyme.saveRhymeTemplate(this.getApplicationContext());
+        if (insertedWord) {
+            currRhyme.saveRhymeTemplate(this.getApplicationContext());
+        }
         onBackPressed();
     }
 

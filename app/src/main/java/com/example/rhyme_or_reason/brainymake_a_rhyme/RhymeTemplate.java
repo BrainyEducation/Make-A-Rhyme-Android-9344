@@ -56,24 +56,50 @@ public class RhymeTemplate implements Serializable {
 
     public ArrayList<Word> getChosenWords() { return chosenWords; }
 
+    /*
+     * TODO: Need to update so that will work for multiple rhyme stories
+     */
     public void saveRhymeTemplate(Context context)
+    {
+        // Get the number of saved rhymes
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+        int numRhymes = appSharedPrefs.getInt("NumRhymes", 0);
+
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+
+        prefsEditor.putInt("NumRhymes", numRhymes + 1);
+
+        String rhymeNumString = ((Integer)numRhymes).toString();
+
+        String json = gson.toJson(this);
+        prefsEditor.putString("SavedRhyme" + rhymeNumString, json);
+        prefsEditor.commit();
+    }
+
+    /*
+     * TODO: Need to update so that will work for multiple rhyme stories
+     */
+    public static RhymeTemplate retrieveRhymeTemplate(Context context, int rhymeNumber) {
+
+        String rhymeNumString = ((Integer)rhymeNumber).toString();
+
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString("SavedRhyme" + rhymeNumString, "");
+        return gson.fromJson(json, RhymeTemplate.class);
+    }
+
+    public static int getNumberOfExistingRhymes(Context context)
     {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(this);
-        prefsEditor.putString("SavedRhyme", json);
-        prefsEditor.commit();
+        int numRhymes = appSharedPrefs.getInt("NumRhymes", 0);
 
-    }
-
-    public static RhymeTemplate retrieveRhymeTemplate(Context context) {
-        SharedPreferences appSharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
-        Gson gson = new Gson();
-        String json = appSharedPrefs.getString("SavedRhyme", "");
-        return gson.fromJson(json, RhymeTemplate.class);
+        return numRhymes;
     }
 
 }

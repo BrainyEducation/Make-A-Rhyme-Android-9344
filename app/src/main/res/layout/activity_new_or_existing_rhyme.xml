@@ -49,11 +49,24 @@
 
         </RelativeLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="New Rhyme"
+            android:fontFamily="@font/imprima"
+            android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/newIllustration"
             android:layout_width="match_parent"
             android:layout_height="30dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Existing Rhymes"
+            android:fontFamily="@font/imprima"
+            android:textSize="30sp" />
 
         <ScrollView
             android:id="@+id/ExistingRhymesScrollView"
