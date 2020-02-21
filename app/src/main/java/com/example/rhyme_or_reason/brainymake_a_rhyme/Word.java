@@ -41,6 +41,7 @@ public class Word implements Serializable {
             PrintStream printstream = new PrintStream(fos);
             printstream.println(text);
             fos.close();
+            serializedUnlockedWords.add(text);
 
         } catch (FileNotFoundException fnfe) {
             /* shouldn't happen while writing to a file */
@@ -52,7 +53,7 @@ public class Word implements Serializable {
     }
 
     public Boolean getLockedStatus() {
-        return this.locked;
+        return this.locked && !serializedUnlockedWords.contains(text);
     }
 
     public String getText()
