@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:background="@color/colorMenuBar"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/BackButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="ClickedBackButton"
+                android:text="&lt;"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif"
+                android:padding="0dp"/>
+
+            <Button
+                android:id="@+id/HelpButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/imprima"
+                android:gravity="center"
+                android:onClick="ClickedHelpButton"
+                android:text="HELP"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif"
+                android:padding="0dp"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email Progress Report" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Configure Email Settings" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

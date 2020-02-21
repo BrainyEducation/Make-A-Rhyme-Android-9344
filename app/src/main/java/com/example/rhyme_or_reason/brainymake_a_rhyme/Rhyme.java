@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.Emailer;
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
 
 import java.util.ArrayList;
 
@@ -378,9 +378,13 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void ClickedHelpButton(View view) {
-        Emailer emailer = new Emailer();
+        String[] emails = new String[1];
+        emails[0] = "jqdude@gmail.com";
+        String subjectLine = "Progress Report";
+        String emailBody = "This is your child's progress";
+        EmailSystem emailer = new EmailSystem(emails, subjectLine, emailBody);
         Intent intent = emailer.createEmailIntent();
-        startActivity(Intent.createChooser(intent,"Choose Mail App"));
+        startActivity(Intent.createChooser(intent,"Choose an email app"));
     }
 
 }
