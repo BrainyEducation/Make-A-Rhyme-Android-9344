@@ -40,8 +40,7 @@ public class StoryAudioManager {
     public void setContinueAudioFlag(boolean flag) {
         continueAudioFlag = flag;
         if (!flag) {
-            mediaPlayer.release();
-            mediaPlayer = new MediaPlayer();
+            mediaPlayer.reset();
         }
     }
 
@@ -133,6 +132,8 @@ public class StoryAudioManager {
         for (int i = 1; i <= numberOfFiles; i++) {
             fileNames.add(fileprefix + i);
         }
+
+
 
         for (int i = 0; i < numberOfFiles; i++) {
             final boolean[] lock = {true};
