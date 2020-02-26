@@ -14,14 +14,14 @@ public class StudentProgress extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_analytics);
-        graph = (GraphView) findViewById(R.id.graph);
-        series.appendData(new DataPoint(0, 1), true, 100);
-        series.appendData(new DataPoint(1, 5), true, 100);
-        series.appendData(new DataPoint(2, 3), true, 100);
-        series.appendData(new DataPoint(3, 2), true, 100);
-        series.appendData(new DataPoint(4, 6), true, 100);
-        graph.addSeries(series);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_analytics);
+            graph = (GraphView) findViewById(R.id.graph);
+            series.appendData(new DataPoint(0, 1), true, 100);
+            series.appendData(new DataPoint(1, 5), true, 100);
+            series.appendData(new DataPoint(2, 3), true, 100);
+            series.appendData(new DataPoint(3, 2), true, 100);
+            series.appendData(new DataPoint(4, 6), true, 100);
+            graph.addSeries(series);
     }
 }

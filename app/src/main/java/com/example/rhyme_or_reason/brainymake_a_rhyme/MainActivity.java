@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton down_btnW;
     private ImageButton up_btnT;
     private ImageButton down_btnT;
+    private Button progressBtn;
 
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
@@ -287,6 +288,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void onClick(View v) {
 
+        //OnClick For Progress Button
+        if (v == progressBtn) {
+            Intent progressInt = new Intent(this, StudentProgress.class);
+            startActivity(progressInt);
+        }
+
+
         Boolean updatingActiveType = false;
 
         int typeIndex = -1;
@@ -425,6 +433,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         down_btnW = findViewById(R.id.WordScrollDownBtn);
         up_btnT = findViewById(R.id.TypeScrollUpBtn);
         down_btnT = findViewById(R.id.TypeScrollDownBtn);
+        progressBtn = findViewById(R.id.ProgressButton);
         up_btnW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
