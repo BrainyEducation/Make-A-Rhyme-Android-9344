@@ -46,6 +46,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
 
     public void sendEmail(View v) {
+        if (emails.size() == 0) {
+            displayError("No emails have been added");
+            return;
+        }
         String[] a = new String[1];
         a[0] = "jqdude@gmail.com";
         String subject = "hi";
@@ -77,6 +81,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
         emails.add(email);
         emailHashSet.add(email);
+        String displayText = emailSystem.shortenedEmailText(email);
 
         TextView exampleEmailTextView = (TextView) tableRowTemplate.getChildAt(0);
         TextView exampleEmailRemovalButton = (TextView) tableRowTemplate.getChildAt(1);
@@ -87,7 +92,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         emailTextView.setLayoutParams(exampleEmailTextView.getLayoutParams());
         emailRemovalButton.setLayoutParams(exampleEmailRemovalButton.getLayoutParams());
 
-        emailTextView.setText(email);
+        emailTextView.setText(displayText);
         emailRemovalButton.setText(exampleEmailRemovalButton.getText());
         emailRemovalButton.setOnClickListener(generateClickListener(email));
 
@@ -96,9 +101,6 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         emailTable.addView(newEmailRow);
 
     }
-
-
-
 
     private void displayError(String s) {
         Snackbar.make(emailTable, s, Snackbar.LENGTH_LONG).show();
@@ -117,9 +119,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         };
         return returnListener;
     }
-
-
-
+    
     @Override
     public void onClick(View v) {
 

@@ -13,11 +13,12 @@ public class EmailSystem
     private String[] emails;
     private String subjectLine;
     private String emailBody;
-    public static int maxEmailDisplayLength = 15;
+    public static int maxEmailDisplayLength = 28;
     //regex comes from https://howtodoinjava.com/regex/java-regex-validate-email-address/
     private String emailValidationRegex = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     private Pattern emailRegexPattern;
     private static int maxEmails = 20;
+    private String emailShortener = "... ";
 
     public EmailSystem() {
         emailRegexPattern = Pattern.compile(emailValidationRegex);
@@ -44,5 +45,21 @@ public class EmailSystem
 
     public boolean tooManyEmails(ArrayList<String> emails) {
         return emails.size() > maxEmails;
+    }
+
+    public String shortenedEmailText(String email) {
+        if (email.length() >= maxEmailDisplayLength) {
+            int atSymbolIndex = email.indexOf("@");
+            String domainName = email.substring(atSymbolIndex);
+            int usedUpCharacters = domainName.length();
+            int remainingCharacters = maxEmailDisplayLength - usedUpCharacters;
+            String emailPrefix = email.substring(0, remainingCharacters - emailShortener.length());
+            StringBuilder sb = new StringBuilder();
+            sb.append(emailPrefix);
+            sb.append(emailShortener);
+            sb.append(domainName);
+            return sb.toString();
+        }
+        return email;
     }
 }
