@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton up_btnT;
     private ImageButton down_btnT;
     private Button progressBtn;
+    static int attempts = 0;
 
 
     /**
@@ -425,6 +426,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }, 0);   // Instantaneous
                 } else {
+                    attempts++;
+
                     Intent newIntent = new Intent(this, Quiz.class);
                     newIntent.putExtra("word", selectedWord);
                     newIntent.putExtra("category_words", categoryWords);
@@ -512,6 +515,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         up_btnT = findViewById(R.id.TypeScrollUpBtn);
         down_btnT = findViewById(R.id.TypeScrollDownBtn);
         progressBtn = findViewById(R.id.ProgressButton);
+        progressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent thisIntent = new Intent(v.getContext(), StudentProgress.class);
+                startActivityForResult(thisIntent, 0);
+            }
+        });
+
         up_btnW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

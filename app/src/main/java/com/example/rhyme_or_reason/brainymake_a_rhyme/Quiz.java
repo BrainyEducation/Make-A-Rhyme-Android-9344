@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -55,6 +56,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     final int TEXT_SIZE = 40;
     int buttonColor = Color.parseColor("#f4faf8");
     //final int textSize = 40;
+    int incorrectCounter = 0;
+    static HashMap<Integer, Integer> attemptsMap = new HashMap<>();
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -152,6 +155,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
                     playPraise();
 
+                    attemptsMap.put(MainActivity.attempts, incorrectCounter);
+
                     // Exit quiz
                     Handler returnHandler = new Handler();
                     returnHandler.postDelayed(new Runnable() {
@@ -165,6 +170,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                 }
             } else {
                 // Switch to silver stars
+                incorrectCounter++;
 
                 starIV1.setBackgroundResource(R.drawable.silver_star_blank);
                 starIV2.setBackgroundResource(R.drawable.silver_star_blank);

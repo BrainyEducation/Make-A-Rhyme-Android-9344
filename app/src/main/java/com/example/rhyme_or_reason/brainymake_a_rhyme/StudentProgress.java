@@ -10,18 +10,28 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class StudentProgress extends AppCompatActivity{
 
     GraphView graph;
-    LineGraphSeries<DataPoint> series;
+    LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_analytics);
             graph = (GraphView) findViewById(R.id.graph);
-            series.appendData(new DataPoint(0, 1), true, 100);
-            series.appendData(new DataPoint(1, 5), true, 100);
-            series.appendData(new DataPoint(2, 3), true, 100);
-            series.appendData(new DataPoint(3, 2), true, 100);
-            series.appendData(new DataPoint(4, 6), true, 100);
+            for (Integer k : Quiz.attemptsMap.keySet()) {
+                series.appendData(new DataPoint(k, Quiz.attemptsMap.get(k)), true, 50);
+            }
+            series.setDrawDataPoints(true);
             graph.addSeries(series);
+
+            graph.getViewport().setMinX(1);
+            graph.getViewport().setMinY(0);
+            graph.getViewport().setMaxX(5);
+            graph.getViewport().setMaxY(10);
+            graph.getGridLabelRenderer().setVerticalAxisTitle("Incorrect Selections");
+            graph.getGridLabelRenderer().setHorizontalAxisTitle("Attempts");
+//            graph.getGridLabelRenderer().setNumHorizontalLabels(5);
+//            graph.getGridLabelRenderer().setNumVerticalLabels(10);
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.getViewport().setYAxisBoundsManual(true);
     }
 }
