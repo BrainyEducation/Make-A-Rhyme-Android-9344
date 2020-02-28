@@ -51,10 +51,12 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="New Rhyme"
+            android:layout_height="50dp"
+            android:text="New"
             android:fontFamily="@font/imprima"
-            android:textSize="30sp" />
+            android:textSize="45sp"
+            android:background="@color/colorBackground"
+            android:alpha="0.6"/>
 
         <ImageView
             android:id="@+id/newIllustration"
@@ -63,10 +65,24 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Existing Rhymes"
+            android:layout_height="50dp"
+            android:text="Old"
             android:fontFamily="@font/imprima"
-            android:textSize="30sp" />
+            android:textSize="45sp"
+            android:background="@color/colorBackground"
+            android:alpha="0.6"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <ImageButton
+                android:id="@+id/ScrollUpBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/up_arrow"/>
+        </LinearLayout>
 
         <ScrollView
             android:id="@+id/ExistingRhymesScrollView"
@@ -86,6 +102,19 @@
 
         </ScrollView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="30dp">
+            <ImageButton
+                android:id="@+id/ScrollDownBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="3"
+                android:src="@drawable/down_arrow"/>
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

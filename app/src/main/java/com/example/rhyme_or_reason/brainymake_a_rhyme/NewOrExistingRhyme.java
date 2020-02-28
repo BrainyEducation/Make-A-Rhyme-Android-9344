@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +32,11 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     final int TEXT_SIZE = 30;
     RhymeTemplate chosenRhymeTemplate;
 
+    private ImageButton up_btn;
+    private ImageButton down_btn;
+
+    int RHYME_HEIGHT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +52,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
         loadExistingRhymes();
 
-        //loadRhymeTemplates();
-
-        //loadRhymeStoryOptions();
-
+        setUpScrollArrows();
     }
 
     /**
@@ -64,7 +67,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         display.getSize(screenSize);
         width = screenSize.x;
         height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
 
         HEIGHT_UNIT = height / 10;
     }
@@ -87,6 +89,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
     /**
      * Called when the page first loads; lays out the existing story templates created by the child
+     * in previous sessions. These are unnamed and only feature a picture of the rhyme.
+     * TODO: Need rhyme template illustrations that have the pictures inserted
      */
     public void loadExistingRhymes() {
 
@@ -96,25 +100,10 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
             RhymeTemplate currRhyme = retrieveRhymeTemplate(this.getApplicationContext(), index);
 
-            /*
-            Button tempType = new Button(this);
-
-
-            tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-            tempType.setText(currRhyme.getName());
-            tempType.setTag(index); // Set tag to the index in the ArrayList
-            //tempType.setBackgroundColor(Color.parseColor(typeBgColor));
-            tempType.setTextSize(TEXT_SIZE);
-            tempType.setTypeface(imprima);
-            */
-
             ImageView rhymeImage = new ImageView(this);
             rhymeImage.setTag(index);
             rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int) (width * Constants.ASPECT_RATIO)));
             int pictureResourceID = getResources().getIdentifier(currRhyme.getImageName(), "drawable", getPackageName());
-
-            //tempType.setOnClickListener(this);
 
             rhymeImage.setOnClickListener(this);
 
@@ -126,9 +115,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
             separator.setBackgroundColor(getResources().getColor(R.color.colorBackground));
 
-            //up_btnT.setLayoutParams();
-            //typeViews.add(tempType);
-            //existingRhymesLL.addView(tempType);
             existingRhymesLL.addView(rhymeImage);
             existingRhymesLL.addView(separator);
         }
@@ -144,7 +130,10 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     * TODO: Add comment
+     * When a rhyme is selected, this chooses what to send to Rhyme. In the event that the new
+     * template is selected, a blank template is sent; if an existing rhyme is selected, then
+     * the details for that specific saved rhyme are retrieved and passed.
+     * TODO: Need to design generically for when there are multiple rhyme templates.
      */
     public void onClick(View v) {
 
@@ -162,13 +151,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         Intent newIntent = new Intent(this, Rhyme.class);
         newIntent.putExtra("rhyme_template", toSend);
         startActivityForResult(newIntent, 1);
-
-        /*
-        RhymeTemplate selectedRhymeTemplate = templateOptions.get((int)(v.getTag()));
-        Intent newIntent = new Intent(this, NewOrExistingRhyme.class);
-        newIntent.putExtra("rhyme_template", selectedRhymeTemplate);
-        startActivityForResult(newIntent, 1);
-        */
     }
 
     /**
@@ -180,8 +162,9 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         LinearLayout.LayoutParams illustration_params = new LinearLayout.LayoutParams(
                 width, (int)(width * Constants.ASPECT_RATIO)
         );
+
+        RHYME_HEIGHT = (int)(width * Constants.ASPECT_RATIO);
         illustration_params.setMargins(0, 0, 0, 0);
-        //illustration_params.gravity = CENTER;
 
         newIllustration.setTag("NEW");
         newIllustration.setLayoutParams(illustration_params);
@@ -191,6 +174,27 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
     public void ClickedBackButton(View view) {
         onBackPressed();
+    }
+
+    /*
+     * Scrolling happens by default; this is designed to allow the scroll buttons to move the
+     * existing rhymes up and down in addition to scrolling by finger
+     */
+    public void setUpScrollArrows() {
+        up_btn = findViewById(R.id.ScrollUpBtn);
+        down_btn = findViewById(R.id.ScrollDownBtn);
+        up_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                existingRhymesScrollview.smoothScrollBy(0, -(RHYME_HEIGHT + Constants.SEPARATOR_HEIGHT));
+            }
+        });
+        down_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                existingRhymesScrollview.smoothScrollBy(0, RHYME_HEIGHT + Constants.SEPARATOR_HEIGHT);
+            }
+        });
     }
 
 }

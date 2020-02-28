@@ -53,7 +53,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     int height;
     int HEIGHT_UNIT;
     //final double ASPECT_RATIO = 0.6802;
-    final int TEXT_SIZE = 30;
     int CHARACTER_LIMIT = 20; // TODO: Set this dynamically based on screen width
     final char WORD_MARKER_START = '[';
     final char WORD_MARKER_END = ']';
@@ -65,7 +64,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     int selectedButtonIndex;
     ArrayList<double[]> imageCoords = new ArrayList<>();
     Typeface imprima;
-    final double PICTURE_HEIGHT_SCALE = .1615;
     StoryAudioManager storyAudioManager;
     ArrayList<String> wordList = new ArrayList<>();
 
@@ -87,12 +85,16 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         setImageCoords();
 
-        petPartyPicnicSetUp();
+        audioSetUp();
 
-        //fillInRhyme();
+        petPartyPicnicSetUp();
     }
 
-
+    /**
+     * Workaround designed to allow the pictures for pre-existing rhymes to show up in the
+     * illustration when the page first loads. The page layout needs to be set for this to work,
+     * hence why it cannot be included in onCreate.
+     */
     @Override
     public void onWindowFocusChanged(boolean b)
     {
@@ -100,7 +102,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         fillInRhyme();
     }
-
 
     /**
      * Attach audio play button
@@ -128,8 +129,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
 
         Intent newIntent = new Intent(this, MainActivity.class);
-        //newIntent.putExtra("word", selectedWord);
-        //newIntent.putExtra("wrong_words", wrongWords);
 
         selectedButtonIndex = (Integer)v.getTag();
 
@@ -247,19 +246,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     ++index;
                 }
 
-                /*
-                // Used to get periods and spaces on same line as word to fill in.
-                while (index < storyText.length()) {
-                    if (Character.isLetterOrDigit(storyText.charAt(index))) {
-                        ++index;
-                        wordInfo += storyText.charAt(index);
-                    } else {
-                        --index;
-                        break;
-                    }
-                }
-                */
-
                 wordCodes.add(wordInfo);
 
                 currentLine += WORD_MARKERS;
@@ -278,7 +264,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         for (int counter = 0; counter < listOfLines.size(); ++counter) {
             if (!listOfLines.get(counter).contains(WORD_MARKERS)) {
                 TextView singleLine = new TextView(this);
-                singleLine.setTextSize(TEXT_SIZE);
+                singleLine.setTextSize(Constants.STANDARD_TEXT_SIZE);
 
                 String currLine = listOfLines.get(counter);
 
@@ -311,15 +297,13 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 RelativeLayout textAndButton = new RelativeLayout(this);
 
-                //textAndButton.setBackgroundColor(Color.GREEN);
-
                 RelativeLayout.LayoutParams rL_params = new RelativeLayout.LayoutParams(
                         width, (140) // TODO: Set to something meaningful
                 );
                 rL_params.setMargins(0, 0, 0, 0);
 
                 TextView singleLine = new TextView(this);
-                singleLine.setTextSize(TEXT_SIZE);
+                singleLine.setTextSize(Constants.STANDARD_TEXT_SIZE);
                 singleLine.setTypeface(imprima);
 
                 singleLine.setText(trimmed);
@@ -335,7 +319,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 singleLine.setId(1);
 
                 Button blankButton = new Button(this);
-                blankButton.setTextSize(TEXT_SIZE);
+                blankButton.setTextSize(Constants.STANDARD_TEXT_SIZE);
                 blankButton.setTypeface(imprima);
 
                 blankButton.setBackgroundColor(Color.LTGRAY);
@@ -456,26 +440,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         imageCoords.add(image4);
         imageCoords.add(image5);
         imageCoords.add(image6);
-
-        //ArrayList<String> wordList = new ArrayList<String>();
-        // TODO: Put this in the proper spot; currently just loading 15 blanks here for Pet Party
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-        wordList.add("");
-
-        storyAudioManager.setWordList(wordList);
     }
 
     public void loadIllustrationIVs() {
@@ -490,42 +454,42 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         // Image View (Picture of Word Being Quizzed)
         FrameLayout.LayoutParams img_params1 = new FrameLayout.LayoutParams(
-                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE)
         );
 
         img_params1.setMargins((int) (imageCoords.get(0)[0]), (int) (imageCoords.get(0)[1]), 0, 0);
         img1.setLayoutParams(img_params1);
 
         FrameLayout.LayoutParams img_params2 = new FrameLayout.LayoutParams(
-                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE)
         );
 
         img_params2.setMargins((int) (imageCoords.get(1)[0]), (int) (imageCoords.get(1)[1]), 0, 0);
         img2.setLayoutParams(img_params2);
 
         FrameLayout.LayoutParams img_params3 = new FrameLayout.LayoutParams(
-                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE)
         );
 
         img_params3.setMargins((int) (imageCoords.get(2)[0]), (int) (imageCoords.get(2)[1]), 0, 0);
         img3.setLayoutParams(img_params3);
 
         FrameLayout.LayoutParams img_params4 = new FrameLayout.LayoutParams(
-                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE)
         );
 
         img_params4.setMargins((int) (imageCoords.get(3)[0]), (int) (imageCoords.get(3)[1]), 0, 0);
         img4.setLayoutParams(img_params4);
 
         FrameLayout.LayoutParams img_params5 = new FrameLayout.LayoutParams(
-                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE)
         );
 
         img_params5.setMargins((int) (imageCoords.get(4)[0]), (int) (imageCoords.get(4)[1]), 0, 0);
         img5.setLayoutParams(img_params5);
 
         FrameLayout.LayoutParams img_params6 = new FrameLayout.LayoutParams(
-                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+                (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.PICTURE_HEIGHT_SCALE)
         );
 
         img_params6.setMargins((int) (imageCoords.get(5)[0]), (int) (imageCoords.get(5)[1]), 0, 0);
@@ -607,6 +571,17 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             Log.d("Children:", ((Integer)(totalIllustration.getChildCount())).toString());
             //imageCoordIndex++;
         }
+    }
+
+    public void audioSetUp()
+    {
+        //ArrayList<String> wordList = new ArrayList<String>();
+        // TODO: Put this in the proper spot; currently just loading 15 blanks here for Pet Party
+        for (int index = 0; index < 15; ++index) {
+            wordList.add("");
+        }
+
+        storyAudioManager.setWordList(wordList);
     }
 
 }

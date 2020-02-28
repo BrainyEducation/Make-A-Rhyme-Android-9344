@@ -43,25 +43,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Word selectedWord;
     int wordIndex, typeIndex;
     int height, width, elementWidth, elementHeight;
-    final String typeBgColor = "#f4faf8";
     final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
-    //final int SEPARATOR_HEIGHT = 20;
-    final float LOCKED_ALPHA = 0.3f;
-    final int TEXT_SIZE = 30;
     Typeface imprima;
-    LinearLayout typeLL;
-    LinearLayout wordLL;
-    LinearLayout typeWrapper;
+    LinearLayout typeLL, wordLL;
     RelativeLayout topBar;
     int HEIGHT_UNIT;
-    private ScrollView word_scrollview;
-    private ScrollView type_scrollview;
-    private ImageButton up_btnW;
-    private ImageButton down_btnW;
-    private ImageButton up_btnT;
-    private ImageButton down_btnT;
+    private ScrollView word_scrollview, type_scrollview;
+    private ImageButton up_btnW, down_btnW, up_btnT, down_btnT;
 
 
     /**
@@ -77,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sizingSetUp();
         miscellaneousSetUp();
 
+        setUpScroll();
+
         performLayout();
 
         loadTypeToWordMappings();
@@ -85,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         onClick(typeViews.get(0));
     }
-
 
     /**
      * Responsible for changing the words on the right side of the screen when a type is selected;
@@ -122,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempWordText.setText(wordList.get(index).getText());
             tempWordText.setBackgroundColor(Color.WHITE);
             tempWordText.setTextColor(Color.BLACK);
-            tempWordText.setTextSize(TEXT_SIZE);
+            tempWordText.setTextSize(Constants.STANDARD_TEXT_SIZE);
             tempWordText.setTypeface(imprima);
 
             View separator = new View(this);
@@ -131,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (wordList.get(index).getLockedStatus()) {
                 // Is Locked
-                tempWordImage.setAlpha(LOCKED_ALPHA);
+                tempWordImage.setAlpha(Constants.LOCKED_ALPHA);
             } else {
                 // Is Unlocked
                 tempWordImage.setAlpha(1);
@@ -142,17 +133,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             wordLL.addView(tempWordText);
             wordLL.addView(separator);
         }
-//        down_btnW = new FloatingActionButton(this);
-//        down_btnW.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-//        down_btnW.setImageResource(R.drawable.down_arrow);
-//        down_btnW.setBackground(null);
-//        down_btnW.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                word_scrollview.smoothScrollBy(0, 500);
-//            }
-//        });
-//        wordLL.addView(down_btnW);
     }
 
     /**
@@ -350,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (updatingActiveType) {
             for (int index = 0; index < typeViews.size(); ++index) {
                 if (typeIndex != index) {
-                    typeViews.get(index).setBackgroundColor(Color.parseColor(typeBgColor));
+                    typeViews.get(index).setBackgroundColor(getResources().getColor(R.color.colorButton));
                 }
             }
         }
@@ -491,35 +471,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         down_btnW = findViewById(R.id.WordScrollDownBtn);
         up_btnT = findViewById(R.id.TypeScrollUpBtn);
         down_btnT = findViewById(R.id.TypeScrollDownBtn);
-        up_btnW.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                word_scrollview.smoothScrollBy(0, -500);
-            }
-        });
-        down_btnW.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                word_scrollview.smoothScrollBy(0, 500);
-            }
-        });
-        up_btnT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                type_scrollview.smoothScrollBy(0, -500);
-            }
-        });
-        down_btnT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                type_scrollview.smoothScrollBy(0, 500);
-            }
-        });
         typeLL = findViewById(R.id.TypeLL);
         wordLL = findViewById(R.id.WordLL);
         topBar = findViewById(R.id.topLayout);
-//        typeWrapper = findViewById(R.id.TypeWrapper);
-//        scrollColumns = findViewById(R.id.ScrollingCols);
     }
 
     /**
@@ -544,8 +498,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             tempType.setText(typeList.get(index));
             tempType.setTag(typeList.get(index)); // Set tag to the name of the type
-            tempType.setBackgroundColor(Color.parseColor(typeBgColor));
-            tempType.setTextSize(TEXT_SIZE);
+            tempType.setBackgroundColor(getResources().getColor(R.color.colorButton));
+            tempType.setTextSize(Constants.STANDARD_TEXT_SIZE);
             tempType.setTypeface(imprima);
             tempType.setOnClickListener(MainActivity.this);
 
@@ -561,20 +515,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             typeLL.addView(generateImagePreview(tempType));
             typeLL.addView(separator);
         }
-//        down_btnT = new ImageButton(this);
-//        down_btnT.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-//        down_btnT.setImageResource(R.drawable.down_arrow);
-//        down_btnT.setBackground(null);
-//        down_btnT.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                type_scrollview.smoothScrollBy(0, 500);
-//            }
-//        });
-//        typeWrapper.addView(down_btnT, 0);
-//        typeWrapper.addView(typeLL, 1);
     }
 
+    /*
+     * Responsible for laying out the two images that represent a category; these are the two
+     * first words for each category (as of writing, they are loaded alphabetically).
+     */
     private LinearLayout generateImagePreview(Button exampleButton) {
         LinearLayout linearElement = new LinearLayout(this);
         for (int i = 0; i < 2; i++) {
@@ -600,4 +546,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         onBackPressed();
     }
 
+    /*
+     * Scrolling happens by default; this is designed to allow the scroll buttons to move the
+     * category and word choices up and down in addition to scrolling by finger
+     */
+    public void setUpScroll()
+    {
+        up_btnW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                word_scrollview.smoothScrollBy(0, -500);
+            }
+        });
+        down_btnW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                word_scrollview.smoothScrollBy(0, 500);
+            }
+        });
+        up_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, -500);
+            }
+        });
+        down_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, 500);
+            }
+        });
+    }
 }

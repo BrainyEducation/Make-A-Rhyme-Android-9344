@@ -34,16 +34,12 @@ import static android.view.Gravity.CENTER;
 public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
     Word lockedWord;
-    ArrayList<String> categoryWords;
-    ArrayList<String> letterWords;
-    ArrayList<String> lengthWords;
-    ArrayList<String> otherWords;
+    ArrayList<String> categoryWords, letterWords, lengthWords, otherWords;
     String correctChoiceNum = "0";
     Button choice1, choice2, choice3, choice4;
     ImageView starIV1, starIV2, starIV3;
     int correctStreak = 0;
     Typeface imprima;
-    //final String CHOICE_BOX_COLOR = "#9370DB";
     int height, width;
     int HEIGHT_UNIT;
     ImageView topIV;
@@ -52,9 +48,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     LinearLayout topTwoOptions, bottomTwoOptions, encompassing;
     int lockedWordImageResourceID;
     final int NUM_CHOICES = 4;
-    final int TEXT_SIZE = 40;
     int buttonColor = Color.parseColor("#f4faf8");
-    //final int textSize = 40;
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -77,6 +71,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
         playWordAudio();
     }
+
     /**
      * Picks a word from the selected category. If the category is empty, picks a word from otherwords
      */
@@ -88,6 +83,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         String wrongWord = list.get(randomChoice);
         return wrongWord;
     }
+
     /**
      * Picks out the wrong answers and places them in the boxes; then places the correct answer
      * randomly in one of the boxes
@@ -208,19 +204,19 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     {
         choice1 = new Button(this);
         choice1.setTag("1");
-        choice1.setTextSize(TEXT_SIZE);
+        choice1.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice1.setTypeface(imprima);
         choice2 = new Button(this);
         choice2.setTag("2");
-        choice2.setTextSize(TEXT_SIZE);
+        choice2.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice2.setTypeface(imprima);
         choice3 = new Button(this);
         choice3.setTag("3");
-        choice3.setTextSize(TEXT_SIZE);
+        choice3.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice3.setTypeface(imprima);
         choice4 = new Button(this);
         choice4.setTag("4");
-        choice4.setTextSize(TEXT_SIZE);
+        choice4.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice4.setTypeface(imprima);
 
         choice1.setOnClickListener(this);
