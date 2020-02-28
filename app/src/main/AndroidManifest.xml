@@ -17,7 +17,10 @@
             android:name=".Quiz"
             android:label="@string/title_activity_quiz"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".NameFriend"
+            android:label="@string/title_activity_name_friend"
+            android:theme="@style/AppTheme.NoActionBar" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

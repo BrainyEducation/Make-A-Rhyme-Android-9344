@@ -131,7 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempWordText.setOnClickListener(MainActivity.this);
 
             tempWordText.setTag(wordList.get(index).getText());
-            tempWordText.setText(wordList.get(index).getText());
+            if(currType != "Friends")
+                tempWordText.setText(wordList.get(index).getText());
             tempWordText.setBackgroundColor(Color.WHITE);
             tempWordText.setTextColor(Color.BLACK);
             tempWordText.setTextSize(TEXT_SIZE);
@@ -229,6 +230,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         words[i][j], words[i][j], words[i][0].toLowerCase()));
             typeToWordMapping.put(words[i][0], wordlist);
         }
+        typeList.add("Friends");
+        ArrayList<Word> friendList = new ArrayList<>();
+        for(int j = 1; j < 3; j++) {
+            if(j == 2)
+                friendList.add(new Word("boy_" + j, false, "boy_" + j, "", "Friends"));
+            else
+                friendList.add(new Word("girl_" + j, false, "girl_" + j, "", "Friends"));
+        }
+        typeToWordMapping.put("Friends", friendList);
     }
 
     /**
@@ -283,42 +293,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             wordIndex = matchIndex;
             selectedWord = wordList.get(matchIndex);
-
-            for(String s: typeToWordMapping.keySet()) {
-                if (s != activeType)
-                    for(Word w: typeToWordMapping.get(s)) {
-                        if (w.getText().length() == selectedWord.getText().length())
-                            lengthWords.add(w.getText());
-                        else if(w.getText().charAt(0) == selectedWord.getText().charAt(0))
-                            letterWords.add(w.getText());
-                        else
-                            otherWords.add(w.getText());
-                    }
-            }
-
-            if (switchingActivities) {
-                wordIndex = matchIndex;
-                selectedWord = wordList.get(matchIndex);
-
-                if (!selectedWord.getLockedStatus()) {
-                    Handler returnHandler = new Handler();
-                    returnHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("word", selectedWord);
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
+            if(selectedWord.getAudioName().length() > 0) {
+                //Most words
+                for (String s : typeToWordMapping.keySet()) {
+                    if (s != activeType)
+                        for (Word w : typeToWordMapping.get(s)) {
+                            if (w.getText().length() == selectedWord.getText().length())
+                                lengthWords.add(w.getText());
+                            else if (w.getText().length() > 0 && w.getText().charAt(0) == selectedWord.getText().charAt(0))
+                                letterWords.add(w.getText());
+                            else if (w.getText().length() > 0)
+                                otherWords.add(w.getText());
                         }
-                    }, 0);   // Instantaneous
-                } else {
-                    Intent newIntent = new Intent(this, Quiz.class);
-                    newIntent.putExtra("word", selectedWord);
-                    newIntent.putExtra("category_words", categoryWords);
-                    newIntent.putExtra("length_words", lengthWords);
-                    newIntent.putExtra("letter_words", letterWords);
-                    newIntent.putExtra("other_words", otherWords);
-                    startActivityForResult(newIntent, 1);
                 }
+
+                if (switchingActivities) {
+                    wordIndex = matchIndex;
+                    selectedWord = wordList.get(matchIndex);
+
+                    if (!selectedWord.getLockedStatus()) {
+                        Handler returnHandler = new Handler();
+                        returnHandler.postDelayed(new Runnable() {
+                            public void run() {
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra("word", selectedWord);
+                                setResult(Activity.RESULT_OK, returnIntent);
+                                finish();
+                            }
+                        }, 0);   // Instantaneous
+                    } else {
+                        Intent newIntent = new Intent(this, Quiz.class);
+                        newIntent.putExtra("word", selectedWord);
+                        newIntent.putExtra("category_words", categoryWords);
+                        newIntent.putExtra("length_words", lengthWords);
+                        newIntent.putExtra("letter_words", letterWords);
+                        newIntent.putExtra("other_words", otherWords);
+                        startActivityForResult(newIntent, 1);
+                    }
+                }
+            }
+            else
+            {
+                //Friends
+                Intent newIntent = new Intent(this, NameFriend.class);
+                newIntent.putExtra("word", selectedWord);
+                startActivityForResult(newIntent, 2);
             }
         }
 
@@ -337,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * so the word will be unlocked
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
@@ -349,6 +368,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("word", selectedWord);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                }, 0);   // Instantaneous
+
+            }
+        }
+        else if (requestCode == 2) {
+            if(resultCode == Activity.RESULT_OK){
+                Handler returnHandler = new Handler();
+                returnHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        Intent returnInt ent = new Intent();
+                        String name = data.getStringExtra("name");
+                        returnIntent.putExtra("word", new Word(name, false, selectedWord.getImageName(), name, "Friends"));
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
