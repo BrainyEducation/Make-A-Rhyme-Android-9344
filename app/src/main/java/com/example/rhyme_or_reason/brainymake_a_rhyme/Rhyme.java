@@ -8,15 +8,20 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
 
 import java.util.ArrayList;
 
@@ -28,6 +33,19 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageView illustration;
     LinearLayout rhymeTextLL;
     ImageView img;
+    ImageButton rhymeUpBtn;
+    ImageButton rhymeDownBtn;
+    ScrollView rhymeScroll;
+    ImageButton iB;
+
+    ImageView img1;
+    ImageView img2;
+    ImageView img3;
+    ImageView img4;
+    ImageView img5;
+    ImageView img6;
+
+    ArrayList<ImageView> illustrationIVs = new ArrayList<>();
 
     int imageCoordIndex = 0;
     int width;
@@ -40,34 +58,57 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     final char WORD_MARKER_END = ']';
     final String WORD_MARKERS = "[]";
     final int NUM_SPACES = 5;
+    boolean displayPlayButton = true;
     ArrayList<String> wordCodes = new ArrayList<>();
     ArrayList<Button> listOfButtons = new ArrayList<>();
     int selectedButtonIndex;
     ArrayList<double[]> imageCoords = new ArrayList<>();
     Typeface imprima;
     final double PICTURE_HEIGHT_SCALE = .1615;
+    StoryAudioManager storyAudioManager;
+    ArrayList<String> wordList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        storyAudioManager = new StoryAudioManager(this);
         setContentView(R.layout.activity_rhyme);
 
         miscellaneousSetUp();
 
         sizingSetUp();
 
-        setImageCoords();
-
         loadIntentsAndViews();
 
         loadIllustrationImage();
+
+        setImageCoords();
 
         petPartyPicnicSetUp();
     }
 
     /**
+     * Attach audio play button
+     */
+    public void onPlayAudio(View v) {
+        //ImageButton iB = findViewById(R.id.playButton);
+
+        if (displayPlayButton) {
+            storyAudioManager.playStoryThread("Pet Party Picnic Story");
+            displayPlayButton = false;
+            iB.setImageResource(R.drawable.ic_pause);
+
+        } else {
+            storyAudioManager.setContinueAudioFlag(false);
+            displayPlayButton = true;
+            iB.setImageResource(R.drawable.ic_play);
+        }
+    }
+
+    /**
      * Occurs when the user selects an empty gap to fill with a word; saves the index of the button
      * that needs to be filled in.
+     * TODO: Add Comment
      */
     public void onClick(View v) {
 
@@ -78,6 +119,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         selectedButtonIndex = (Integer)v.getTag();
 
         startActivityForResult(newIntent, 1);
+        storyAudioManager.setContinueAudioFlag(false);
+        displayPlayButton = true;
+        iB.setImageResource(R.drawable.ic_play);
+
     }
 
     /**
@@ -90,6 +135,25 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         illustration = findViewById(R.id.illustration);
 
         rhymeTextLL = findViewById(R.id.RhymeLL);
+
+        rhymeScroll = findViewById(R.id.RhymeScrollView);
+
+        iB = findViewById(R.id.playButton);
+
+        rhymeUpBtn = findViewById(R.id.RhymeUpButton);
+        rhymeDownBtn = findViewById(R.id.RhymeDownButton);
+        rhymeUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rhymeScroll.smoothScrollBy(0, -500);
+            }
+        });
+        rhymeDownBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rhymeScroll.smoothScrollBy(0, 500);
+            }
+        });
     }
 
     /**
@@ -297,27 +361,40 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 //selectedWord.setUnlocked();
                 Word selected = (Word)data.getSerializableExtra("word");
 
+                wordList.set(selectedButtonIndex, selected.getText());
+
+                // Update the wordList
+                storyAudioManager.setWordList(wordList);
+
                 System.out.println(wordCodes.get(selectedButtonIndex));
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
-                if (selected.getType().equals("animals") == true || selected.getType().equals("food") == true) {
-                    if (imageCoordIndex >= imageCoords.size()) {
-                        imageCoordIndex = 0;
+                if (selectedButtonIndex < imageCoords.size()) {
+
+                    try {
+                        totalIllustration.removeView(illustrationIVs.get(selectedButtonIndex));
+                    } catch (Exception e) {
+                        // Image Views haven't been set yet; create them
+                        Log.println(Log.WARN, "Remove ImgView", "No pre-existing image view found");
+                        loadIllustrationIVs();
+                        totalIllustration.removeView(illustrationIVs.get(selectedButtonIndex)); // now can remove the image
                     }
+                    /*
                     img = new ImageView(this);
 
                     // Image View (Picture of Word Being Quizzed)
                     FrameLayout.LayoutParams img_params = new FrameLayout.LayoutParams(
                             (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
                     );
-                    img_params.setMargins((int) (imageCoords.get(imageCoordIndex)[0]), (int) (imageCoords.get(imageCoordIndex)[1]), 0, 0);
+                    img_params.setMargins((int) (imageCoords.get(selectedButtonIndex)[0]), (int) (imageCoords.get(selectedButtonIndex)[1]), 0, 0);
 
                     img.setLayoutParams(img_params);
-
+                    */
                     int resourceID = getResources().getIdentifier(selected.getImageName(), "drawable", getPackageName());
-                    img.setImageResource(resourceID);
-                    totalIllustration.addView(img);
-                    imageCoordIndex++;
+                    illustrationIVs.get(selectedButtonIndex).setImageResource(resourceID);
+                    //img.setImageResource(resourceID);
+                    totalIllustration.addView(illustrationIVs.get(selectedButtonIndex));
+                    //imageCoordIndex++;
                 }
             }
         }
@@ -353,6 +430,92 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         imageCoords.add(image4);
         imageCoords.add(image5);
         imageCoords.add(image6);
+
+        //ArrayList<String> wordList = new ArrayList<String>();
+        // TODO: Put this in the proper spot; currently just loading 15 blanks here for Pet Party
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+        wordList.add("");
+
+        storyAudioManager.setWordList(wordList);
+    }
+
+    public void loadIllustrationIVs() {
+        img1 = new ImageView(this);
+        img2 = new ImageView(this);
+        img3 = new ImageView(this);
+        img4 = new ImageView(this);
+        img5 = new ImageView(this);
+        img6 = new ImageView(this);
+
+        // Image View (Picture of Word Being Quizzed)
+        FrameLayout.LayoutParams img_params1 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params1.setMargins((int) (imageCoords.get(0)[0]), (int) (imageCoords.get(0)[1]), 0, 0);
+        img1.setLayoutParams(img_params1);
+
+        FrameLayout.LayoutParams img_params2 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params2.setMargins((int) (imageCoords.get(1)[0]), (int) (imageCoords.get(1)[1]), 0, 0);
+        img2.setLayoutParams(img_params2);
+
+        FrameLayout.LayoutParams img_params3 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params3.setMargins((int) (imageCoords.get(2)[0]), (int) (imageCoords.get(2)[1]), 0, 0);
+        img3.setLayoutParams(img_params3);
+
+        FrameLayout.LayoutParams img_params4 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params4.setMargins((int) (imageCoords.get(3)[0]), (int) (imageCoords.get(3)[1]), 0, 0);
+        img4.setLayoutParams(img_params4);
+
+        FrameLayout.LayoutParams img_params5 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params5.setMargins((int) (imageCoords.get(4)[0]), (int) (imageCoords.get(4)[1]), 0, 0);
+        img5.setLayoutParams(img_params5);
+
+        FrameLayout.LayoutParams img_params6 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params6.setMargins((int) (imageCoords.get(5)[0]), (int) (imageCoords.get(5)[1]), 0, 0);
+        img6.setLayoutParams(img_params6);
+
+        illustrationIVs.add(img1);
+        illustrationIVs.add(img2);
+        illustrationIVs.add(img3);
+        illustrationIVs.add(img4);
+        illustrationIVs.add(img5);
+        illustrationIVs.add(img6);
+
+        totalIllustration.addView(img1);
+        totalIllustration.addView(img2);
+        totalIllustration.addView(img3);
+        totalIllustration.addView(img4);
+        totalIllustration.addView(img5);
+        totalIllustration.addView(img6);
 
     }
 

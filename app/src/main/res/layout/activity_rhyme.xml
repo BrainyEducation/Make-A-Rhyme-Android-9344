@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,11 +26,11 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:onClick="ClickedBackButton"
+                android:padding="0dp"
                 android:text="&lt;"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif"
-                android:padding="0dp"/>
+                android:typeface="serif" />
 
             <Button
                 android:id="@+id/HelpButton"
@@ -40,11 +41,11 @@
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:onClick="ClickedHelpButton"
+                android:padding="0dp"
                 android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif"
-                android:padding="0dp"/>
+                android:typeface="serif" />
 
         </RelativeLayout>
 
@@ -58,8 +59,31 @@
                 android:id="@+id/illustration"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
+            <ImageButton
+                android:id="@+id/RhymeUpButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:src="@drawable/up_arrow"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_gravity="bottom"
+                ></ImageButton>
         </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="92dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="89dp"
+            android:layout_marginBottom="6dp"
+            android:layout_toStartOf="@+id/HelpButton"
+            android:layout_toEndOf="@+id/BackButton"
+            android:background="@null"
+            android:onClick="onPlayAudio"
+            app:srcCompat="@drawable/ic_play" />
 
         <RelativeLayout
             android:id="@+id/ScrollingSection"
@@ -68,10 +92,9 @@
             android:orientation="vertical">
 
         <ScrollView
-            android:id="@+id/TypeScrollView"
+            android:id="@+id/RhymeScrollView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_weight="1">
 
@@ -83,8 +106,16 @@
                 android:background="#FFF">
             </LinearLayout>
         </ScrollView>
-        </RelativeLayout>
+            <ImageButton
+                android:id="@+id/RhymeDownButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:src="@drawable/down_arrow"
+                android:layout_alignParentBottom="true"
+                style="?android:attr/borderlessButtonStyle"
+                ></ImageButton>
 
+        </RelativeLayout>
 
     </LinearLayout>
 
