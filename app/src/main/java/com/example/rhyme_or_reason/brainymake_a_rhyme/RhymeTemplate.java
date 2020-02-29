@@ -2,6 +2,8 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -25,12 +27,15 @@ public class RhymeTemplate implements Serializable {
     private ArrayList<Word> chosenWords = new ArrayList<>();
     private static ArrayList<String> serializedUnlockedWords;
     private static Context ioContext;
+    private byte[] savedIllustration;
+    private int numBlanks;
 
     public RhymeTemplate(String name, String imageName, Boolean locked, int numBlanks, int numImages) {
         this.name = name;
         this.imageName = imageName;
         this.locked = locked;
         this.numImages = numImages;
+        this.numBlanks = numBlanks;
         while(chosenWords.size() < numBlanks) chosenWords.add(null);
     }
 
@@ -50,11 +55,22 @@ public class RhymeTemplate implements Serializable {
         return locked;
     }
 
+    public int getNumBlanks() {
+        return numBlanks;
+    }
     public int getNumImages() {
         return numImages;
     }
 
     public ArrayList<Word> getChosenWords() { return chosenWords; }
+
+    public byte[] getSavedIllustration() {
+        return this.savedIllustration;
+    }
+
+    public void setSavedIllustration(byte[] savedIllustration) {
+        this.savedIllustration = savedIllustration;
+    }
 
     /*
      * TODO: Need to update so that will work for multiple rhyme stories

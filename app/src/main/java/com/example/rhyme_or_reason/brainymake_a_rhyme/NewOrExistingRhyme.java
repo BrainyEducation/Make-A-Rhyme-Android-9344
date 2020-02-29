@@ -1,6 +1,9 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
@@ -42,6 +45,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_or_existing_rhyme);
 
+        System.out.println("Hit oncreate.");
+
         sizingSetUp();
 
         loadIntentsAndViews();
@@ -50,7 +55,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
         loadNewIllustrationImage();
 
-        loadExistingRhymes();
+        loadExistingRhymes(false);
 
         setUpScrollArrows();
     }
@@ -78,6 +83,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     {
         chosenRhymeTemplate = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
 
+        chosenRhymeTemplate = new RhymeTemplate(chosenRhymeTemplate.getName(), chosenRhymeTemplate.getImageName(), chosenRhymeTemplate.getLocked(), chosenRhymeTemplate.getNumBlanks(), chosenRhymeTemplate.getNumImages());
+
         newIllustration = findViewById(R.id.newIllustration);
 
         existingRhymesScrollview = findViewById(R.id.ExistingRhymesScrollView);
@@ -90,24 +97,43 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     /**
      * Called when the page first loads; lays out the existing story templates created by the child
      * in previous sessions. These are unnamed and only feature a picture of the rhyme.
-     * TODO: Need rhyme template illustrations that have the pictures inserted
      */
-    public void loadExistingRhymes() {
+    public void loadExistingRhymes(boolean justReturned) {
 
         int numExistingRhymes = getNumberOfExistingRhymes(this.getApplicationContext());
 
+        // If there are no rhymes, we skip the view, either in the forwards or backwards direction.
+        if (numExistingRhymes == 0) {
+            if (!justReturned) {
+                onClick(newIllustration);
+            } else {
+                onBackPressed();
+            }
+        }
+
         for (int index = 0; index < numExistingRhymes; ++index) {
 
+            System.out.println("1");
+
             RhymeTemplate currRhyme = retrieveRhymeTemplate(this.getApplicationContext(), index);
+
+            System.out.println("2");
 
             ImageView rhymeImage = new ImageView(this);
             rhymeImage.setTag(index);
             rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int) (width * Constants.ASPECT_RATIO)));
-            int pictureResourceID = getResources().getIdentifier(currRhyme.getImageName(), "drawable", getPackageName());
+            //int pictureResourceID = getResources().getIdentifier(currRhyme.getImageName(), "drawable", getPackageName());
+
+            byte[] savedIllustration =  currRhyme.getSavedIllustration();
+            Bitmap savedIllustrationBitmap = BitmapFactory.decodeByteArray(savedIllustration,0,savedIllustration.length);
+
+            rhymeImage.setImageBitmap(savedIllustrationBitmap);
+
+            System.out.println("3");
 
             rhymeImage.setOnClickListener(this);
 
-            rhymeImage.setImageResource(pictureResourceID);
+            //rhymeImage.setImageResource(pictureResourceID);
 
             View separator = new View(this);
 
@@ -137,6 +163,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
      */
     public void onClick(View v) {
 
+        System.out.println("Hit onClick.");
+
         // Need to update this
 
         RhymeTemplate toSend;
@@ -149,6 +177,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         }
 
         Intent newIntent = new Intent(this, Rhyme.class);
+        toSend.setSavedIllustration(null);
         newIntent.putExtra("rhyme_template", toSend);
         startActivityForResult(newIntent, 1);
     }
@@ -195,6 +224,21 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
                 existingRhymesScrollview.smoothScrollBy(0, RHYME_HEIGHT + Constants.SEPARATOR_HEIGHT);
             }
         });
+    }
+
+    /**
+     * Responsible for updating the list of existing rhymes, or returning to the main menu if
+     * there are no existing rhymes.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        onBackPressed();
+        /*
+        System.out.println("Hit activity result.");
+        existingRhymesLL.removeAllViews();
+        loadExistingRhymes(true);
+        */
     }
 
 }

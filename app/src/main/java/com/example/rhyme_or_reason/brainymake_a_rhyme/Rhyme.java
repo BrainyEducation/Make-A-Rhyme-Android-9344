@@ -2,6 +2,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
@@ -146,6 +148,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     {
         currRhyme = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
 
+        if (currRhyme.getSavedIllustration() != null) {
+            System.out.println(currRhyme.getSavedIllustration().toString());
+        } else {
+            System.out.println("Is Null.");
+        }
         totalIllustration = findViewById(R.id.totalIllustration);
 
         illustration = findViewById(R.id.illustration);
@@ -510,7 +517,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         totalIllustration.addView(img4);
         totalIllustration.addView(img5);
         totalIllustration.addView(img6);
-
     }
 
     /**
@@ -518,7 +524,17 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void ClickedBackButton(View view) {
 
+        Bitmap illustrationBitmap = takeScreenShot();
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        illustrationBitmap.compress(Bitmap.CompressFormat.JPEG,50,stream);
+
+        // Create a byte array from ByteArrayOutputStream
+        byte[] byteArray = stream.toByteArray();
+
         if (insertedWord) {
+            currRhyme.setSavedIllustration(byteArray);
             currRhyme.saveRhymeTemplate(this.getApplicationContext());
         }
         onBackPressed();
@@ -573,6 +589,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * Currently adds 15 blanks (For Pet Party Picnic) that will be changed as words are added;
+     * this will need to be parameterized when we accomodate for different rhyme templates.
+     */
     public void audioSetUp()
     {
         //ArrayList<String> wordList = new ArrayList<String>();
@@ -584,4 +604,14 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         storyAudioManager.setWordList(wordList);
     }
 
+    /**
+     * Takes a screenshot of only the illustration part of the screen to be used in emails and
+     * previews on the choose existing rhymes screen.
+     */
+    public Bitmap takeScreenShot() {
+        totalIllustration.setDrawingCacheEnabled(true);
+        Bitmap illustrationBitmap = Bitmap.createBitmap(totalIllustration.getDrawingCache());
+        totalIllustration.setDrawingCacheEnabled(false);
+        return illustrationBitmap;
+    }
 }
