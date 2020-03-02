@@ -138,7 +138,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         storyAudioManager.setContinueAudioFlag(false);
         displayPlayButton = true;
         iB.setImageResource(R.drawable.ic_play);
-
     }
 
     /**

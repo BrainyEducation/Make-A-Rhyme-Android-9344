@@ -151,7 +151,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
      */
     public void miscellaneousSetUp()
     {
-        Word.initialize(this.getApplicationContext());
+        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
     }
 

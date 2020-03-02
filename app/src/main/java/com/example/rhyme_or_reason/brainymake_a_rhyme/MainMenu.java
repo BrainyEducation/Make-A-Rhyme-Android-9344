@@ -131,7 +131,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
      */
     public void miscellaneousSetUp()
     {
-        Word.initialize(this.getApplicationContext());
+        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
         RHYME_HEIGHT = (int)(width * Constants.ASPECT_RATIO);
     }

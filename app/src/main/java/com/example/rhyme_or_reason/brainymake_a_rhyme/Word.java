@@ -1,6 +1,10 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -27,15 +31,16 @@ public class Word implements Serializable {
     public Word(String text, Boolean locked, String imageName, String audioName, String type)
     {
         this.text = text;
-        this.locked = locked && !serializedUnlockedWords.contains(text);
+        this.locked = locked;
         this.imageName = imageName;
         this.audioName = audioName;
         this.type = type;
     }
 
-    public void setUnlocked()
-    {
+
+    public void setUnlocked() {
         this.locked = false;
+        /*
         try{
             FileOutputStream fos = ioContext.openFileOutput("UnlockedWords", Context.MODE_APPEND);
             PrintStream printstream = new PrintStream(fos);
@@ -43,12 +48,10 @@ public class Word implements Serializable {
             fos.close();
 
         } catch (FileNotFoundException fnfe) {
-            /* shouldn't happen while writing to a file */
             throw new IllegalArgumentException(fnfe);
         } catch (IOException ioe) {
-        /* shouldn't happen while writing to a file */
         throw new IllegalArgumentException(ioe);
-        }
+        }*/
     }
 
     public Boolean getLockedStatus() {
@@ -72,6 +75,7 @@ public class Word implements Serializable {
 
     public String getType() { return this.type; }
 
+    /*
     public static void initialize(Context context)
     {
         serializedUnlockedWords = new ArrayList<>();
@@ -92,7 +96,45 @@ public class Word implements Serializable {
                 //shouldn't happen, if it does, something went wrong
                 throw new IllegalArgumentException(e);
             }
-        } catch (FileNotFoundException fnfe) {/*If file doesn't exist, it's new and should stay empty*/}
+        } catch (FileNotFoundException fnfe) {//If file doesn't exist, it's new and should stay empty
 
+        }
+
+    }
+    */
+
+    /*
+     *
+     */
+    public void saveWord(Context context)
+    {
+        // Get the number of saved rhymes
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+
+        String wordString = this.text;
+
+        String json = gson.toJson(this);
+        prefsEditor.putString("SavedWord" + wordString, json);
+        prefsEditor.commit();
+    }
+
+    /*
+     *
+     */
+    public static Word retrieveWord(Context context, String wordString, String category) {
+
+        try {
+            SharedPreferences appSharedPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            Gson gson = new Gson();
+            String json = appSharedPrefs.getString("SavedWord" + wordString, "");
+            return gson.fromJson(json, Word.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

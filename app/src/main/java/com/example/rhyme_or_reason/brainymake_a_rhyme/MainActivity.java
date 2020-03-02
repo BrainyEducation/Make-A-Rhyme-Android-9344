@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void loadTypeToWordMappings()
     {
+        /*
         // Animals
         typeList.add("Animals");
         ArrayList<Word> animals = new ArrayList<>();
@@ -176,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         animals.add(new Word("zebra", true, "zebra", "zebra", "animals"));
 
         typeToWordMapping.put("Animals", animals);
-
 
         // Birds
         typeList.add("Birds");
@@ -303,6 +303,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         numbers.add(new Word("sixteen", true, "sixteen", "sixteen", "numbers"));
 
         typeToWordMapping.put("Numbers", numbers);
+        */
+
+        String[][] words = new String[][] { {"People", "baby", "boy", "brother", "child", "clown",
+                "cook", "dancer", "family", "father", "girl", "grandma", "grandpa", "juggler",
+                "king", "man", "mother", "nurse", "queen", "sister", "twins"},
+                {"Pretend", "centaur", "cyclops", "dragon", "elf", "fairy", "mermaid", "yeti"},
+                {"Body Parts", "ankle", /*"arm",*/ "chin", "elbow", "face", "feet", "foot", "hair",
+                        "hand", "head", "lip", "mouth", "nose", "thigh", "thumb", "toe"},
+                {"Animals", "ape", /*"ant"*/ "bat", "bear", "bee", "camel", "cat", "centipede",
+                        "collie", "cow", "cub", "dog", "dogs", "donkey", "elk", /*"fly",*/ "fox",
+                        "goat", "kitten", "mole", "monkey", "moth", "mouse", "paw",/*"pet",*/"pig",
+                        "rabbit", /*"ram",*/ "sheep", "skunk", "snail", "tail", "tiger", "toad",
+                        "wasp", "whale", "wolf", "worms", "zebra"},
+                {"Water Animals", "beaver", "clam", "crab", "fish", "frog", "gator", "oyster",
+                        "seal", "shark"},
+                {"Birds", "bird", "canary", "hen", "jay", "ostrich", "owl", "parrot", "swan"},
+                {"Things", "bags", "bed", "blanket", "box", "brick", "broom", "bubble", "cast",
+                        "clarinet","clock", "coin", "cushion",/*"fashion",*/"flute", "fork", "fridge",
+                        /*"fright",*/ "fringe", "glass"},
+                {"House Stuff", "key", "light", "mirror", "money", "music", "net", "oven", "pan",
+                        "pearl", "pencil", "plug", "poison", "pot", "prize", "quiz", "saucepan",
+                        "skis", "soap", "sofa", /*"spoon",*/"squares",/*"string",*/"toilet", "tuba",
+                        "wheel", "zipper"},
+                {"Toys", "ball", "block", "boat", "car", "crayon", "doll", "jeep", "jet", "present",
+                        "puppet", "slide", "stilts", "swing",/*"toys",*/"truck", "unicycle", "wagon",
+                        "yoyo"},
+                {"Tools", "axe", "drill", "hatchet", "hoe", "nail", "rake", "saw", "tools"},
+                {"Clothes", "boots", "clothes", /*"dress",*/"glove", "hoodie", "jacket", "purse",
+                        "ring", "scarf", "shirt", "suit", "tie", "veil", "wig"},
+                {"Vehicles", "ambulance", "boat", "bug", "bus", "car", "cars", "dozer", "go_kart",
+                        "jeep", "moped", "plane", "taxi", "truck", "van"},
+                {"Food", "apple", "bread", "burger", "cake", "candy",/*"carrot",*/"cone", "cookies",
+                        "corn","grapes","hotdog","lettuce","milk","nuts","pie","plum","pretzel",
+                        "snack","tea"},
+                {"Places", "bridge", "hill", "house", "park", "school", "volcano", "zoo"},
+                {"Outdoors", "air", "fern", "flag", "grass", "ice", /*"leaf",*/ "moon", "rain",
+                        "rainbow", "sky", "snow", "star", "statue", /*"straw",*/ "tree", "wall", "wind"},
+                {"Doing", "balance", "blew", "burn", "chew", "chop", "clean", "cry", "cut", "dig",
+                        "draw", /*"drive",*/ "fall", "fish", "flew", /*"float", "fly", "glue",*/ "hit",
+                        "hug", "juggle", "jump", "lick", "look", "love", "paint", "play", "read",
+                        "rescue", "scold", "see", "sing", "ski", "skip", "sleep", "slip", "smell",
+                        "smile", "spill", "stand", "stop", "swim", /*"throw"*/ "twinkle", "wash",
+                        /*"weigh",*/ "whisper", "yawn"},
+                {"Describe", "afraid", "cloudy", "dark", "eight", "eight", "five", "high", "hot",
+                        "loud", "naughty", "old", "quiet", "rude", "silly", "six", "sixteen",
+                        "sleepy", "slow", "smart", "stripes", "twelve"},
+                {"Colors", "black", "blue", "brown", "gold", "green", "purple", "red", "silver",
+                        "white", "yellow"}
+        };
+
+        for(int i = 0; i < words.length; i++)
+        {
+            typeList.add(words[i][0]);
+            ArrayList<Word> wordlist = new ArrayList<>();
+            for(int j = 1; j < words[i].length; j++) {
+                Word currWord = Word.retrieveWord(this.getApplicationContext(), words[i][j], words[i][0].toLowerCase());
+                //wordlist.add(new Word(words[i][j].replaceAll("_", " "), true,
+                        //words[i][j], words[i][j], words[i][0].toLowerCase()));
+                if (currWord == null) {
+                    currWord = new Word(words[i][j], true, words[i][j], words[i][j], words[i][0].toLowerCase());
+                }
+                wordlist.add(currWord);
+                //System.out.println(currWord);
+                //System.out.println(currWord.getImageName());
+                //System.out.println();
+            }
+            //System.out.println(words[i][0]);
+            //System.out.println(words[i]);
+            typeToWordMapping.put(words[i][0], wordlist);
+        }
     }
 
     /**
@@ -416,6 +486,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 selectedWord.setUnlocked();
+                // Update the saved status of the word
+                selectedWord.saveWord(this.getApplicationContext());
                 wordViews.get(wordIndex).setAlpha(1);
                 // Exit quiz
                 Handler returnHandler = new Handler();
@@ -456,7 +528,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void miscellaneousSetUp()
     {
-        Word.initialize(this.getApplicationContext());
+        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
     }
 
