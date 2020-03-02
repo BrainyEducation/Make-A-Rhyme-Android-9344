@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -58,7 +59,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     int CHARACTER_LIMIT = 20; // TODO: Set this dynamically based on screen width
     final char WORD_MARKER_START = '[';
     final char WORD_MARKER_END = ']';
-    final String WORD_MARKERS = "[]";
+    final String WORD_MARKERS = "[*****]";
     final int NUM_SPACES = 5;
     boolean displayPlayButton = true;
     ArrayList<String> wordCodes = new ArrayList<>();
@@ -227,7 +228,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "The [D_5_6_7] and [D_5_6_7] and [G_5_6_7] played so well,\n" +
                 "And everyone loved it, so I heard tell,\n" +
                 "The [A-1] bragged that you were so clever,\n" +
-                "And the [B-1] declared it the best party ever!";
+                "And the [B-1] declared it the best party ever!\n"; // Added newline for ease of parsing
 
         int characterCounter = 0;
         String currentLine = "";
@@ -235,15 +236,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         ArrayList<String> listOfLines = new ArrayList<>();
 
         for (int index = 0; index < storyText.length(); ++index) {
-            if (storyText.charAt(index) == ' ' || storyText.charAt(index) == '\n') {
-                if (characterCounter > CHARACTER_LIMIT) {
+            if (storyText.charAt(index) == '\n') {
                     characterCounter = 0;
                     listOfLines.add(currentLine);
                     currentLine = "";
-                } else {
-                    ++characterCounter;
-                    currentLine += ' ';
-                }
             } else if (storyText.charAt(index) == WORD_MARKER_START) {
                 ++index; // Move to the initial character of the word's 'code'
                 String wordInfo = "";
@@ -255,9 +251,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 wordCodes.add(wordInfo);
 
                 currentLine += WORD_MARKERS;
-                characterCounter = 0;
-                listOfLines.add(currentLine);
-                currentLine = "";
             } else {
                 // Normal character
                 ++characterCounter;
@@ -265,12 +258,21 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double inchesWidth = Math.sqrt(Math.pow(dm.widthPixels/dm.xdpi,2));
+
+        System.out.println("Inches Width: ");
+        System.out.println(inchesWidth);
+
+        int textSize = (int)(inchesWidth * 6); // Temporary for approximate scaling purposes
+
         int buttonTag = 0;
 
         for (int counter = 0; counter < listOfLines.size(); ++counter) {
             if (!listOfLines.get(counter).contains(WORD_MARKERS)) {
                 TextView singleLine = new TextView(this);
-                singleLine.setTextSize(Constants.STANDARD_TEXT_SIZE);
+                singleLine.setTextSize(textSize);
 
                 String currLine = listOfLines.get(counter);
 
@@ -293,13 +295,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
             } else {
 
-                String trimmed = listOfLines.get(counter).substring(0, listOfLines.get(counter).length() - 2);
-
-                if (trimmed.length() >= 2) {
-                    if (trimmed.charAt(0) == ' ') {
-                        trimmed = trimmed.substring(1);
-                    }
-                }
+                String currLine = listOfLines.get(counter);
 
                 RelativeLayout textAndButton = new RelativeLayout(this);
 
@@ -308,48 +304,92 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 );
                 rL_params.setMargins(0, 0, 0, 0);
 
-                TextView singleLine = new TextView(this);
-                singleLine.setTextSize(Constants.STANDARD_TEXT_SIZE);
-                singleLine.setTypeface(imprima);
+                String currPhrase = "";
 
-                singleLine.setText(trimmed);
-                //singleLine.setBackgroundColor(Color.GRAY);
+                boolean inWordMarker = false;
+                int idIndex = 1;
 
-                RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
-                );
-                line_params.setMargins(0, 0, 0, 0);
-                line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
+                for (int index = 0; index < currLine.length(); ++index) {
+                    if (currLine.charAt(index) != WORD_MARKER_START && !inWordMarker) {
+                        currPhrase += currLine.charAt(index);
+                    } else if (currLine.charAt(index) == WORD_MARKER_START) {
+                        inWordMarker = true;
+                        TextView tempLine = new TextView(this);
+                        tempLine.setTextSize(textSize);
+                        tempLine.setTypeface(imprima);
+                        tempLine.setText(currPhrase);
+                        RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
+                                ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
+                        );
+                        line_params.setMargins(0, 0, 0, 0);
+                        line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
+                        if (idIndex != 1) {
+                            line_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the button that comes before it
+                        }
 
-                singleLine.setLayoutParams(line_params);
-                singleLine.setId(1);
+                        tempLine.setLayoutParams(line_params);
+                        tempLine.setId(idIndex);
+                        ++idIndex;
 
-                Button blankButton = new Button(this);
-                blankButton.setTextSize(Constants.STANDARD_TEXT_SIZE);
-                blankButton.setTypeface(imprima);
+                        currPhrase = "";
 
-                blankButton.setBackgroundColor(Color.LTGRAY);
-                blankButton.setOnClickListener(this);
-                blankButton.setTag(buttonTag);
-                ++buttonTag;
+                        textAndButton.addView(tempLine);
 
-                listOfButtons.add(blankButton);
+                    } else if (currLine.charAt(index) == WORD_MARKER_END) {
+                        Button blankButton = new Button(this);
+                        blankButton.setTextSize(textSize);
+                        blankButton.setTypeface(imprima);
 
-                RelativeLayout.LayoutParams button_params = new RelativeLayout.LayoutParams(
-                        (width / 4), (140) // TODO: Set to something meaningful
-                );
+                        blankButton.setBackgroundColor(Color.LTGRAY);
+                        blankButton.setOnClickListener(this);
+                        blankButton.setTag(buttonTag);
+                        ++buttonTag;
 
-                button_params.setMargins(0, 0, 0, 0);
+                        listOfButtons.add(blankButton);
 
-                //button_params.addRule(RelativeLayout.ALIGN_BOTTOM);
+                        RelativeLayout.LayoutParams button_params = new RelativeLayout.LayoutParams(
+                                200, (100) // TODO: Set to something meaningful
+                        );
 
-                blankButton.setLayoutParams(button_params);
-                blankButton.setId(2);
-                blankButton.setPadding(0,0,0,0);
-                button_params.addRule(RelativeLayout.RIGHT_OF, singleLine.getId());
+                        button_params.setMargins(0, 0, 0, 0);
 
-                textAndButton.addView(singleLine);
-                textAndButton.addView(blankButton);
+                        //button_params.addRule(RelativeLayout.ALIGN_BOTTOM);
+
+                        blankButton.setLayoutParams(button_params);
+                        blankButton.setId(idIndex);
+                        button_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the text that comes before it
+                        ++idIndex;
+
+                        blankButton.setPadding(0,0,0,0);
+                        inWordMarker = false;
+
+                        textAndButton.addView(blankButton);
+                    }
+                }
+
+                if (!currPhrase.equals("")) {
+                    inWordMarker = true;
+                    TextView tempLine = new TextView(this);
+                    tempLine.setTextSize(textSize);
+                    tempLine.setTypeface(imprima);
+                    tempLine.setText(currPhrase);
+                    RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
+                    );
+                    line_params.setMargins(0, 0, 0, 0);
+                    line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
+                    if (idIndex != 1) {
+                        line_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the button that comes before it
+                    }
+
+                    tempLine.setLayoutParams(line_params);
+                    tempLine.setId(idIndex);
+                    ++idIndex;
+
+                    currPhrase = "";
+
+                    textAndButton.addView(tempLine);
+                }
 
                 rhymeTextLL.addView(textAndButton);
             }
