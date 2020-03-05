@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".NewOrExistingRhyme">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:background="@color/colorMenuBar"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/BackButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="ClickedBackButton"
+                android:padding="0dp"
+                android:text="&lt;"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif" />
+
+            <Button
+                android:id="@+id/HelpButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/imprima"
+                android:gravity="center"
+                android:onClick="ClickedHelpButton"
+                android:padding="0dp"
+                android:text="Help"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif" />
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="New"
+            android:fontFamily="@font/imprima"
+            android:textSize="45sp"
+            android:background="@color/colorBackground"
+            android:alpha="0.6"/>
+
+        <ImageView
+            android:id="@+id/newIllustration"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Old"
+            android:fontFamily="@font/imprima"
+            android:textSize="45sp"
+            android:background="@color/colorBackground"
+            android:alpha="0.6"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <ImageButton
+                android:id="@+id/ScrollUpBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/up_arrow"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/ExistingRhymesScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/RhymesLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFF">
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="30dp">
+            <ImageButton
+                android:id="@+id/ScrollDownBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="3"
+                android:src="@drawable/down_arrow"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

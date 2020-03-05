@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -33,13 +34,12 @@ import static android.view.Gravity.CENTER;
 public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
     Word lockedWord;
-    ArrayList<String> wrongWords;
+    ArrayList<String> categoryWords, letterWords, lengthWords, otherWords;
     String correctChoiceNum = "0";
     Button choice1, choice2, choice3, choice4;
     ImageView starIV1, starIV2, starIV3;
     int correctStreak = 0;
     Typeface imprima;
-    //final String CHOICE_BOX_COLOR = "#9370DB";
     int height, width;
     int HEIGHT_UNIT;
     ImageView topIV;
@@ -48,9 +48,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     LinearLayout topTwoOptions, bottomTwoOptions, encompassing;
     int lockedWordImageResourceID;
     final int NUM_CHOICES = 4;
-    final int TEXT_SIZE = 40;
     int buttonColor = Color.parseColor("#f4faf8");
-    //final int textSize = 40;
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -75,73 +73,49 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     }
 
     /**
+     * Picks a word from the selected category. If the category is empty, picks a word from otherwords
+     */
+    public String getRandomWord(ArrayList<String> list)
+    {
+        if(list.size() == 0)
+            return getRandomWord(otherWords);
+        int randomChoice = (new Random()).nextInt(list.size());
+        String wrongWord = list.get(randomChoice);
+        return wrongWord;
+    }
+
+    /**
      * Picks out the wrong answers and places them in the boxes; then places the correct answer
      * randomly in one of the boxes
      */
     public void setChoices()
     {
-        // NOTE: NEEDS 5+ WORDS PER CATEGORY TO WORK
+        String wrongWord1 = getRandomWord(categoryWords);
+        String wrongWord2 = getRandomWord(lengthWords);
+        String wrongWord3 = getRandomWord(letterWords);
+        //pick the order of the words
+        ArrayList<Integer> order = new ArrayList<>();
+        order.add(0);
+        order.add(1);
+        order.add(2);
+        order.add(3);
+        Collections.shuffle(order);
+        String[] words = new String[]{lockedWord.getText(), wrongWord1, wrongWord2, wrongWord3};
 
-        int randomInteger = (new Random()).nextInt(NUM_CHOICES) + 1;
 
-        int randomFirstChoice = (new Random()).nextInt(wrongWords.size());
-        String wrongWord1 = wrongWords.get(randomFirstChoice);
-
-        String wrongWord2;
-
-        while (true) {
-            int randomSecondChoice = (new Random()).nextInt(wrongWords.size());
-            wrongWord2 = wrongWords.get(randomSecondChoice);
-            if (!wrongWord2.equals(wrongWord1)) {
-                break;
-            }
-        }
-
-        String wrongWord3;
-        while (true) {
-            int randomThirdChoice = (new Random()).nextInt(wrongWords.size());
-            wrongWord3 = wrongWords.get(randomThirdChoice);
-            if (!wrongWord3.equals(wrongWord1) && !wrongWord3.equals(wrongWord2)) {
-                break;
-            }
-        }
-
-        String wrongWord4;
-        while (true) {
-            int randomFourthChoice = (new Random()).nextInt(wrongWords.size());
-            wrongWord4 = wrongWords.get(randomFourthChoice);
-            if (!wrongWord4.equals(wrongWord1) &&
-                    !wrongWord4.equals(wrongWord2) &&
-                    !wrongWord4.equals(wrongWord3)) {
-                break;
-            }
-        }
-
-        choice1.setText(wrongWord1);
+        choice1.setText(words[order.get(0)].toLowerCase());
         choice1.setBackgroundColor(buttonColor);
 
-        choice2.setText(wrongWord2);
+        choice2.setText(words[order.get(1)].toLowerCase());
         choice2.setBackgroundColor(buttonColor);
 
-        choice3.setText(wrongWord3);
+        choice3.setText(words[order.get(2)].toLowerCase());
         choice3.setBackgroundColor(buttonColor);
 
-        choice4.setText(wrongWord4);
+        choice4.setText(words[order.get(3)].toLowerCase());
         choice4.setBackgroundColor(buttonColor);
 
-        if (randomInteger == 1) {
-            choice1.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "1";
-        } else if (randomInteger == 2) {
-            choice2.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "2";
-        } else if (randomInteger == 3) {
-            choice3.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "3";
-        } else if (randomInteger == 4) {
-            choice4.setText(lockedWord.getText().toLowerCase());
-            correctChoiceNum = "4";
-        }
+        correctChoiceNum = ""+(order.indexOf(0)+1);
     }
 
     /**
@@ -165,10 +139,14 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                     starIV3.setVisibility(View.VISIBLE);
                     starIV3.setBackgroundResource(R.drawable.gold_star_blank);
 
+                    /*
                     AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                     dialog.setTitle("Congratulations!");
                     dialog.setMessage("You Unlocked " + lockedWord.getText());
                     dialog.show();
+                    */
+
+                    playPraise();
 
                     // Exit quiz
                     Handler returnHandler = new Handler();
@@ -226,19 +204,19 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     {
         choice1 = new Button(this);
         choice1.setTag("1");
-        choice1.setTextSize(TEXT_SIZE);
+        choice1.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice1.setTypeface(imprima);
         choice2 = new Button(this);
         choice2.setTag("2");
-        choice2.setTextSize(TEXT_SIZE);
+        choice2.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice2.setTypeface(imprima);
         choice3 = new Button(this);
         choice3.setTag("3");
-        choice3.setTextSize(TEXT_SIZE);
+        choice3.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice3.setTypeface(imprima);
         choice4 = new Button(this);
         choice4.setTag("4");
-        choice4.setTextSize(TEXT_SIZE);
+        choice4.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice4.setTypeface(imprima);
 
         choice1.setOnClickListener(this);
@@ -258,7 +236,10 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     public void loadIntentsAndViews()
     {
         lockedWord = (Word)getIntent().getSerializableExtra("word");
-        wrongWords = getIntent().getStringArrayListExtra("wrong_words");
+        categoryWords = getIntent().getStringArrayListExtra("category_words");
+        lengthWords = getIntent().getStringArrayListExtra("length_words");
+        letterWords = getIntent().getStringArrayListExtra("letter_words");
+        otherWords = getIntent().getStringArrayListExtra("other_words");
 
         topIV = findViewById(R.id.TopImageView);
         topBar = findViewById(R.id.topLayout);
@@ -327,6 +308,42 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
     }
+
+    /**
+     * Plays the sound file for a random praise word when the child passes a quiz.
+     */
+    public void playPraise() {
+
+        ArrayList<String> praiseAudioFiles = new ArrayList<>();
+        praiseAudioFiles.add("praise_awesome");
+        praiseAudioFiles.add("praise_brilliant");
+        praiseAudioFiles.add("praise_excellent");
+        praiseAudioFiles.add("praise_good_job");
+        praiseAudioFiles.add("praise_how_did_you_get_so_smart");
+        praiseAudioFiles.add("praise_magnificent");
+        praiseAudioFiles.add("praise_marvelous");
+        praiseAudioFiles.add("praise_outstanding");
+        praiseAudioFiles.add("praise_splendid");
+        praiseAudioFiles.add("praise_super_job");
+        praiseAudioFiles.add("praise_superb");
+        praiseAudioFiles.add("praise_superlative_work");
+        praiseAudioFiles.add("praise_terrific");
+        praiseAudioFiles.add("praise_tremendous");
+        praiseAudioFiles.add("praise_way_to_go");
+        praiseAudioFiles.add("praise_you_did_really_well");
+        praiseAudioFiles.add("praise_you_get_smarter_all_the_time");
+        praiseAudioFiles.add("praise_you_really_know_your_stuff");
+        praiseAudioFiles.add("praise_you_sure_know_a_lot_of_words");
+        praiseAudioFiles.add("praise_youre_a_really_brainy_kid");
+
+        int randAudioIndex = new Random().nextInt(praiseAudioFiles.size());
+
+        int audioResourceID = getResources().getIdentifier(praiseAudioFiles.get(randAudioIndex), "raw", getPackageName());
+        MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
+    }
+
 
     /**
      * Called when the page first loads; lays out elements dynamically based on screen dimensions
