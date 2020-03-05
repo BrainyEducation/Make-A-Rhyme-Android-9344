@@ -37,14 +37,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="3dp"
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:onClick="ClickedHelpButton"
+                android:padding="0dp"
                 android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
-                android:typeface="serif"
-                android:padding="0dp"/>
+                android:typeface="serif" />
 
         </RelativeLayout>
 

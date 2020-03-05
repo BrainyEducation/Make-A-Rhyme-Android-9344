@@ -30,11 +30,18 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     Typeface imprima;
     final int TEXT_SIZE = 30;
     RhymeTemplate chosenRhymeTemplate;
+    Button createNewRhymeButton;
+    Button existingRhymeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_or_existing_rhyme);
+
+        createNewRhymeButton = (Button) findViewById(R.id.NewRhyme);
+
 
         sizingSetUp();
 
@@ -92,6 +99,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
         int numExistingRhymes = getNumberOfExistingRhymes(this.getApplicationContext());
 
+
         for (int index = 0; index < numExistingRhymes; ++index) {
 
             RhymeTemplate currRhyme = retrieveRhymeTemplate(this.getApplicationContext(), index);
@@ -132,6 +140,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
             existingRhymesLL.addView(rhymeImage);
             existingRhymesLL.addView(separator);
         }
+
+
     }
 
     /**
@@ -141,12 +151,15 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     {
         Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
+
+
     }
 
     /**
      * TODO: Add comment
      */
     public void onClick(View v) {
+
 
         // Need to update this
 
@@ -186,7 +199,11 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         newIllustration.setTag("NEW");
         newIllustration.setLayoutParams(illustration_params);
         newIllustration.setBackgroundResource(getResources().getIdentifier(chosenRhymeTemplate.getImageName(), "drawable", getPackageName()));
+        createNewRhymeButton.setTag("NEW");
         newIllustration.setOnClickListener(this);
+        createNewRhymeButton.setOnClickListener(this);
+
+
     }
 
     public void ClickedBackButton(View view) {
