@@ -2,9 +2,12 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -682,4 +687,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+
 }

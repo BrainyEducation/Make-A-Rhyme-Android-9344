@@ -33,6 +33,22 @@
                 android:typeface="serif" />
 
             <Button
+                android:id="@+id/emailButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="Email Progress"
+                android:textColor="#666"
+                android:textSize="14sp"
+                android:typeface="serif" />
+
+            <Button
                 android:id="@+id/HelpButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"

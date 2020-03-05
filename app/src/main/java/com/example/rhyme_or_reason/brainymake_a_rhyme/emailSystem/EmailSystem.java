@@ -1,8 +1,11 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,8 +39,16 @@ public class EmailSystem
         it.putExtra(Intent.EXTRA_SUBJECT,subjectLine);
         it.putExtra(Intent.EXTRA_TEXT,emailBody);
         it.setType("message/rfc822");
+
+        //attach image
+        String root = Environment.getExternalStorageDirectory().toString();
+        String path = root + "/saved_images" + "Brainy-make-a-rhyme-temp.jpg";
+        Uri thing = Uri.fromFile(new File(path));
+        it.putExtra(Intent.EXTRA_STREAM, thing);
+
         return it;
     }
+
 
     public boolean isValidEmail(String email) {
         return emailRegexPattern.matcher(email).matches();

@@ -3,9 +3,11 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ import android.widget.TextView;
 import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
@@ -40,6 +44,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageButton rhymeDownBtn;
     ScrollView rhymeScroll;
     ImageButton iB;
+    Button emailButton;
 
     ImageView img1;
     ImageView img2;
@@ -92,6 +97,14 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         audioSetUp();
 
         petPartyPicnicSetUp();
+
+        emailButton = (Button) findViewById(R.id.emailButton);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEmailClick(v);
+            }
+        });
     }
 
     /**
@@ -107,12 +120,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         fillInRhyme();
     }
 
-    /**
-     * Attach audio play button
-     */
-    public void onPlayAudio(View v) {
-        //ImageButton iB = findViewById(R.id.playButton);
 
+    public void onPlayAudio(View v) {
         if (displayPlayButton && playCooldown) {
             storyAudioManager.clearMediaPlayer();
             storyAudioManager.playStoryThread("Pet Party Picnic Story");
@@ -674,5 +683,39 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         Bitmap illustrationBitmap = Bitmap.createBitmap(totalIllustration.getDrawingCache());
         totalIllustration.setDrawingCacheEnabled(false);
         return illustrationBitmap;
+    }
+
+    public void onThing(View v) {
+
+    }
+
+    public void onEmailClick(View v) {
+
+
+
+        Bitmap bm = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bm);
+        v.draw(canvas);
+        String root = Environment.getExternalStorageDirectory().toString();
+        Log.d("ROOTROOTROOT",root);
+        File directory = new File(root, "/saved_images");
+        directory.mkdirs();
+        String filename = "Brainy-make-a-rhyme-temp.jpg";
+        File file = new File(directory, filename);
+        if (file.exists ()) {
+            file.delete ();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Intent newIntent = new Intent(Rhyme.this,EmailActivity.class);
+        startActivity(newIntent);
     }
 }

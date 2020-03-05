@@ -180,7 +180,7 @@ public class StoryAudioManager {
             try {
                 mediaPlayer.stop();
             } catch (IllegalStateException e) {
-                mediaPlayer.reset();
+                clearMediaPlayer();
             }
             if (!continueAudioFlag) {
                 return;
@@ -221,7 +221,10 @@ public class StoryAudioManager {
                 try {
                     mediaPlayer.stop();
                 } catch (IllegalStateException e) {
-                    mediaPlayer.reset();
+                    clearMediaPlayer();
+                }
+                if (!continueAudioFlag) {
+                    return;
                 }
                 try {
                     Thread.sleep(200);

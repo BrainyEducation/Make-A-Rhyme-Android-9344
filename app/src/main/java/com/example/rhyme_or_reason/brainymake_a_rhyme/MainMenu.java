@@ -1,9 +1,12 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
@@ -15,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
@@ -181,8 +186,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         });
     }
 
-    public void onEmailClick(View v) {
-        Intent newIntent = new Intent(MainMenu.this,EmailActivity.class);
-        startActivity(newIntent);
-    }
+
+
 }

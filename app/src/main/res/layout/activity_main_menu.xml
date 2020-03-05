@@ -33,13 +33,6 @@
                 android:typeface="serif" />
 
             <Button
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onEmailClick"
-                android:text="Email Progress" />
-
-            <Button
                 android:id="@+id/HelpButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"

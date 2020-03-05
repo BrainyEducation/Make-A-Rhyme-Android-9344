@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rhyme_or_reason.brainymake_a_rhyme">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,12 +25,10 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".EmailActivity"
-            android:label="EmailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
             android:name=".Rhyme"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".EmailActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainMenu"
