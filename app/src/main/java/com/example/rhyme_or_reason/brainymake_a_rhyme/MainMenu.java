@@ -38,11 +38,20 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
     private ImageButton upBtn;
     private ImageButton downBtn;
+    private Button progressBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        progressBtn = findViewById(R.id.ProgressButton);
+        progressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent thisIntent = new Intent(v.getContext(), StudentProgress.class);
+                startActivityForResult(thisIntent, 0);
+            }
+        });
 
         sizingSetUp();
 

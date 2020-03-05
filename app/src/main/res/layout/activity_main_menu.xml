@@ -33,6 +33,21 @@
                 android:typeface="serif" />
 
             <Button
+                android:id="@+id/ProgressButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="135dp"
+                android:gravity="center"
+                android:padding="0dp"
+                android:textColor="#666"
+                android:text="PROGRESS"
+                android:textSize="30sp"
+                android:typeface="serif"/>
+
+            <Button
                 android:id="@+id/HelpButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"

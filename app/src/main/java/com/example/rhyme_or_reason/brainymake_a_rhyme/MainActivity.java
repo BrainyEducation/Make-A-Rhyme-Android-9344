@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int HEIGHT_UNIT;
     private ScrollView word_scrollview, type_scrollview;
     private ImageButton up_btnW, down_btnW, up_btnT, down_btnT;
+    private Button progressBtn;
+    static int attempts = 0;
+    static Word staticWord;
 
 
     /**
@@ -381,6 +384,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * view. When a word is selected, the next activity is launched (the quiz) for the word
      */
     public void onClick(View v) {
+        //OnClick For Progress Button
+        if (v == progressBtn) {
+            Intent progressInt = new Intent(this, StudentProgress.class);
+            startActivity(progressInt);
+        }
 
         Boolean updatingActiveType = false;
 
@@ -455,6 +463,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }, 0);   // Instantaneous
                 } else {
+                    attempts++;
+                    staticWord = selectedWord;
                     Intent newIntent = new Intent(this, Quiz.class);
                     newIntent.putExtra("word", selectedWord);
                     newIntent.putExtra("category_words", categoryWords);
