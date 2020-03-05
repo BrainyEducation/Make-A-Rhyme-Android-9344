@@ -106,14 +106,14 @@
                 android:background="#FFF">
             </LinearLayout>
         </ScrollView>
-            <ImageButton
-                android:id="@+id/RhymeDownButton"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:src="@drawable/down_arrow"
-                android:layout_alignParentBottom="true"
-                style="?android:attr/borderlessButtonStyle"
-                ></ImageButton>
+        <ImageButton
+            android:id="@+id/RhymeDownButton"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/down_arrow"
+            android:layout_alignParentBottom="true"
+            style="?android:attr/borderlessButtonStyle"
+            />
 
         </RelativeLayout>
 

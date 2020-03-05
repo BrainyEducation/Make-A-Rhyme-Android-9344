@@ -1,18 +1,13 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -94,19 +89,18 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
         emailTextView.setText(displayText);
         emailRemovalButton.setText(exampleEmailRemovalButton.getText());
-        emailRemovalButton.setOnClickListener(generateClickListener(email));
+        emailRemovalButton.setOnClickListener(generateRemoveEmailListener(email));
 
         newEmailRow.addView(emailTextView);
         newEmailRow.addView(emailRemovalButton);
         emailTable.addView(newEmailRow);
-
     }
 
     private void displayError(String s) {
         Snackbar.make(emailTable, s, Snackbar.LENGTH_LONG).show();
     }
 
-    private View.OnClickListener generateClickListener(final String email) {
+    private View.OnClickListener generateRemoveEmailListener(final String email) {
         View.OnClickListener  returnListener = new View.OnClickListener() {
 
             @Override
@@ -119,7 +113,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         };
         return returnListener;
     }
-    
+
     @Override
     public void onClick(View v) {
 

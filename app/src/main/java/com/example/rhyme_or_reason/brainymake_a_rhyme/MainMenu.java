@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,6 +28,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     Typeface imprima;
     int height, width;
 
+    int RHYME_HEIGHT;
+
+    private ImageButton upBtn;
+    private ImageButton downBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         loadRhymeTemplates();
 
         loadRhymeStoryOptions();
+
+        setUpScroll();
     }
 
     /**
@@ -55,9 +63,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
             tempType.setText(templateOptions.get(index).getName());
             tempType.setTag(index); // Set tag to the index in the ArrayList
-            //tempType.setBackgroundColor(Color.parseColor(typeBgColor));
+            tempType.setBackgroundColor(getResources().getColor(R.color.colorBackground));
             tempType.setTextSize(TEXT_SIZE);
             tempType.setTypeface(imprima);
+            tempType.setAlpha(0.6f);
 
             ImageView rhymeImage = new ImageView(this);
             rhymeImage.setTag(index);
@@ -68,7 +77,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 tempType.setOnClickListener(this);
                 rhymeImage.setOnClickListener(this);
             } else {
-                rhymeImage.setAlpha(0.2f);
+                rhymeImage.setAlpha(Constants.LOCKED_ALPHA);
+                tempType.setAlpha(Constants.LOCKED_ALPHA);
             }
 
             rhymeImage.setImageResource(pictureResourceID);
@@ -79,8 +89,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
             separator.setBackgroundColor(getResources().getColor(R.color.colorBackground));
 
-            //up_btnT.setLayoutParams();
-            //typeViews.add(tempType);
             rhymesLL.addView(tempType);
             rhymesLL.addView(rhymeImage);
             rhymesLL.addView(separator);
@@ -117,8 +125,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
      */
     public void miscellaneousSetUp()
     {
-        Word.initialize(this.getApplicationContext());
+        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
+        RHYME_HEIGHT = (int)(width * Constants.ASPECT_RATIO);
     }
 
     /**
@@ -133,13 +142,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         display.getSize(screenSize);
         width = screenSize.x;
         height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
 
         HEIGHT_UNIT = height / 10;
     }
 
     /**
-     * TODO: Add comment
+     * When a rhyme template is selected, this recognizes which one has been clicked and passes
+     * along the information to the NewOrExistingRhyme screen so it knows which existing rhymes
+     * to load.
      */
     public void onClick(View v) {
 
@@ -147,7 +157,28 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         Intent newIntent = new Intent(this, NewOrExistingRhyme.class);
         newIntent.putExtra("rhyme_template", selectedRhymeTemplate);
         startActivityForResult(newIntent, 1);
+    }
 
+    /*
+     * Scrolling happens by default; this is designed to allow the scroll buttons to move the
+     * rhyme templates up and down in addition to scrolling by finger
+     */
+    public void setUpScroll()
+    {
+        upBtn = findViewById(R.id.UpButton);
+        downBtn = findViewById(R.id.DownButton);
+        upBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rhyme_template_scrollview.smoothScrollBy(0, -(RHYME_HEIGHT + Constants.SEPARATOR_HEIGHT));
+            }
+        });
+        downBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rhyme_template_scrollview.smoothScrollBy(0, RHYME_HEIGHT + Constants.SEPARATOR_HEIGHT);
+            }
+        });
     }
 
     public void onEmailClick(View v) {

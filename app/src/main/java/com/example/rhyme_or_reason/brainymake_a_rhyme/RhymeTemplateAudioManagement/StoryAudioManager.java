@@ -41,6 +41,7 @@ public class StoryAudioManager {
         continueAudioFlag = flag;
         if (!flag) {
             mediaPlayer.reset();
+            mediaPlayer.release();
         }
     }
 
@@ -49,21 +50,21 @@ public class StoryAudioManager {
     }
 
 
-    private void clearMediaPlayer() {
+    public void clearMediaPlayer() {
         try {
             mediaPlayer.stop();
         } catch (Exception e) {
-            return;
+
         }
         try {
             mediaPlayer.release();
         } catch (Exception e) {
-            return;
+
         }
         try {
             mediaPlayer.reset();
         } catch (Exception e) {
-            return;
+
         }
         mediaPlayer = new MediaPlayer();
     }
@@ -81,6 +82,18 @@ public class StoryAudioManager {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
             mediaPlayer.prepare();
+            Thread stopThread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        sleep(100);
+                    } catch (InterruptedException e) {
+                        Log.d("playStoryThread",e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            };
+            stopThread.start();
             afd.close();
         }
         catch (IllegalArgumentException e)
@@ -138,19 +151,37 @@ public class StoryAudioManager {
         for (int i = 0; i < numberOfFiles; i++) {
             final boolean[] lock = {true};
             setMediaPlayerFile(fileNames.get(i));
-            mediaPlayer.start();
+
+            try {
+                mediaPlayer.start();
+            } catch(IllegalStateException e) {
+                mediaPlayer = new MediaPlayer();
+                setMediaPlayerFile(fileNames.get(i));
+                mediaPlayer.start();
+            }
+
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 Log.d("wait","broken");
             }
+
+            if (!continueAudioFlag) {
+                return;
+            }
+
             while (mediaPlayer.isPlaying()) {
                 if (!continueAudioFlag) {
-                    break;
+                    return;
                 }
                 continue;
             }
-            mediaPlayer.stop();
+
+            try {
+                mediaPlayer.stop();
+            } catch (IllegalStateException e) {
+                mediaPlayer.reset();
+            }
             if (!continueAudioFlag) {
                 return;
             }
@@ -165,19 +196,33 @@ public class StoryAudioManager {
                     setMediaPlayerFile(wordList.get(traversedBlanks));
                     //traversedBlanks++;
                 }
-                mediaPlayer.start();
+
+                try {
+                    mediaPlayer.start();
+                } catch(IllegalStateException e) {
+                    setMediaPlayerFile(fileNames.get(i));
+                    mediaPlayer.start();
+                }
+
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     Log.d("wait","broken");
                 }
+                if (!continueAudioFlag) {
+                    return;
+                }
                 while (mediaPlayer.isPlaying()) {
                     if (!continueAudioFlag) {
-                        break;
+                        return;
                     }
                 }
 
-                mediaPlayer.stop();
+                try {
+                    mediaPlayer.stop();
+                } catch (IllegalStateException e) {
+                    mediaPlayer.reset();
+                }
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
