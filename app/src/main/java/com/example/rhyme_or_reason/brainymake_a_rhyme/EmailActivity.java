@@ -1,9 +1,12 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,9 @@ import android.widget.TextView;
 
 import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
 
+import java.io.File;
+import java.lang.reflect.Array;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -47,15 +53,31 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         }
         String[] a = new String[1];
         a[0] = "jqdude@gmail.com";
-        String subject = "hi";
-        String body = "this is the body text";
-        emailSystem.setEmailVariables( emails.toArray(new String[0]), subject, body);
-        Intent in = emailSystem.createEmailIntent();
+        String subject = "This is your child's recent progress in this story!";
+        ArrayList<String> workingBodyText = (ArrayList<String>) getIntent().getExtras().get("completedWords");
+        StringBuilder sb = new StringBuilder();
+        sb.append("You child has learned the following words:\n");
+        for (String s : workingBodyText) {
+            sb.append(s);
+            if (s.length() == 0) {
+                continue;
+            }
+            sb.append("\n");
+        }
+        sb.append("\nAttached is an image of your child's work for you to print out.");
+        String body = sb.toString();
+
+        String path = (String) getIntent().getExtras().get("imageURI");
+
+        emailSystem.setEmailVariables(emails.toArray(new String[0]), subject, body, path);
+
+        Intent in = emailSystem.createEmailIntent(this);
         try {
             startActivity(Intent.createChooser(in, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
            Log.d("Email error", "No email clients installed");
         }
+
     }
 
     public void addEmail(View v) {
@@ -117,5 +139,9 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void ClickedBackButton(View view) {
+        onBackPressed();
     }
 }

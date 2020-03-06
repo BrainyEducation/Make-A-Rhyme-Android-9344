@@ -7,7 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,11 +28,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static android.view.Gravity.CENTER;
 
@@ -167,7 +174,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         selectedButtonIndex = (Integer)v.getTag();
 
         startActivityForResult(newIntent, 1);
-        storyAudioManager.setContinueAudioFlag(false);
+        forceStopAudio();
         displayPlayButton = true;
         iB.setImageResource(R.drawable.ic_play);
     }
@@ -607,6 +614,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             currRhyme.setSavedIllustration(byteArray);
             currRhyme.saveRhymeTemplate(this.getApplicationContext());
         }
+
+        forceStopAudio();
+
         onBackPressed();
     }
 
@@ -685,37 +695,37 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         return illustrationBitmap;
     }
 
-    public void onThing(View v) {
-
-    }
 
     public void onEmailClick(View v) {
-
-
-
-        Bitmap bm = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bm);
-        v.draw(canvas);
-        String root = Environment.getExternalStorageDirectory().toString();
-        Log.d("ROOTROOTROOT",root);
-        File directory = new File(root, "/saved_images");
-        directory.mkdirs();
-        String filename = "Brainy-make-a-rhyme-temp.jpg";
-        File file = new File(directory, filename);
-        if (file.exists ()) {
-            file.delete ();
-        }
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        forceStopAudio();
+        View parentView = findViewById(R.id.totalIllustration);
+        String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
 
         Intent newIntent = new Intent(Rhyme.this,EmailActivity.class);
+        newIntent.putExtra("imageURI", path);
+        newIntent.putExtra("completedWords", wordList);
         startActivity(newIntent);
+    }
+
+    private ArrayList<String> gatherWords() {
+        ArrayList<String> returnList = new ArrayList<>();
+        LinearLayout linearLayout = findViewById(R.id.RhymeLL);
+        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+            View v = linearLayout.getChildAt(i);
+
+        }
+
+        return returnList;
+    }
+
+    private void forceStopAudio() {
+        try {
+            storyAudioManager.setContinueAudioFlag(false);
+        } catch (IllegalStateException e) {
+            try {
+                storyAudioManager.clearMediaPlayer();
+            } catch (Exception nestedException) {
+            }
+        }
     }
 }
