@@ -232,10 +232,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         typeList.add("Friends");
         ArrayList<Word> friendList = new ArrayList<>();
-        for(int j = 1; j < 3; j++) {
-            if(j == 2)
+        for(int j = 1; j < 18; j++) {
                 friendList.add(new Word("boy_" + j, false, "boy_" + j, "", "Friends"));
-            else
+            if(j < 15)
                 friendList.add(new Word("girl_" + j, false, "girl_" + j, "", "Friends"));
         }
         typeToWordMapping.put("Friends", friendList);
@@ -380,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Handler returnHandler = new Handler();
                 returnHandler.postDelayed(new Runnable() {
                     public void run() {
-                        Intent returnInt ent = new Intent();
+                        Intent returnIntent = new Intent();
                         String name = data.getStringExtra("name");
                         returnIntent.putExtra("word", new Word(name, false, selectedWord.getImageName(), name, "Friends"));
                         setResult(Activity.RESULT_OK, returnIntent);

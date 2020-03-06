@@ -134,7 +134,10 @@ public class NameFriend extends AppCompatActivity implements View.OnClickListene
         topIV.setBackgroundResource(lockedWordImageResourceID);
         topIV.setOnClickListener(NameFriend.this);
 
-        String[] names = new String[] {"Bob", "John", "Will"};
+        String[] names = new String[] {"Bob", "John", "Will", "Han", "Dev", "Don", "Ted", "Pau",
+                "Paz", "Kim", "Jim", "Eli", "Khalid", "Alex", "Sunil", "Adam", "Sam", "Joe", "Zoe",
+                "Eva", "Mia", "Rio", "Uma", "Joy", "Rose", "Mary", "Lily", "Iris", "Ann", "Joan",
+                "Pat", "Jan", "Deb", "Kate", "Beth"};
 
         wordLL.removeAllViews();
         wordViews = new ArrayList<>(); // Wipe out existing entries
