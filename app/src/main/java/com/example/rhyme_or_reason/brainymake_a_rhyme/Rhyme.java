@@ -124,7 +124,37 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         fillInRhyme();
     }
 
+    public void onPlayAudio(View v) {
+        //ImageButton iB = findViewById(R.id.playButton);
 
+        if (displayPlayButton) {
+            storyAudioManager.playStoryThread("Pet Party Picnic Story");
+            displayPlayButton = false;
+            iB.setImageResource(R.drawable.ic_pause);
+
+        } else {
+            storyAudioManager.setContinueAudioFlag(false);
+            displayPlayButton = true;
+            iB.setImageResource(R.drawable.ic_play);
+        }
+    }
+
+    private void blockPlayButton() {
+        Thread stopThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    sleep(333);
+                    playCooldown = true;
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        stopThread.start();
+    }
+
+
+    /*
     public void onPlayAudio(View v) {
         if (displayPlayButton && playCooldown) {
             storyAudioManager.clearMediaPlayer();
@@ -158,6 +188,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         };
         stopThread.start();
     }
+    */
 
     /**
      * Occurs when the user selects an empty gap to fill with a word; saves the index of the button
@@ -168,7 +199,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         Intent newIntent = new Intent(this, MainActivity.class);
 
-        forceStopAudio();
+        //forceStopAudio();
+        storyAudioManager.setContinueAudioFlag(false);
+
 
         selectedButtonIndex = (Integer)v.getTag();
 
@@ -600,7 +633,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void ClickedBackButton(View view) {
 
-        forceStopAudio();
+
+        displayPlayButton = true;
+        storyAudioManager.setContinueAudioFlag(false);
+
+        //forceStopAudio();
 
 
         //Kyle
@@ -702,7 +739,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     public void onEmailClick(View v) {
 
-        forceStopAudio();
+
+        //forceStopAudio();
+        storyAudioManager.setContinueAudioFlag(false);
         displayPlayButton = true;
 
         /*
@@ -732,6 +771,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
 
+    /*
     private void forceStopAudio() {
         try {
             storyAudioManager.setContinueAudioFlag(false);
@@ -742,4 +782,5 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             }
         }
     }
+    */
 }
