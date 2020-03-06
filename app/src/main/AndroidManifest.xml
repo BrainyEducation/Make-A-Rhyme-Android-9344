@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".StudentProgress"></activity>
+        <activity android:name=".ProgressWordList"></activity>
         <activity android:name=".NewOrExistingRhyme"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

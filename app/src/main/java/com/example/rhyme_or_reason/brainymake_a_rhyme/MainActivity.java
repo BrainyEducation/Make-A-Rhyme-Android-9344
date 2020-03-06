@@ -54,8 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton up_btnW, down_btnW, up_btnT, down_btnT;
     private Button progressBtn;
     static int attempts = 0;
-    static Word staticWord;
-
+    static Word selectedWordFromMain;
+    static ArrayList<String> wordsAttempted = new ArrayList<>();
+    static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
 
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
@@ -463,8 +464,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }, 0);   // Instantaneous
                 } else {
-                    attempts++;
-                    staticWord = selectedWord;
+                    wordsAttempted.add(selectedWord.getText());
+                    selectedWordFromMain = selectedWord;
+                    ArrayList<int[]> wordAttempts;
+                    int[] attemptsToIncorrects = new int[2];
+                    if (!attemptsMap.containsKey(selectedWord)) {
+                        attemptsToIncorrects[0] = 1;
+                        attemptsToIncorrects[1] = 0;
+                        wordAttempts = new ArrayList<>();
+                        wordAttempts.add(attemptsToIncorrects);
+                    } else {
+                        wordAttempts = attemptsMap.get(selectedWord);
+                        int[] lastAttemptArray = wordAttempts.get(wordAttempts.size() - 1);
+                        int lastAttempt = lastAttemptArray[0];
+                        attemptsToIncorrects[0] = lastAttempt + 1;
+                        attemptsToIncorrects[1] = 0;
+                    }
+
+                    attemptsMap.put(selectedWord.getText(), wordAttempts);
                     Intent newIntent = new Intent(this, Quiz.class);
                     newIntent.putExtra("word", selectedWord);
                     newIntent.putExtra("category_words", categoryWords);

@@ -7,6 +7,9 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class StudentProgress extends AppCompatActivity{
 
     GraphView graph;
@@ -17,8 +20,10 @@ public class StudentProgress extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
         graph = (GraphView) findViewById(R.id.graph);
-        for (Integer k : Quiz.attemptsMap.keySet()) {
-            series.appendData(new DataPoint(k, Quiz.attemptsMap.get(k)), true, 50);
+        String w = getIntent().getExtras().get("Word").toString();
+        ArrayList<int[]> innerMap = MainActivity.attemptsMap.get(w);
+        for (int[] eachAttempt : innerMap) {
+            series.appendData(new DataPoint(eachAttempt[0], eachAttempt[1]), true, 50);
         }
         series.setDrawDataPoints(true);
         graph.addSeries(series);

@@ -52,7 +52,6 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     int buttonColor = Color.parseColor("#f4faf8");
     //final int textSize = 40;
     int incorrectCounter = 0;
-    static HashMap<Word, HashMap<Integer, Integer>> attemptsMap = new HashMap<>();
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -151,9 +150,12 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                     */
 
                     playPraise();
-                    HashMap<Integer, Integer> temp = new HashMap<>();
-                    temp.put(MainActivity.attempts, incorrectCounter);
-                    attemptsMap.put(MainActivity.staticWord, temp);
+
+                    ArrayList<int[]> attemptsToEdit = MainActivity.attemptsMap.get(MainActivity.selectedWordFromMain.getText());
+                    int[] editIncorrectGuesses = attemptsToEdit.get(attemptsToEdit.size() - 1);
+                    editIncorrectGuesses[1] = incorrectCounter;
+                    attemptsToEdit.set(attemptsToEdit.size() - 1, editIncorrectGuesses);
+                    MainActivity.attemptsMap.put(MainActivity.selectedWordFromMain.getText(), attemptsToEdit);
 
                     // Exit quiz
                     Handler returnHandler = new Handler();

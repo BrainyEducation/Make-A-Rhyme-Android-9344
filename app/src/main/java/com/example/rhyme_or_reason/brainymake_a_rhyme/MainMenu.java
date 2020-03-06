@@ -48,7 +48,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         progressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent thisIntent = new Intent(v.getContext(), StudentProgress.class);
+                Intent thisIntent = new Intent(v.getContext(), ProgressWordList.class);
                 startActivityForResult(thisIntent, 0);
             }
         });
