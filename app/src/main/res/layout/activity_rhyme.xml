@@ -40,7 +40,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginStart="102dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:padding="0dp"

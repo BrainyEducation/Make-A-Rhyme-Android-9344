@@ -40,8 +40,8 @@ public class StoryAudioManager {
     public void setContinueAudioFlag(boolean flag) {
         continueAudioFlag = flag;
         if (!flag) {
-            mediaPlayer.reset();
             mediaPlayer.release();
+            mediaPlayer = new MediaPlayer();
         }
     }
 
@@ -54,17 +54,17 @@ public class StoryAudioManager {
         try {
             mediaPlayer.stop();
         } catch (Exception e) {
-
+            return;
         }
         try {
             mediaPlayer.release();
         } catch (Exception e) {
-
+            return;
         }
         try {
             mediaPlayer.reset();
         } catch (Exception e) {
-
+            return;
         }
         mediaPlayer = new MediaPlayer();
     }
@@ -82,18 +82,6 @@ public class StoryAudioManager {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
             mediaPlayer.prepare();
-            Thread stopThread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        Log.d("playStoryThread",e.toString());
-                        e.printStackTrace();
-                    }
-                }
-            };
-            stopThread.start();
             afd.close();
         }
         catch (IllegalArgumentException e)
@@ -146,42 +134,22 @@ public class StoryAudioManager {
             fileNames.add(fileprefix + i);
         }
 
-
-
         for (int i = 0; i < numberOfFiles; i++) {
             final boolean[] lock = {true};
             setMediaPlayerFile(fileNames.get(i));
-
-            try {
-                mediaPlayer.start();
-            } catch(IllegalStateException e) {
-                mediaPlayer = new MediaPlayer();
-                setMediaPlayerFile(fileNames.get(i));
-                mediaPlayer.start();
-            }
-
+            mediaPlayer.start();
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 Log.d("wait","broken");
             }
-
-            if (!continueAudioFlag) {
-                return;
-            }
-
             while (mediaPlayer.isPlaying()) {
                 if (!continueAudioFlag) {
-                    return;
+                    break;
                 }
                 continue;
             }
-
-            try {
-                mediaPlayer.stop();
-            } catch (IllegalStateException e) {
-                clearMediaPlayer();
-            }
+            mediaPlayer.stop();
             if (!continueAudioFlag) {
                 return;
             }
@@ -196,36 +164,19 @@ public class StoryAudioManager {
                     setMediaPlayerFile(wordList.get(traversedBlanks));
                     //traversedBlanks++;
                 }
-
-                try {
-                    mediaPlayer.start();
-                } catch(IllegalStateException e) {
-                    setMediaPlayerFile(fileNames.get(i));
-                    mediaPlayer.start();
-                }
-
+                mediaPlayer.start();
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     Log.d("wait","broken");
                 }
-                if (!continueAudioFlag) {
-                    return;
-                }
                 while (mediaPlayer.isPlaying()) {
                     if (!continueAudioFlag) {
-                        return;
+                        break;
                     }
                 }
 
-                try {
-                    mediaPlayer.stop();
-                } catch (IllegalStateException e) {
-                    clearMediaPlayer();
-                }
-                if (!continueAudioFlag) {
-                    return;
-                }
+                mediaPlayer.stop();
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
