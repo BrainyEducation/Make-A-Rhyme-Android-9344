@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,18 +24,16 @@ public class ProgressWordList extends AppCompatActivity {
         setContentView(R.layout.activity_progress_wordlist);
         ArrayList<String> attemptedwords = new ArrayList<>(MainActivity.attemptsMap.keySet());
         arrayAdapter = new ArrayAdapter(this, R.layout.progress_individual_words, attemptedwords);
+        //SavePref(attemptedwords);
 
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(arrayAdapter);
-        LoadFromPref();
+        //LoadFromPref();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String wordFromList = adapterView.getItemAtPosition(i).toString();
-                arrayAdapter.add(wordFromList);
-                arrayAdapter.notifyDataSetChanged();
-                SavePref("List", wordFromList);
                 Intent myIntent = new Intent(view.getContext(), StudentProgress.class);
                 myIntent.putExtra("Word", wordFromList);
                 startActivityForResult(myIntent, 0);
@@ -42,18 +41,21 @@ public class ProgressWordList extends AppCompatActivity {
         });
     }
 
-    protected void SavePref(String str, String val) {
-        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = data.edit();
-        editor.putString(str, val);
-        editor.commit();
-    }
-
-    protected void LoadFromPref() {
-        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
-        String dataset = data.getString("", "");
-        arrayAdapter.add(dataset);
-        arrayAdapter.notifyDataSetChanged();
-    }
+//    protected void SavePref(ArrayList<String> arr) {
+//        for (String s : arr) {
+//            SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+//            SharedPreferences.Editor editor = data.edit();
+//            editor.putString("attemptedwords", s);
+//            editor.commit();
+//            Log.d("print", s);
+//
+//        }
+//    }
+//
+//    protected void LoadFromPref() {
+//        SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(this);
+//        String dataset = data.getString("attemptedwords", "");
+//        arrayAdapter.add(dataset);
+//    }
 
 }
