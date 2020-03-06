@@ -75,6 +75,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     StoryAudioManager storyAudioManager;
     ArrayList<String> wordList = new ArrayList<>();
 
+    String storyText = "";
+
     RhymeTemplate currRhyme;
     boolean playCooldown = true;
 
@@ -122,22 +124,17 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
 
     public void onPlayAudio(View v) {
-        if (displayPlayButton && playCooldown) {
-            storyAudioManager.clearMediaPlayer();
+        //ImageButton iB = findViewById(R.id.playButton);
+
+        if (displayPlayButton) {
             storyAudioManager.playStoryThread("Pet Party Picnic Story");
             displayPlayButton = false;
             iB.setImageResource(R.drawable.ic_pause);
-            playCooldown = false;
-            blockPlayButton();
-        } else if (!displayPlayButton && playCooldown){
+
+        } else {
             storyAudioManager.setContinueAudioFlag(false);
-            storyAudioManager.clearMediaPlayer();
             displayPlayButton = true;
             iB.setImageResource(R.drawable.ic_play);
-            playCooldown = false;
-            blockPlayButton();
-            storyAudioManager.clearMediaPlayer();
-            storyAudioManager.setWordList(wordList);
         }
     }
 
@@ -242,7 +239,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void petPartyPicnicSetUp() {
-        String storyText = "Once on a pretend time didn’t you tell me\n" +
+        storyText = "Once on a pretend time didn’t you tell me\n" +
                 "How you hosted a happy pet-pair party?\n" +
                 "You decided on goodies to buy at the store,\n" +
                 "And with your [D_5_6_7] made a guest list of four,\n" +
@@ -691,31 +688,25 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     public void onEmailClick(View v) {
 
+        storyAudioManager.setContinueAudioFlag(false);
+        displayPlayButton = true;
 
+        Bitmap illustrationBitmap = takeScreenShot();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-        Bitmap bm = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bm);
-        v.draw(canvas);
-        String root = Environment.getExternalStorageDirectory().toString();
-        Log.d("ROOTROOTROOT",root);
-        File directory = new File(root, "/saved_images");
-        directory.mkdirs();
-        String filename = "Brainy-make-a-rhyme-temp.jpg";
-        File file = new File(directory, filename);
-        if (file.exists ()) {
-            file.delete ();
-        }
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
+        illustrationBitmap.compress(Bitmap.CompressFormat.JPEG,50,stream);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Create a byte array from ByteArrayOutputStream
+        byte[] byteArray = stream.toByteArray();
+
+        currRhyme.setSavedIllustration(byteArray);
 
         Intent newIntent = new Intent(Rhyme.this,EmailActivity.class);
+        //newIntent.putExtra("current_rhyme", currRhyme);
+        newIntent.putStringArrayListExtra("rhyme_words", wordList);
+        newIntent.putExtra("illustration", byteArray);
+        newIntent.putExtra("general_rhyme_text", storyText);
+
         startActivity(newIntent);
     }
 }
