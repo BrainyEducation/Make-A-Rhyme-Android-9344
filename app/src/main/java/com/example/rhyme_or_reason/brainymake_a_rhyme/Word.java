@@ -46,6 +46,7 @@ public class Word implements Serializable {
             PrintStream printstream = new PrintStream(fos);
             printstream.println(text);
             fos.close();
+            serializedUnlockedWords.add(text);
 
         } catch (FileNotFoundException fnfe) {
             throw new IllegalArgumentException(fnfe);
