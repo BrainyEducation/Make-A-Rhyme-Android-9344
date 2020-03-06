@@ -106,16 +106,14 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         a[0] = "jqdude@gmail.com";
         String subject = "Brainy Make-A-Rhyme: New Rhyme Story!";
         String body = textForEmail;
-        emailSystem.setEmailVariables( emails.toArray(new String[0]), subject, body);
-        Intent in = emailSystem.createEmailIntent();
+        String path = (String) getIntent().getExtras().get("imageUri");
 
-        Bitmap illustrationBitmap = BitmapFactory.decodeByteArray(illustration, 0, illustration.length);
 
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), illustrationBitmap,"Illustration", null);
-        Uri screenshotUri = Uri.parse(path);
-        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        in.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-        in.setType("image/png");
+        emailSystem.setEmailVariables( emails.toArray(new String[0]), subject, body, path);
+
+
+        Intent in = emailSystem.createEmailIntent(this);
+
 
         try {
             startActivity(Intent.createChooser(in, "Send mail..."));
