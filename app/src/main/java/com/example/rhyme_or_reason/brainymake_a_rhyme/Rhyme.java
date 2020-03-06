@@ -26,11 +26,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.EnumMap;
 
 import static android.view.Gravity.CENTER;
 
@@ -124,17 +126,22 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
 
     public void onPlayAudio(View v) {
-        //ImageButton iB = findViewById(R.id.playButton);
-
-        if (displayPlayButton) {
+        if (displayPlayButton && playCooldown) {
+            storyAudioManager.clearMediaPlayer();
             storyAudioManager.playStoryThread("Pet Party Picnic Story");
             displayPlayButton = false;
             iB.setImageResource(R.drawable.ic_pause);
-
-        } else {
+            playCooldown = false;
+            blockPlayButton();
+        } else if (!displayPlayButton && playCooldown){
             storyAudioManager.setContinueAudioFlag(false);
+            storyAudioManager.clearMediaPlayer();
             displayPlayButton = true;
             iB.setImageResource(R.drawable.ic_play);
+            playCooldown = false;
+            blockPlayButton();
+            storyAudioManager.clearMediaPlayer();
+            storyAudioManager.setWordList(wordList);
         }
     }
 
@@ -160,6 +167,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
 
         Intent newIntent = new Intent(this, MainActivity.class);
+
+        forceStopAudio();
 
         selectedButtonIndex = (Integer)v.getTag();
 
@@ -591,6 +600,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void ClickedBackButton(View view) {
 
+        forceStopAudio();
+
+
+        //Kyle
         Bitmap illustrationBitmap = takeScreenShot();
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -599,6 +612,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         // Create a byte array from ByteArrayOutputStream
         byte[] byteArray = stream.toByteArray();
+
 
         if (insertedWord) {
             currRhyme.setSavedIllustration(byteArray);
@@ -688,9 +702,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     public void onEmailClick(View v) {
 
-        storyAudioManager.setContinueAudioFlag(false);
+        forceStopAudio();
         displayPlayButton = true;
 
+        /*
         Bitmap illustrationBitmap = takeScreenShot();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
@@ -700,13 +715,31 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         byte[] byteArray = stream.toByteArray();
 
         currRhyme.setSavedIllustration(byteArray);
+         */
 
         Intent newIntent = new Intent(Rhyme.this,EmailActivity.class);
+        View parentView = findViewById(R.id.totalIllustration);
+        String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
+
+
         //newIntent.putExtra("current_rhyme", currRhyme);
         newIntent.putStringArrayListExtra("rhyme_words", wordList);
-        newIntent.putExtra("illustration", byteArray);
+        //newIntent.putExtra("illustration", byteArray);
+        newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", storyText);
 
         startActivity(newIntent);
+    }
+
+
+    private void forceStopAudio() {
+        try {
+            storyAudioManager.setContinueAudioFlag(false);
+        } catch (IllegalStateException e) {
+            try {
+                storyAudioManager.clearMediaPlayer();
+            } catch (Exception nestedException) {
+            }
+        }
     }
 }

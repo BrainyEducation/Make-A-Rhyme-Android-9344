@@ -1,11 +1,21 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.view.View;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,29 +32,44 @@ public class EmailSystem
     private Pattern emailRegexPattern;
     private static int maxEmails = 20;
     private String emailShortener = "... ";
+    private Uri attachmentURI;
+
 
     public EmailSystem() {
         emailRegexPattern = Pattern.compile(emailValidationRegex);
     }
 
-    public void setEmailVariables(String[] emails, String subjectLine, String emailBody) {
+    public void setEmailVariables(String[] emails, String subjectLine, String emailBody, String path) {
         this.emails = emails;
         this.subjectLine = subjectLine;
         this.emailBody = emailBody;
+        this.attachmentURI = reformatPathStringToURI(path);
     }
 
-    public Intent createEmailIntent() {
+    private Uri reformatPathStringToURI(String s) {
+        String returnString = s.substring(1);
+        Uri imageURI = new Uri.Builder().appendPath(returnString).build();
+        return imageURI;
+    }
+
+    public Intent createEmailIntent(Context context) {
         Intent it = new Intent(Intent.ACTION_SEND);
         it.putExtra(Intent.EXTRA_EMAIL, emails);
         it.putExtra(Intent.EXTRA_SUBJECT,subjectLine);
         it.putExtra(Intent.EXTRA_TEXT,emailBody);
-        it.setType("message/rfc822");
+        it.setType("image/png");
 
-        //attach image
-        String root = Environment.getExternalStorageDirectory().toString();
-        String path = root + "/saved_images" + "Brainy-make-a-rhyme-temp.jpg";
-        Uri thing = Uri.fromFile(new File(path));
-        it.putExtra(Intent.EXTRA_STREAM, thing);
+        String path = attachmentURI.getPath();
+        Log.d("examplepath",path);
+
+        File f = new File(attachmentURI.getPath());
+        Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider",f);
+
+        it.putExtra(Intent.EXTRA_STREAM, contentUri);
+        it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Log.d("attachmentURI", attachmentURI.getPath());
+
 
         return it;
     }
@@ -72,5 +97,32 @@ public class EmailSystem
             return sb.toString();
         }
         return email;
+    }
+
+    /**
+     * Takes a view, saves it as a png file, and returns a string representing the path to
+     * the file
+     */
+    public static String saveViewAsPngAndReturnPath(View parentView, Context context) {
+        Bitmap bm = Bitmap.createBitmap(parentView.getWidth(), parentView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bm);
+        parentView.draw(canvas);
+
+        String path = "";
+        try {
+            File imagePath = new File(context.getFilesDir(),"images");
+            imagePath.mkdir();
+            File imageFile = new File(imagePath.getPath(), "brainy_image.png");
+            path = imageFile.getPath();
+            FileOutputStream out = new FileOutputStream(imageFile);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.d("notfound", e.toString());
+        } catch (IOException e) {
+            Log.d("ioFileOutput",e.toString());
+        }
+        return path;
     }
 }
