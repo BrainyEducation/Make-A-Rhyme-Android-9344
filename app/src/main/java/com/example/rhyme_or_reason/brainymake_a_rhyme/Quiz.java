@@ -2,6 +2,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -23,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -156,6 +159,12 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                     editIncorrectGuesses[1] = incorrectCounter;
                     attemptsToEdit.set(attemptsToEdit.size() - 1, editIncorrectGuesses);
                     MainActivity.attemptsMap.put(MainActivity.selectedWordFromMain.getText(), attemptsToEdit);
+
+                    SharedPreferences pref = getSharedPreferences("AttemptsMap", MODE_PRIVATE);
+                    String objToString = new Gson().toJson(MainActivity.attemptsMap);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("ProgressMap", objToString);
+                    editor.apply();
 
                     // Exit quiz
                     Handler returnHandler = new Handler();

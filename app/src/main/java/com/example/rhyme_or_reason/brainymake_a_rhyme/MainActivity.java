@@ -2,6 +2,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -24,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setUpTypes();
 
         onClick(typeViews.get(0));
+
+        attemptsMap = getMapFromSharedPref();
     }
 
     /**
@@ -675,5 +681,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 type_scrollview.smoothScrollBy(0, 500);
             }
         });
+    }
+
+    public HashMap getMapFromSharedPref() {
+        SharedPreferences sharedpref = getSharedPreferences("AttemptsMap", MODE_PRIVATE);
+        String val = new Gson().toJson(new HashMap<String, ArrayList<int[]>>());
+        String jsonStr = sharedpref.getString("ProgressMap", val);
+        TypeToken<HashMap<String, ArrayList<int[]>>> token = new TypeToken<HashMap<String, ArrayList<int[]>>>() {};
+        HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
+        return mapFromPref;
     }
 }
