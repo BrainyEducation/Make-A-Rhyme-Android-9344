@@ -10,7 +10,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class StudentProgress extends AppCompatActivity{
+public class StudentProgress extends AppCompatActivity {
 
     GraphView graph;
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
@@ -43,5 +43,4 @@ public class StudentProgress extends AppCompatActivity{
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
-
 }

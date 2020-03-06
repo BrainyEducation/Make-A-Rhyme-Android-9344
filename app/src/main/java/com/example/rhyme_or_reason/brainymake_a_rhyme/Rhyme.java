@@ -3,9 +3,11 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ import android.widget.TextView;
 import com.example.rhyme_or_reason.brainymake_a_rhyme.RhymeTemplateAudioManagement.StoryAudioManager;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import static android.view.Gravity.CENTER;
@@ -40,6 +44,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageButton rhymeDownBtn;
     ScrollView rhymeScroll;
     ImageButton iB;
+    Button emailButton;
 
     ImageView img1;
     ImageView img2;
@@ -70,7 +75,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     StoryAudioManager storyAudioManager;
     ArrayList<String> wordList = new ArrayList<>();
 
+    String storyText = "";
+
     RhymeTemplate currRhyme;
+    boolean playCooldown = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +99,14 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         audioSetUp();
 
         petPartyPicnicSetUp();
+
+        emailButton = (Button) findViewById(R.id.emailButton);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEmailClick(v);
+            }
+        });
     }
 
     /**
@@ -106,9 +122,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         fillInRhyme();
     }
 
-    /**
-     * Attach audio play button
-     */
+
     public void onPlayAudio(View v) {
         //ImageButton iB = findViewById(R.id.playButton);
 
@@ -122,6 +136,20 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             displayPlayButton = true;
             iB.setImageResource(R.drawable.ic_play);
         }
+    }
+
+    private void blockPlayButton() {
+        Thread stopThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    sleep(333);
+                    playCooldown = true;
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        stopThread.start();
     }
 
     /**
@@ -211,7 +239,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void petPartyPicnicSetUp() {
-        String storyText = "Once on a pretend time didn’t you tell me\n" +
+        storyText = "Once on a pretend time didn’t you tell me\n" +
                 "How you hosted a happy pet-pair party?\n" +
                 "You decided on goodies to buy at the store,\n" +
                 "And with your [D_5_6_7] made a guest list of four,\n" +
@@ -652,5 +680,33 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         Bitmap illustrationBitmap = Bitmap.createBitmap(totalIllustration.getDrawingCache());
         totalIllustration.setDrawingCacheEnabled(false);
         return illustrationBitmap;
+    }
+
+    public void onThing(View v) {
+
+    }
+
+    public void onEmailClick(View v) {
+
+        storyAudioManager.setContinueAudioFlag(false);
+        displayPlayButton = true;
+
+        Bitmap illustrationBitmap = takeScreenShot();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        illustrationBitmap.compress(Bitmap.CompressFormat.JPEG,50,stream);
+
+        // Create a byte array from ByteArrayOutputStream
+        byte[] byteArray = stream.toByteArray();
+
+        currRhyme.setSavedIllustration(byteArray);
+
+        Intent newIntent = new Intent(Rhyme.this,EmailActivity.class);
+        //newIntent.putExtra("current_rhyme", currRhyme);
+        newIntent.putStringArrayListExtra("rhyme_words", wordList);
+        newIntent.putExtra("illustration", byteArray);
+        newIntent.putExtra("general_rhyme_text", storyText);
+
+        startActivity(newIntent);
     }
 }

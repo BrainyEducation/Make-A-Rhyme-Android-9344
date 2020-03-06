@@ -3,9 +3,12 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +32,8 @@ import android.widget.ScrollView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,9 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout typeLL, wordLL;
     RelativeLayout topBar;
     int HEIGHT_UNIT;
+    private Button progressBtn;
     private ScrollView word_scrollview, type_scrollview;
     private ImageButton up_btnW, down_btnW, up_btnT, down_btnT;
-    private Button progressBtn;
+    //private Button progressBtn;
     static int attempts = 0;
     static Word selectedWordFromMain;
     static ArrayList<String> wordsAttempted = new ArrayList<>();
@@ -154,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void loadTypeToWordMappings()
     {
-
         String[][] words = new String[][] { {"People", "baby", "boy", "brother", "child", "clown",
                 "cook", "dancer", "family", "father", "girl", "grandma", "grandpa", "juggler",
                 "king", "man", "mother", "nurse", "queen", "sister", "twins"},
@@ -209,18 +214,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             for(int j = 1; j < words[i].length; j++) {
                 Word currWord = Word.retrieveWord(this.getApplicationContext(), words[i][j], words[i][0].toLowerCase());
-                //wordlist.add(new Word(words[i][j].replaceAll("_", " "), true,
-                        //words[i][j], words[i][j], words[i][0].toLowerCase()));
                 if (currWord == null) {
                     currWord = new Word(words[i][j], true, words[i][j], words[i][j], words[i][0].toLowerCase());
                 }
                 wordlist.add(currWord);
-                //System.out.println(currWord);
-                //System.out.println(currWord.getImageName());
-                //System.out.println();
             }
-            //System.out.println(words[i][0]);
-            //System.out.println(words[i]);
             typeToWordMapping.put(words[i][0], wordlist);
         }
 
@@ -245,6 +243,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent progressInt = new Intent(this, StudentProgress.class);
             startActivity(progressInt);
         }
+
+        //OnClick For Progress Button
+        if (v == progressBtn) {
+            Intent progressInt = new Intent(this, StudentProgress.class);
+            startActivity(progressInt);
+        }
+
 
         Boolean updatingActiveType = false;
 
@@ -501,6 +506,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         down_btnW = findViewById(R.id.WordScrollDownBtn);
         up_btnT = findViewById(R.id.TypeScrollUpBtn);
         down_btnT = findViewById(R.id.TypeScrollDownBtn);
+        progressBtn = findViewById(R.id.ProgressButton);
+        up_btnW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                word_scrollview.smoothScrollBy(0, -500);
+            }
+        });
+        down_btnW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                word_scrollview.smoothScrollBy(0, 500);
+            }
+        });
+        up_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, -500);
+            }
+        });
+        down_btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type_scrollview.smoothScrollBy(0, 500);
+            }
+        });
         typeLL = findViewById(R.id.TypeLL);
         wordLL = findViewById(R.id.WordLL);
         topBar = findViewById(R.id.topLayout);
@@ -607,4 +637,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+
 }
