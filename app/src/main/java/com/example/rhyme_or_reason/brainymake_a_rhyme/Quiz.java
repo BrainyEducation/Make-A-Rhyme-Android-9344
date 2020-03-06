@@ -2,6 +2,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -24,8 +25,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -49,6 +53,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     int lockedWordImageResourceID;
     final int NUM_CHOICES = 4;
     int buttonColor = Color.parseColor("#f4faf8");
+    //final int textSize = 40;
+    int incorrectCounter = 0;
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -148,6 +154,18 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
                     playPraise();
 
+                    ArrayList<int[]> attemptsToEdit = MainActivity.attemptsMap.get(MainActivity.selectedWordFromMain.getText());
+                    int[] editIncorrectGuesses = attemptsToEdit.get(attemptsToEdit.size() - 1);
+                    editIncorrectGuesses[1] = incorrectCounter;
+                    attemptsToEdit.set(attemptsToEdit.size() - 1, editIncorrectGuesses);
+                    MainActivity.attemptsMap.put(MainActivity.selectedWordFromMain.getText(), attemptsToEdit);
+
+                    SharedPreferences pref = getSharedPreferences("AttemptsMap", MODE_PRIVATE);
+                    String objToString = new Gson().toJson(MainActivity.attemptsMap);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("ProgressMap", objToString);
+                    editor.apply();
+
                     // Exit quiz
                     Handler returnHandler = new Handler();
                     returnHandler.postDelayed(new Runnable() {
@@ -161,7 +179,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                 }
             } else {
                 // Switch to silver stars
-
+                incorrectCounter++;
                 starIV1.setBackgroundResource(R.drawable.silver_star_blank);
                 starIV2.setBackgroundResource(R.drawable.silver_star_blank);
                 starIV3.setBackgroundResource(R.drawable.silver_star_blank);

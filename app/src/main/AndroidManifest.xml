@@ -27,6 +27,15 @@
         <activity
             android:name=".Rhyme"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".StudentProgress"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".ProgressWordList"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"

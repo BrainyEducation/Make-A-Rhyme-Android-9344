@@ -2,6 +2,7 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -24,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int HEIGHT_UNIT;
     private ScrollView word_scrollview, type_scrollview;
     private ImageButton up_btnW, down_btnW, up_btnT, down_btnT;
-
+    private Button progressBtn;
+    static int attempts = 0;
+    static Word selectedWordFromMain;
+    static ArrayList<String> wordsAttempted = new ArrayList<>();
+    static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
 
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
@@ -232,6 +240,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * view. When a word is selected, the next activity is launched (the quiz) for the word
      */
     public void onClick(View v) {
+        //OnClick For Progress Button
+        if (v == progressBtn) {
+            Intent progressInt = new Intent(this, StudentProgress.class);
+            startActivity(progressInt);
+        }
 
         Boolean updatingActiveType = false;
 
@@ -307,6 +320,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }, 0);   // Instantaneous
                     } else {
+                        wordsAttempted.add(selectedWord.getText());
+                        selectedWordFromMain = selectedWord;
+                        ArrayList<int[]> wordAttempts;
+                        int[] attemptsToIncorrects = new int[2];
+                        if (!attemptsMap.containsKey(selectedWord)) {
+                            attemptsToIncorrects[0] = 1;
+                            attemptsToIncorrects[1] = 0;
+                            wordAttempts = new ArrayList<>();
+                            wordAttempts.add(attemptsToIncorrects);
+                        } else {
+                            wordAttempts = attemptsMap.get(selectedWord);
+                            int[] lastAttemptArray = wordAttempts.get(wordAttempts.size() - 1);
+                            int lastAttempt = lastAttemptArray[0];
+                            attemptsToIncorrects[0] = lastAttempt + 1;
+                            attemptsToIncorrects[1] = 0;
+                        }
+
+                        attemptsMap.put(selectedWord.getText(), wordAttempts);
+
                         Intent newIntent = new Intent(this, Quiz.class);
                         newIntent.putExtra("word", selectedWord);
                         newIntent.putExtra("category_words", categoryWords);
@@ -315,6 +347,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         newIntent.putExtra("other_words", otherWords);
                         startActivityForResult(newIntent, 1);
                     }
+                } else {
+                    //Friends
+                    Intent newIntent = new Intent(this, NameFriend.class);
+                    newIntent.putExtra("word", selectedWord);
+                    startActivityForResult(newIntent, 2);
+                }
+            }
+
+
+            /*
+            if (switchingActivities) {
+                wordIndex = matchIndex;
+                selectedWord = wordList.get(matchIndex);
+
+                if (!selectedWord.getLockedStatus()) {
+                    Handler returnHandler = new Handler();
+                    returnHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("word", selectedWord);
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+                        }
+                    }, 0);   // Instantaneous
+                } else {
+                    wordsAttempted.add(selectedWord.getText());
+                    selectedWordFromMain = selectedWord;
+                    ArrayList<int[]> wordAttempts;
+                    int[] attemptsToIncorrects = new int[2];
+                    if (!attemptsMap.containsKey(selectedWord)) {
+                        attemptsToIncorrects[0] = 1;
+                        attemptsToIncorrects[1] = 0;
+                        wordAttempts = new ArrayList<>();
+                        wordAttempts.add(attemptsToIncorrects);
+                    } else {
+                        wordAttempts = attemptsMap.get(selectedWord);
+                        int[] lastAttemptArray = wordAttempts.get(wordAttempts.size() - 1);
+                        int lastAttempt = lastAttemptArray[0];
+                        attemptsToIncorrects[0] = lastAttempt + 1;
+                        attemptsToIncorrects[1] = 0;
+                    }
+
+                    attemptsMap.put(selectedWord.getText(), wordAttempts);
+                    Intent newIntent = new Intent(this, Quiz.class);
+                    newIntent.putExtra("word", selectedWord);
+                    newIntent.putExtra("category_words", categoryWords);
+                    newIntent.putExtra("length_words", lengthWords);
+                    newIntent.putExtra("letter_words", letterWords);
+                    newIntent.putExtra("other_words", otherWords);
+                    startActivityForResult(newIntent, 1);
                 }
             }
             else
@@ -324,6 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 newIntent.putExtra("word", selectedWord);
                 startActivityForResult(newIntent, 2);
             }
+            */
         }
 
 
