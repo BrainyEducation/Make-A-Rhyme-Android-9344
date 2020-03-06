@@ -1,17 +1,9 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.FileProvider;
@@ -24,6 +16,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
+
+import java.io.File;
+import java.lang.reflect.Array;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -36,12 +32,6 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
     TableLayout emailTable;
     HashSet<String> emailHashSet;
 
-    byte[] illustration;
-    ArrayList<String> chosenWords;
-    String storyText = "";
-    String textForEmail = "";
-    boolean paused = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,44 +43,8 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         emailHashSet = new HashSet<>();
         emailSystem = new EmailSystem();
         tableRowTemplate.setVisibility(View.GONE);
-
-        loadIntentsAndViews();
-
-        stitchStoryText();
-
     }
 
-    public void loadIntentsAndViews()
-    {
-        chosenWords =  getIntent().getStringArrayListExtra("rhyme_words");
-        illustration = getIntent().getByteArrayExtra("illustration");
-        storyText = getIntent().getStringExtra("general_rhyme_text");
-    }
-
-    public void stitchStoryText()
-    {
-        boolean inSquareBrackets = false;
-
-        int blankIndex = 0;
-
-        for (int index = 0; index < storyText.length(); ++index) {
-            if (!inSquareBrackets && storyText.charAt(index) != '[') {
-                textForEmail += storyText.charAt(index);
-            } else if (storyText.charAt(index) == '[') {
-                inSquareBrackets = true;
-                String chosenWord = chosenWords.get(blankIndex);
-                textForEmail += (chosenWord.length() != 0) ? chosenWord : "___";
-                ++blankIndex;
-            } else if (storyText.charAt(index) != ']' && inSquareBrackets) {
-                // Do nothing
-            } else if (storyText.charAt(index) == ']') {
-                inSquareBrackets = false;
-            }
-        }
-
-        // Get rid of potential double spaces.
-        textForEmail = textForEmail.replace("  ", " ");
-    }
 
     public void sendEmail(View v) {
         if (emails.size() == 0) {
@@ -187,32 +141,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    /**
-     * When paused to switch to email, keep track of this so that will return to rhyme screen when unpaused
-     */
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-
-        paused = true;
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-        if (paused) {
-            ClickedBackButton(null);
-        }
-    }
-
-    /**
-     * Returns to the rhyme screen
-     */
     public void ClickedBackButton(View view) {
-
         onBackPressed();
     }
 }

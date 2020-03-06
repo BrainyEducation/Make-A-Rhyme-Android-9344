@@ -82,8 +82,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     StoryAudioManager storyAudioManager;
     ArrayList<String> wordList = new ArrayList<>();
 
-    String storyText = "";
-
     RhymeTemplate currRhyme;
     boolean playCooldown = true;
 
@@ -131,17 +129,22 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
 
     public void onPlayAudio(View v) {
-        //ImageButton iB = findViewById(R.id.playButton);
-
-        if (displayPlayButton) {
+        if (displayPlayButton && playCooldown) {
+            storyAudioManager.clearMediaPlayer();
             storyAudioManager.playStoryThread("Pet Party Picnic Story");
             displayPlayButton = false;
             iB.setImageResource(R.drawable.ic_pause);
-
-        } else {
+            playCooldown = false;
+            blockPlayButton();
+        } else if (!displayPlayButton && playCooldown){
             storyAudioManager.setContinueAudioFlag(false);
+            storyAudioManager.clearMediaPlayer();
             displayPlayButton = true;
             iB.setImageResource(R.drawable.ic_play);
+            playCooldown = false;
+            blockPlayButton();
+            storyAudioManager.clearMediaPlayer();
+            storyAudioManager.setWordList(wordList);
         }
     }
 
@@ -246,7 +249,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void petPartyPicnicSetUp() {
-        storyText = "Once on a pretend time didn’t you tell me\n" +
+        String storyText = "Once on a pretend time didn’t you tell me\n" +
                 "How you hosted a happy pet-pair party?\n" +
                 "You decided on goodies to buy at the store,\n" +
                 "And with your [D_5_6_7] made a guest list of four,\n" +
@@ -724,6 +727,5 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             } catch (Exception nestedException) {
             }
         }
-
     }
 }

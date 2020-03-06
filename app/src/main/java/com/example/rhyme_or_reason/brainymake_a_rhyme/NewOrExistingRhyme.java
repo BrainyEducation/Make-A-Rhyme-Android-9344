@@ -169,7 +169,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
         RhymeTemplate toSend;
 
-        if (v.getTag().equals("NEW")) {
+        if (v.getTag() == "NEW") {
             toSend = chosenRhymeTemplate;
         } else {
             RhymeTemplate selectedRhyme = retrieveRhymeTemplate(this.getApplicationContext(), (Integer)v.getTag());

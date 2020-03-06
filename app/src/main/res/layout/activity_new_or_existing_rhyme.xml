@@ -55,9 +55,7 @@
             android:text="New"
             android:fontFamily="@font/imprima"
             android:textSize="45sp"
-            android:tag="NEW"
             android:background="@color/colorBackground"
-            android:onClick="onClick"
             android:alpha="0.6"/>
 
         <ImageView
