@@ -54,6 +54,19 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageView img4;
     ImageView img5;
     ImageView img6;
+    ImageView img7;
+    ImageView img8;
+    ImageView img9;
+    ImageView img10;
+    ImageView img11;
+    ImageView img12;
+    ImageView img13;
+    ImageView img14;
+    ImageView img15;
+    ImageView img16;
+    ImageView img17;
+    ImageView img18;
+    ImageView img19;
 
     ArrayList<ImageView> illustrationIVs = new ArrayList<>();
 
@@ -104,6 +117,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         } else if (currRhyme.getName().equals("Muddy Park")) {
             setImageCoordsMuddyPark();
             muddyParkSetUp();
+        } else if (currRhyme.getName().equals("Stranger Parade")) {
+            setImageCoordsStrangerParade();
+            strangerParadeSetUp();
         }
 
         storySetUp();
@@ -338,6 +354,26 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "But you made lots of new mud-loving friends!\n";
     }
 
+    public void strangerParadeSetUp()
+    {
+        storyText = "Who made the strange parade at my house?\n" +
+                "—With a [A-13] in front pulled by a mouse,\n" +
+                "Bumped in back by some [E-5_6_7] slurping ice cream,\n" +
+                "And a [G-5_6_7] and [H-5_6_7]  yoked as a team,\n" +
+                "Hauling a [B-13] on which some [J-5_6_7] rode,\n" +
+                "And giggled to see a [K-1_3_5_6_7] kiss a toad,\n" +
+                "And a [L-1_3_5_6_7] and [N-1_3_5_6_7] danced together,\n" +
+                "As some [P-1_3_5_6_7] tickled them with a peacock feather.\n" +
+                "A sleepy [Q-1_3_5_6_7] had a wee [R-1_3_5_6_7] hanging down,\n" +
+                "From its back and a [S-1_3_5_6_7] made a frown,\n" +
+                "While a [U-1_3_5_6_7] gobbled [Y-14] and burped,\n" +
+                "At a [V-1_3_5_6_7], who spilled  chocolate milk as it slurped,\n" +
+                "And a strange smelling [W-1_3_5_6_7] on a [C-8_9_10_13]  winked at me—\n" +
+                "As I sat on a [D-8_9_10_13] for an hour to sight-see.\n" +
+                "Who could dream up a strange parade of this kind?\n" +
+                "Did I maybe just make it all up in my mind?\n";
+    }
+
     public void storySetUp() {
         int characterCounter = 0;
         String currentLine = "";
@@ -534,7 +570,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
             }
         }
-
     }
 
     /**
@@ -543,7 +578,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void miscellaneousSetUp()
     {
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
-
     }
 
     /**
@@ -554,19 +588,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     public void setImageCoordsPetPartyPicnic()
     {
-        double[] image1 = {width * .0985, width * Constants.ASPECT_RATIO * .3415};
-        double[] image2 = {width * .1593, width * Constants.ASPECT_RATIO * .5431};
-        double[] image3 = {width * .4832, width * Constants.ASPECT_RATIO * .5585};
-        double[] image4 = {width * .6321, width * Constants.ASPECT_RATIO * .4};
-        double[] image5 = {width * .5251, width * Constants.ASPECT_RATIO * .16};
-        double[] image6 = {width * .3312, width * Constants.ASPECT_RATIO * .1046};
-
-        imageCoords.add(image1);
-        imageCoords.add(image2);
-        imageCoords.add(image3);
-        imageCoords.add(image4);
-        imageCoords.add(image5);
-        imageCoords.add(image6);
+        imageCoords.add(new double[]{width * .0985, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .1593, width * Constants.ASPECT_RATIO * .5431});
+        imageCoords.add(new double[]{width * .4832, width * Constants.ASPECT_RATIO * .5585});
+        imageCoords.add(new double[]{width * .6321, width * Constants.ASPECT_RATIO * .4});
+        imageCoords.add(new double[]{width * .5251, width * Constants.ASPECT_RATIO * .16});
+        imageCoords.add(new double[]{width * .3312, width * Constants.ASPECT_RATIO * .1046});
     }
 
     /**
@@ -576,17 +603,42 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void setImageCoordsMuddyPark()
     {
-        double[] image1 = {width * .47, width * Constants.ASPECT_RATIO * .245};
-        double[] image2 = {width * .455, width * Constants.ASPECT_RATIO * .72};
-        double[] image3 = {width * .574, width * Constants.ASPECT_RATIO * .8};
-        double[] image4 = {width * .68, width * Constants.ASPECT_RATIO * .675};
-        double[] image5 = {width * .7646, width * Constants.ASPECT_RATIO * .4578};
+        imageCoords.add(new double[]{width * .47, width * Constants.ASPECT_RATIO * .245});
+        imageCoords.add(new double[]{width * .455, width * Constants.ASPECT_RATIO * .72});
+        imageCoords.add(new double[]{width * .574, width * Constants.ASPECT_RATIO * .8});
+        imageCoords.add(new double[]{width * .68, width * Constants.ASPECT_RATIO * .675});
+        imageCoords.add(new double[]{width * .7646, width * Constants.ASPECT_RATIO * .4578});
+    }
 
-        imageCoords.add(image1);
-        imageCoords.add(image2);
-        imageCoords.add(image3);
-        imageCoords.add(image4);
-        imageCoords.add(image5);
+    /**
+     * Designed for Stranger Parade Rhyme Template. Finds the relative
+     * position of the top left corner of the square-ish gray box in the illustration.
+     * Starts at left picture and then progresses in normal reading order.
+     */
+
+    public void setImageCoordsStrangerParade()
+    {
+        // TODO: STILL NEED TO UPDATE HEIGHTS
+        imageCoords.add(new double[]{width * .1768, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .299, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .443, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .668, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .668, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .789, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .804, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .111, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .24, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .258, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .558, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .7, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .822, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .216, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .299, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .442, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .677, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .661, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * 808, width * Constants.ASPECT_RATIO * .3415});
+
     }
 
     /**
