@@ -135,10 +135,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, Constants.SEPARATOR_HEIGHT));
 
-            System.out.println("Curr Type: ");
-            System.out.println(currType);
-            System.out.println(wordList.get(index));
-            System.out.println(wordList.get(index).getText());
+            //System.out.println("Curr Type: ");
+            //System.out.println(currType);
+            //System.out.println(wordList.get(index));
+            //System.out.println(wordList.get(index).getText());
             if (!currType.equals("Friends") && (wordList.get(index)).getLockedStatus()) {
                 // Is Locked
                 tempWordImage.setAlpha(Constants.LOCKED_ALPHA);

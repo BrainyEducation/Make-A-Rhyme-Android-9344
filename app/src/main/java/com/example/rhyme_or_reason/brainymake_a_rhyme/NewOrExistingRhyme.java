@@ -100,7 +100,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
      */
     public void loadExistingRhymes(boolean justReturned) {
 
-        int numExistingRhymes = getNumberOfExistingRhymes(this.getApplicationContext());
+        int numExistingRhymes = getNumberOfExistingRhymes(this.getApplicationContext(), chosenRhymeTemplate.getName());
 
         // If there are no rhymes, we skip the view, either in the forwards or backwards direction.
         if (numExistingRhymes == 0) {
@@ -115,7 +115,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
             System.out.println("1");
 
-            RhymeTemplate currRhyme = retrieveRhymeTemplate(this.getApplicationContext(), index);
+            RhymeTemplate currRhyme = retrieveRhymeTemplate(this.getApplicationContext(), index, chosenRhymeTemplate.getName());
 
             System.out.println("2");
 
@@ -172,7 +172,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         if (v.getTag().equals("NEW")) {
             toSend = chosenRhymeTemplate;
         } else {
-            RhymeTemplate selectedRhyme = retrieveRhymeTemplate(this.getApplicationContext(), (Integer)v.getTag());
+            RhymeTemplate selectedRhyme = retrieveRhymeTemplate(this.getApplicationContext(), (Integer)v.getTag(), chosenRhymeTemplate.getName());
             toSend = selectedRhyme;
         }
 

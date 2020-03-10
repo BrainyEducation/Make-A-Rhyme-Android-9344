@@ -124,7 +124,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     public void loadRhymeTemplates()
     {
         RhymeTemplate petPartyPicnic = new RhymeTemplate("Pet Party Picnic", "background_pet_party_picnic", false, 15, 6);
-        RhymeTemplate muddyPark = new RhymeTemplate("Muddy Park", "background_muddy_park", true, 13, 5);
+        RhymeTemplate muddyPark = new RhymeTemplate("Muddy Park", "background_muddy_park", false, 13, 5);
         RhymeTemplate strangerParade = new RhymeTemplate("Stranger Parade", "background_stranger_parade", true, 19, 19);
 
         templateOptions.add(petPartyPicnic);

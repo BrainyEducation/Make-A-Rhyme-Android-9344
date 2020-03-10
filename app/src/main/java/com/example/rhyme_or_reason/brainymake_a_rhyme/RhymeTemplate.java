@@ -81,39 +81,39 @@ public class RhymeTemplate implements Serializable {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        int numRhymes = appSharedPrefs.getInt("NumRhymes", 0);
+        int numRhymes = appSharedPrefs.getInt(this.name + "NumRhymes", 0);
 
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
 
-        prefsEditor.putInt("NumRhymes", numRhymes + 1);
+        prefsEditor.putInt(this.name + "NumRhymes", numRhymes + 1);
 
         String rhymeNumString = ((Integer)numRhymes).toString();
 
         String json = gson.toJson(this);
-        prefsEditor.putString("SavedRhyme" + rhymeNumString, json);
+        prefsEditor.putString(this.name + "SavedRhyme" + rhymeNumString, json);
         prefsEditor.commit();
     }
 
     /*
      * TODO: Need to update so that will work for multiple rhyme stories
      */
-    public static RhymeTemplate retrieveRhymeTemplate(Context context, int rhymeNumber) {
+    public static RhymeTemplate retrieveRhymeTemplate(Context context, int rhymeNumber, String rhymeTemplateName) {
 
         String rhymeNumString = ((Integer)rhymeNumber).toString();
 
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = appSharedPrefs.getString("SavedRhyme" + rhymeNumString, "");
+        String json = appSharedPrefs.getString(rhymeTemplateName + "SavedRhyme" + rhymeNumString, "");
         return gson.fromJson(json, RhymeTemplate.class);
     }
 
-    public static int getNumberOfExistingRhymes(Context context)
+    public static int getNumberOfExistingRhymes(Context context, String rhymeTemplateName)
     {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        int numRhymes = appSharedPrefs.getInt("NumRhymes", 0);
+        int numRhymes = appSharedPrefs.getInt(rhymeTemplateName + "NumRhymes", 0);
 
         return numRhymes;
     }

@@ -11,6 +11,7 @@ public class Constants {
     static final int STANDARD_TEXT_SIZE = 30;
     static final int HEADER_TEXT_SIZE = 40;
     static final int SMALL_TEXT_SIZE = 20;
-    static final double PICTURE_HEIGHT_SCALE = .1615;
+    static final double PET_PARTY_PICTURE_HEIGHT_SCALE = .1615;
+    static final double MUDDY_PARK_PICTURE_HEIGHT_SCALE = .10;
     static final float LOCKED_ALPHA = 0.2f;
 }
