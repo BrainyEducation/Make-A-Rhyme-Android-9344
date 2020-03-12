@@ -31,8 +31,11 @@ import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.List;
 
 import static android.view.Gravity.CENTER;
 
@@ -48,25 +51,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ImageButton iB;
     Button emailButton;
 
-    ImageView img1;
-    ImageView img2;
-    ImageView img3;
-    ImageView img4;
-    ImageView img5;
-    ImageView img6;
-    ImageView img7;
-    ImageView img8;
-    ImageView img9;
-    ImageView img10;
-    ImageView img11;
-    ImageView img12;
-    ImageView img13;
-    ImageView img14;
-    ImageView img15;
-    ImageView img16;
-    ImageView img17;
-    ImageView img18;
-    ImageView img19;
+    ImageView img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19;
+    ArrayList<ImageView> neededIVs;
 
     ArrayList<ImageView> illustrationIVs = new ArrayList<>();
 
@@ -290,6 +276,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             illustration.setBackgroundResource(R.drawable.background_pet_party_picnic);
         } else if (currRhyme.getName().equals("Muddy Park")) {
             illustration.setBackgroundResource(R.drawable.background_muddy_park);
+        } else if (currRhyme.getName().equals("Stranger Parade")) {
+            illustration.setBackgroundResource(R.drawable.background_stranger_parade);
         }
     }
 
@@ -615,29 +603,27 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      * position of the top left corner of the square-ish gray box in the illustration.
      * Starts at left picture and then progresses in normal reading order.
      */
-
     public void setImageCoordsStrangerParade()
     {
-        // TODO: STILL NEED TO UPDATE HEIGHTS
-        imageCoords.add(new double[]{width * .1768, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .299, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .443, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .668, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .668, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .789, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .804, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .111, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .24, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .258, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .558, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .7, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .822, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .216, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .299, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .442, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .677, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * .661, width * Constants.ASPECT_RATIO * .3415});
-        imageCoords.add(new double[]{width * 808, width * Constants.ASPECT_RATIO * .3415});
+        imageCoords.add(new double[]{width * .1768, width * Constants.ASPECT_RATIO * .18});
+        imageCoords.add(new double[]{width * .299, width * Constants.ASPECT_RATIO * .1274});
+        imageCoords.add(new double[]{width * .443, width * Constants.ASPECT_RATIO * .1514});
+        imageCoords.add(new double[]{width * .668, width * Constants.ASPECT_RATIO * .1124});
+        imageCoords.add(new double[]{width * .668, width * Constants.ASPECT_RATIO * .2144});
+        imageCoords.add(new double[]{width * .789, width * Constants.ASPECT_RATIO * .0165});
+        imageCoords.add(new double[]{width * .804, width * Constants.ASPECT_RATIO * .1814});
+        imageCoords.add(new double[]{width * .111, width * Constants.ASPECT_RATIO * .4213});
+        imageCoords.add(new double[]{width * .24, width * Constants.ASPECT_RATIO * .4198});
+        imageCoords.add(new double[]{width * .258, width * Constants.ASPECT_RATIO * .3748});
+        imageCoords.add(new double[]{width * .558, width * Constants.ASPECT_RATIO * .4183});
+        imageCoords.add(new double[]{width * .7, width * Constants.ASPECT_RATIO * .4183});
+        imageCoords.add(new double[]{width * .822, width * Constants.ASPECT_RATIO * .4183});
+        imageCoords.add(new double[]{width * .216, width * Constants.ASPECT_RATIO * .6747});
+        imageCoords.add(new double[]{width * .299, width * Constants.ASPECT_RATIO * .6927});
+        imageCoords.add(new double[]{width * .442, width * Constants.ASPECT_RATIO * .6942});
+        imageCoords.add(new double[]{width * .677, width * Constants.ASPECT_RATIO * .6537});
+        imageCoords.add(new double[]{width * .661, width * Constants.ASPECT_RATIO * .7571});
+        imageCoords.add(new double[]{width * .808, width * Constants.ASPECT_RATIO * .7871});
 
     }
 
@@ -650,6 +636,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             setUpMuddyPark();
         } else if (currRhyme.getName().equals("Pet Party Picnic")) {
             setUpPetPartyPicnic();
+        } else if (currRhyme.getName().equals("Stranger Parade")) {
+            setUpStrangerParade();
         }
     }
 
@@ -792,6 +780,212 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     /**
+     * Sets up the illustration and its image views inside for Stranger Parade Template
+     */
+    public void setUpStrangerParade() {
+
+        img1 = new ImageView(this);
+        img2 = new ImageView(this);
+        img3 = new ImageView(this);
+        img4 = new ImageView(this);
+        img5 = new ImageView(this);
+        img6 = new ImageView(this);
+        img7 = new ImageView(this);
+        img8 = new ImageView(this);
+        img9 = new ImageView(this);
+        img10 = new ImageView(this);
+        img11 = new ImageView(this);
+        img12 = new ImageView(this);
+        img13 = new ImageView(this);
+        img14 = new ImageView(this);
+        img15 = new ImageView(this);
+        img16 = new ImageView(this);
+        img17 = new ImageView(this);
+        img18 = new ImageView(this);
+        img19 = new ImageView(this);
+
+        //img1.setBackgroundColor(Color.BLUE);
+
+        // Image View (Picture of Word Being Quizzed)
+        FrameLayout.LayoutParams img_params1 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params1.setMargins((int) (imageCoords.get(0)[0]), (int) (imageCoords.get(0)[1]), 0, 0);
+        img1.setLayoutParams(img_params1);
+
+        FrameLayout.LayoutParams img_params2 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params2.setMargins((int) (imageCoords.get(1)[0]), (int) (imageCoords.get(1)[1]), 0, 0);
+        img2.setLayoutParams(img_params2);
+
+        FrameLayout.LayoutParams img_params3 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params3.setMargins((int) (imageCoords.get(2)[0]), (int) (imageCoords.get(2)[1]), 0, 0);
+        img3.setLayoutParams(img_params3);
+
+        FrameLayout.LayoutParams img_params4 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params4.setMargins((int) (imageCoords.get(3)[0]), (int) (imageCoords.get(3)[1]), 0, 0);
+        img4.setLayoutParams(img_params4);
+
+        FrameLayout.LayoutParams img_params5 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params5.setMargins((int) (imageCoords.get(4)[0]), (int) (imageCoords.get(4)[1]), 0, 0);
+        img5.setLayoutParams(img_params5);
+
+        FrameLayout.LayoutParams img_params6 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params6.setMargins((int) (imageCoords.get(5)[0]), (int) (imageCoords.get(5)[1]), 0, 0);
+        img6.setLayoutParams(img_params6);
+
+        // Image View (Picture of Word Being Quizzed)
+        FrameLayout.LayoutParams img_params7 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params7.setMargins((int) (imageCoords.get(6)[0]), (int) (imageCoords.get(6)[1]), 0, 0);
+        img7.setLayoutParams(img_params7);
+
+        FrameLayout.LayoutParams img_params8 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params8.setMargins((int) (imageCoords.get(7)[0]), (int) (imageCoords.get(7)[1]), 0, 0);
+        img8.setLayoutParams(img_params8);
+
+        FrameLayout.LayoutParams img_params9 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params9.setMargins((int) (imageCoords.get(8)[0]), (int) (imageCoords.get(8)[1]), 0, 0);
+        img9.setLayoutParams(img_params9);
+
+        FrameLayout.LayoutParams img_params10 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params10.setMargins((int) (imageCoords.get(9)[0]), (int) (imageCoords.get(9)[1]), 0, 0);
+        img10.setLayoutParams(img_params10);
+
+        FrameLayout.LayoutParams img_params11 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params11.setMargins((int) (imageCoords.get(10)[0]), (int) (imageCoords.get(10)[1]), 0, 0);
+        img11.setLayoutParams(img_params11);
+
+        FrameLayout.LayoutParams img_params12 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params12.setMargins((int) (imageCoords.get(11)[0]), (int) (imageCoords.get(11)[1]), 0, 0);
+        img12.setLayoutParams(img_params12);
+
+        // Image View (Picture of Word Being Quizzed)
+        FrameLayout.LayoutParams img_params13 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params13.setMargins((int) (imageCoords.get(12)[0]), (int) (imageCoords.get(12)[1]), 0, 0);
+        img13.setLayoutParams(img_params13);
+
+        FrameLayout.LayoutParams img_params14 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params14.setMargins((int) (imageCoords.get(13)[0]), (int) (imageCoords.get(13)[1]), 0, 0);
+        img14.setLayoutParams(img_params14);
+
+        FrameLayout.LayoutParams img_params15 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params15.setMargins((int) (imageCoords.get(14)[0]), (int) (imageCoords.get(14)[1]), 0, 0);
+        img15.setLayoutParams(img_params15);
+
+        FrameLayout.LayoutParams img_params16 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params16.setMargins((int) (imageCoords.get(15)[0]), (int) (imageCoords.get(15)[1]), 0, 0);
+        img16.setLayoutParams(img_params16);
+
+        FrameLayout.LayoutParams img_params17 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params17.setMargins((int) (imageCoords.get(16)[0]), (int) (imageCoords.get(16)[1]), 0, 0);
+        img17.setLayoutParams(img_params17);
+
+        FrameLayout.LayoutParams img_params18 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params18.setMargins((int) (imageCoords.get(17)[0]), (int) (imageCoords.get(17)[1]), 0, 0);
+        img18.setLayoutParams(img_params18);
+
+        // Image View (Picture of Word Being Quizzed)
+        FrameLayout.LayoutParams img_params19 = new FrameLayout.LayoutParams(
+                (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
+        );
+
+        img_params19.setMargins((int) (imageCoords.get(18)[0]), (int) (imageCoords.get(18)[1]), 0, 0);
+        img19.setLayoutParams(img_params19);
+
+
+        illustrationIVs.add(img1);
+        illustrationIVs.add(img2);
+        illustrationIVs.add(img3);
+        illustrationIVs.add(img4);
+        illustrationIVs.add(img5);
+        illustrationIVs.add(img6);
+        illustrationIVs.add(img7);
+        illustrationIVs.add(img8);
+        illustrationIVs.add(img9);
+        illustrationIVs.add(img10);
+        illustrationIVs.add(img11);
+        illustrationIVs.add(img12);
+        illustrationIVs.add(img13);
+        illustrationIVs.add(img14);
+        illustrationIVs.add(img15);
+        illustrationIVs.add(img16);
+        illustrationIVs.add(img17);
+        illustrationIVs.add(img18);
+        illustrationIVs.add(img19);
+
+        totalIllustration.addView(img1);
+        totalIllustration.addView(img2);
+        totalIllustration.addView(img3);
+        totalIllustration.addView(img4);
+        totalIllustration.addView(img5);
+        totalIllustration.addView(img6);
+        totalIllustration.addView(img7);
+        totalIllustration.addView(img8);
+        totalIllustration.addView(img9);
+        totalIllustration.addView(img10);
+        totalIllustration.addView(img11);
+        totalIllustration.addView(img12);
+        totalIllustration.addView(img13);
+        totalIllustration.addView(img14);
+        totalIllustration.addView(img15);
+        totalIllustration.addView(img16);
+        totalIllustration.addView(img17);
+        totalIllustration.addView(img18);
+        totalIllustration.addView(img19);
+    }
+
+    /**
      * Returns to the new/existing rhyme selection page and saves the current rhyme
      */
     public void ClickedBackButton(View view) {
@@ -802,8 +996,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         //forceStopAudio();
 
-
-        //Kyle
         Bitmap illustrationBitmap = takeScreenShot();
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -839,6 +1031,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void updateIllustration(Word selectedWord, int buttonIndex)
     {
+        System.out.println("Button index: ");
+        System.out.println(buttonIndex);
         if (buttonIndex < imageCoords.size()) {
 
             try {
@@ -859,8 +1053,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     /**
-     * Currently adds 15 blanks (For Pet Party Picnic) that will be changed as words are added;
-     * this will need to be parameterized when we accomodate for different rhyme templates.
+     * Adds blanks for the number of words needed by the particular rhyme that was chosen
      */
     public void audioSetUp()
     {
