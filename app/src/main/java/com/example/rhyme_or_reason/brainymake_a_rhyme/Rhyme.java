@@ -82,6 +82,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     RhymeTemplate currRhyme;
     boolean playCooldown = true;
 
+    String story_title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +138,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         //ImageButton iB = findViewById(R.id.playButton);
 
         if (displayPlayButton) {
-            storyAudioManager.playStoryThread("Pet Party Picnic Story");
+            storyAudioManager.playStoryThread(story_title);
             displayPlayButton = false;
             iB.setImageResource(R.drawable.ic_pause);
 
@@ -312,6 +314,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "The [A-1] bragged that you were so clever,\n" +
                 "And the [B-1] declared it the best party ever!\n";
 
+        story_title = "Pet Party Picnic Story";
     }
 
     public void muddyParkSetUp()
@@ -336,6 +339,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "Your [D-3_5_6_7] and you grinned—and just had to jump in.\n" +
                 "Grumpy grownups scrubbed clean your odds and ends,\n" +
                 "But you made lots of new mud-loving friends!\n";
+
+        story_title = "Muddy Park";
     }
 
     public void storySetUp() {
@@ -836,7 +841,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     public void onEmailClick(View v) {
 
-        //forceStopAudio();
+        forceStopAudio();
         storyAudioManager.setContinueAudioFlag(false);
         displayPlayButton = true;
 
@@ -855,7 +860,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    /*
+
     private void forceStopAudio() {
         try {
             storyAudioManager.setContinueAudioFlag(false);
@@ -866,5 +871,5 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             }
         }
     }
-    */
+
 }
