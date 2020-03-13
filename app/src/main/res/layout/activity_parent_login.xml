@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ParentLogin">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorMenuBar"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/BackButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:onClick="ClickedBackButton"
+            android:padding="0dp"
+            android:text="&lt;"
+            android:textColor="#666"
+            android:textSize="30sp"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/HelpButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/imprima"
+            android:gravity="center"
+            android:onClick="ClickedAnalyticsButton"
+            android:padding="0dp"
+            android:text="STATS"
+            android:textColor="#666"
+            android:textSize="30sp"
+            android:typeface="serif" />
+
+    </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Password?"/>
+        <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="30sp"
+            android:fontFamily="@font/imprima"
+            android:gravity="center"
+            android:typeface="serif"
+            android:inputType="textPassword"/>
+        <Button
+            android:layout_width="match_parent"
+            android:textSize="30sp"
+            android:layout_height="wrap_content"
+            android:onClick="ClickedLogin"
+            android:text="Login"/>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

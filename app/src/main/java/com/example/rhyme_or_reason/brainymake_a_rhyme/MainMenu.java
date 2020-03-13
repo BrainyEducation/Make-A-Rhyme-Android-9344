@@ -180,6 +180,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         newIntent.putExtra("rhyme_template", selectedRhymeTemplate);
         startActivityForResult(newIntent, 1);
     }
+    public void ClickedBackButton(View v) {
+        onBackPressed();
+    }
 
     /*
      * Scrolling happens by default; this is designed to allow the scroll buttons to move the

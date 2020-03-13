@@ -3,4 +3,6 @@
     <string name="title_activity_quiz">Quiz</string>
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_name_friend">Name Friend</string>
+    <string name="title_activity_application_welcome">ApplicationWelcome</string>
+    <string name="title_activity_parent_login">ParentLogin</string>
 </resources>

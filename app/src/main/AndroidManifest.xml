@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +12,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".ParentLogin"
+            android:label="@string/title_activity_parent_login"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ApplicationWelcome"
+            android:label="@string/title_activity_application_welcome"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -24,48 +37,40 @@
             android:name=".NameFriend"
             android:label="@string/title_activity_name_friend"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".Rhyme"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StudentProgress"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProgressWordList"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EmailActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".NewOrExistingRhyme"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".NewOrExistingRhyme"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true"
-            android:authorities="${applicationId}.fileprovider">
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
         </provider>
-
     </application>
 
 </manifest>
