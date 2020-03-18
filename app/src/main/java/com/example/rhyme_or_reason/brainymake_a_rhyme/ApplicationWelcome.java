@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,6 +36,7 @@ public class ApplicationWelcome extends AppCompatActivity {
     final int TEXT_SIZE = 30;
     Typeface imprima;
     int height, width;
+    ImageView welcomeImage;
 
     int RHYME_HEIGHT;
 
@@ -61,6 +63,17 @@ public class ApplicationWelcome extends AppCompatActivity {
         rhyme_template_scrollview = findViewById(R.id.RhymeTemplatesScrollView);
         rhymesLL = findViewById(R.id.RhymesLL);
         topBar = findViewById(R.id.topLayout);
+        welcomeImage = findViewById(R.id.WelcomeImage);
+
+        // Illustration boundaries
+        LinearLayout.LayoutParams illustration_params = new LinearLayout.LayoutParams(
+                width, (int)(width * .811)
+        );
+        illustration_params.setMargins(0, 0, 0, 0);
+        //illustration_params.gravity = CENTER;
+
+        welcomeImage.setLayoutParams(illustration_params);
+        welcomeImage.setBackgroundResource(R.drawable.logo);
     }
 
     /**

@@ -8,11 +8,9 @@
     tools:context=".MainMenu">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,30 +20,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <ImageButton
+                <ImageView
                     android:id="@+id/WelcomeImage"
-                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
                     android:onClick="ClickedLoginStudent"
                     android:src="@drawable/logo"/>
                 <Button
                     android:id="@+id/child_login"
                     android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="3"
-                    android:layout_alignTop="@+id/WelcomeImage"
+                    android:layout_height="200dp"
                     android:textSize="120sp"
                     android:onClick="ClickedLoginStudent"
                     android:text="Start!"/>
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="1"
+                    android:layout_height="60dp"
                     android:textSize="20sp"
+                    android:background="@color/colorBackground"
                     android:onClick="ClickedLoginParent"
-                    android:text="Parent Login"/>
+                    android:text="Parent Login"
+                    style="?android:attr/borderlessButtonStyle"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
