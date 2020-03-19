@@ -50,7 +50,7 @@ public class StoryAudioManager {
     }
 
 
-    private void clearMediaPlayer() {
+    public void clearMediaPlayer() {
         try {
             mediaPlayer.stop();
         } catch (Exception e) {
@@ -123,8 +123,8 @@ public class StoryAudioManager {
      * @param storyName
      */
     private void play_story(String storyName) {
-        Log.d("story stuff",wordList.get(0));
         ArrayList<String> fileNames = new ArrayList<>();
+        Log.d("storyName", storyName);
         StoryAudioConstantContainer constantContainer = mp3Data.storyNameToConstantContainer.get(storyName);
         int numberOfFiles = constantContainer.numberOfFiles;
         String fileprefix = constantContainer.fileNamePrefix;
