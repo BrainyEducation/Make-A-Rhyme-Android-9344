@@ -73,11 +73,13 @@ public class StoryAudioManager {
         AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(s, "raw",context.getPackageName()));
         try
         {
+            /*
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer.reset();
-            }
+            }*/
+            clearMediaPlayer();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.reset();
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
@@ -136,10 +138,11 @@ public class StoryAudioManager {
 
         for (int i = 0; i < numberOfFiles; i++) {
             final boolean[] lock = {true};
+            clearMediaPlayer();
             setMediaPlayerFile(fileNames.get(i));
             mediaPlayer.start();
             try {
-                Thread.sleep(200);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 Log.d("wait","broken");
             }
@@ -149,7 +152,8 @@ public class StoryAudioManager {
                 }
                 continue;
             }
-            mediaPlayer.stop();
+            //mediaPlayer.stop();
+            clearMediaPlayer();
             if (!continueAudioFlag) {
                 return;
             }

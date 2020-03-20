@@ -136,18 +136,26 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         fillInRhyme();
     }
 
+    /*
     public void onPlayAudio(View v) {
         //ImageButton iB = findViewById(R.id.playButton);
 
         if (displayPlayButton) {
+            forceStopAudio();
             storyAudioManager.playStoryThread(story_title);
             displayPlayButton = false;
             iB.setImageResource(R.drawable.ic_pause);
 
         } else {
+            forceStopAudio();
             storyAudioManager.setContinueAudioFlag(false);
             displayPlayButton = true;
             iB.setImageResource(R.drawable.ic_play);
+        }
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+
         }
     }
 
@@ -164,9 +172,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         };
         stopThread.start();
     }
+    */
 
 
-    /*
     public void onPlayAudio(View v) {
         if (displayPlayButton && playCooldown) {
             storyAudioManager.clearMediaPlayer();
@@ -192,7 +200,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void run() {
                 try {
-                    sleep(333);
+                    sleep(1000);
                     playCooldown = true;
                 } catch (InterruptedException e) {
                 }
@@ -200,7 +208,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         };
         stopThread.start();
     }
-    */
+
 
     /**
      * Occurs when the user selects an empty gap to fill with a word; saves the index of the button
@@ -365,6 +373,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "As I sat on a [D-8_9_10_13] for an hour to sight-see.\n" +
                 "Who could dream up a strange parade of this kind?\n" +
                 "Did I maybe just make it all up in my mind?\n";
+
+        story_title = "Stranger Parade";
     }
 
     public void storySetUp() {
@@ -999,7 +1009,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         displayPlayButton = true;
         storyAudioManager.setContinueAudioFlag(false);
 
-        //forceStopAudio();
+        forceStopAudio();
 
         Bitmap illustrationBitmap = takeScreenShot();
 

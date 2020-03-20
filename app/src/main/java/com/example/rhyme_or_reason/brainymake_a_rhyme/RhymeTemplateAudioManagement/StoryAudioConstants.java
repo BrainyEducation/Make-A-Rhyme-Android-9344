@@ -11,6 +11,7 @@ public class StoryAudioConstants {
         storyNameToConstantContainer = new HashMap<String, StoryAudioConstantContainer>();
         LoadPetPartyPicnicStory();
         LoadMuddyPark();
+        LoadStrangerParade();
     }
 
     private void LoadPetPartyPicnicStory() {
@@ -39,5 +40,17 @@ public class StoryAudioConstants {
         }
         StoryAudioConstantContainer constantContainer = new StoryAudioConstantContainer(prefix, fileQuantity,booleanList);
         storyNameToConstantContainer.put("Muddy Park", constantContainer);
+    }
+
+    private void LoadStrangerParade() {
+        String prefix = "spr_4_";
+        int fileQuantity = 20;
+        boolean[] interruptBooleans = {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false};
+        ArrayList<Boolean> booleanList = new ArrayList<Boolean>();
+        for (boolean b : interruptBooleans) {
+            booleanList.add(b);
+        }
+        StoryAudioConstantContainer constantContainer = new StoryAudioConstantContainer(prefix, fileQuantity,booleanList);
+        storyNameToConstantContainer.put("Stranger Parade", constantContainer);
     }
 }
