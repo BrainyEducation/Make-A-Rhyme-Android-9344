@@ -9,10 +9,97 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:background="@color/colorMenuBar"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/BackButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="ClickedBackButton"
+                android:text="&lt;"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif"
+                android:padding="0dp"/>
+
+            <Button
+                android:id="@+id/HelpButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/imprima"
+                android:gravity="center"
+                android:onClick="ClickedHelpButton"
+                android:text="HELP"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif"
+                android:padding="0dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/TextAnalytics"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#FFFFFFFF">
+
+            <TextView
+                android:id="@+id/successfulFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+            </TextView>
+
+            <TextView
+                android:id="@+id/successfulFirstNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/successfulFirst">
+            </TextView>
+
+            <TextView
+                android:id="@+id/NumAttempts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/successfulFirst"
+                android:layout_alignParentLeft="true"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/NumAttemptsNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/successfulFirst"
+                android:layout_toRightOf="@id/NumAttempts"></TextView>
+
+            <TextView
+                android:id="@+id/highestConsec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NumAttempts"></TextView>
+
+            <TextView
+                android:id="@+id/highestConsecutiveNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NumAttempts"
+                android:layout_toRightOf="@id/highestConsec"></TextView>
+
+        </RelativeLayout>
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
