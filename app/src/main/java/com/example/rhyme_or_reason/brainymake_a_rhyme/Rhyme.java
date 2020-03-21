@@ -9,10 +9,12 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -332,8 +334,15 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         double inchesWidth = Math.sqrt(Math.pow(dm.widthPixels/dm.xdpi,2));
 
+        //if (inchesWidth < 1500) {
+          //  inchesWidth *= 1.1;
+        //}
+
         System.out.println("Inches Width: ");
         System.out.println(inchesWidth);
+
+
+
 
         int textSize = (int)(inchesWidth * 6); // Temporary for approximate scaling purposes
 
@@ -342,7 +351,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         for (int counter = 0; counter < listOfLines.size(); ++counter) {
             if (!listOfLines.get(counter).contains(WORD_MARKERS)) {
                 TextView singleLine = new TextView(this);
-                singleLine.setTextSize(textSize);
+
+
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(singleLine, 12, 100,
+                        2, 2);
+
 
                 String currLine = listOfLines.get(counter);
 
@@ -352,6 +365,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 singleLine.setText(currLine);
                 singleLine.setTypeface(imprima);
+
 
                 LinearLayout.LayoutParams line_params = new LinearLayout.LayoutParams(
                         width, (140) // TODO: Set to something meaningful
@@ -405,6 +419,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                         textAndButton.addView(tempLine);
 
+
+
                     } else if (currLine.charAt(index) == WORD_MARKER_END) {
                         Button blankButton = new Button(this);
                         blankButton.setTextSize(textSize);
@@ -443,6 +459,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     tempLine.setTextSize(textSize);
                     tempLine.setTypeface(imprima);
                     tempLine.setText(currPhrase);
+
                     RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
                     );
@@ -459,6 +476,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     currPhrase = "";
 
                     textAndButton.addView(tempLine);
+
                 }
 
                 rhymeTextLL.addView(textAndButton);

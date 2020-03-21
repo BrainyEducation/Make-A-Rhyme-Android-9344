@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -74,6 +75,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         height = screenSize.y;
 
         HEIGHT_UNIT = height / 10;
+
     }
 
     /**

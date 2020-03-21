@@ -100,6 +100,7 @@
             android:onClick="onPlayAudio"
             app:srcCompat="@drawable/ic_play" />
 
+
         <RelativeLayout
             android:id="@+id/ScrollingSection"
             android:layout_width="match_parent"
