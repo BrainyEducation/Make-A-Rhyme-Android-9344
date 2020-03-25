@@ -104,6 +104,7 @@ public class EmailSystem
      * the file
      */
     public static String saveViewAsPngAndReturnPath(View parentView, Context context) {
+        /*
         Bitmap bm = Bitmap.createBitmap(parentView.getWidth(), parentView.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bm);
         parentView.draw(canvas);
@@ -123,6 +124,7 @@ public class EmailSystem
         } catch (IOException e) {
             Log.d("ioFileOutput",e.toString());
         }
-        return path;
+        return path;*/
+        return ImageSaver.saveImageAndReturnPath(parentView, context, "brainy_image");
     }
 }
