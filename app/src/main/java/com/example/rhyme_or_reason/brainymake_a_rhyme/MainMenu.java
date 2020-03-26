@@ -211,4 +211,21 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
         return mapFromPref;
     }
+    /**
+     * Handles back press click; takes user back to previous activity (word select screen)
+     *
+     * @param view Automatic parameter for user interaction
+     */
+    public void ClickedBackButton(View view) {
+        onBackPressed();
+    }
+    /**
+     * Handles profile press click; takes user to settings menu
+     *
+     * @param view Automatic parameter for user interaction
+     */
+    public void ClickedSettingsButton(View view) {
+        Intent newIntent = new Intent(this, ProfileActivity.class);
+        startActivityForResult(newIntent, 1);
+    }
 }

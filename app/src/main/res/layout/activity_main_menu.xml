@@ -34,6 +34,20 @@
 
 
             <Button
+                android:id="@+id/SettingsButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:onClick="ClickedSettingsButton"
+                android:fontFamily="@font/imprima"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="Profile"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif" />
+            <Button
                 android:id="@+id/ProgressButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
