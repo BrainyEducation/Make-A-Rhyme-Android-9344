@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +45,7 @@ public class EmailSystem
         this.emails = emails;
         this.subjectLine = subjectLine;
         this.emailBody = emailBody;
+        Log.d("ATTACHMULTIPLEORIGINAL", path);
         this.attachmentURI = reformatPathStringToURI(path);
     }
 
@@ -53,23 +56,48 @@ public class EmailSystem
     }
 
     public Intent createEmailIntent(Context context) {
-        Intent it = new Intent(Intent.ACTION_SEND);
+        Intent it = new Intent(Intent.ACTION_SEND_MULTIPLE);
         it.putExtra(Intent.EXTRA_EMAIL, emails);
         it.putExtra(Intent.EXTRA_SUBJECT,subjectLine);
         it.putExtra(Intent.EXTRA_TEXT,emailBody);
         it.setType("image/png");
 
+
+
         String path = attachmentURI.getPath();
-        Log.d("examplepath",path);
+       // Log.d("examplepath",path);
 
-        File f = new File(attachmentURI.getPath());
-        Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider",f);
+        //File f = new File(attachmentURI.getPath());
+        //Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider",f);
 
-        it.putExtra(Intent.EXTRA_STREAM, contentUri);
+        //it.putExtra(Intent.EXTRA_STREAM, contentUri);
+
+        //ArrayList<Parcelable>  uris = new ArrayList<Parcelable>();
+        //uris.add(contentUri);
+        //Log.d("ATTACHMULTIPLE", uris.get(0).getPath());
+        //it.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+        //it.putExtra(Intent.EXTRA_STREAM, uris.get(0));
+
+       // it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        //Log.d("attachmentURI", attachmentURI.getPath());
+
+
+        HashMap<String, String> filenameToPathMap = ImageSaver.getFilenameToPathMap();
+        ArrayList<Uri> uris = new ArrayList<>();
+        for (String s : filenameToPathMap.keySet()) {
+            Log.d("ATTACHMULTIPLE",filenameToPathMap.get(s));
+            Log.d("ATTACHMULTIPLECOMPARE",attachmentURI.getPath());
+            File f = new File(filenameToPathMap.get(s));
+            Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider",f);
+            uris.add(contentUri);
+        }
+
+        it.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+
         it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        Log.d("attachmentURI", attachmentURI.getPath());
-
 
         return it;
     }

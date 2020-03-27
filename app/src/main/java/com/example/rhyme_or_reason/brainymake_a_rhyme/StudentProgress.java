@@ -1,11 +1,14 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
+import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.ImageSaver;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -44,7 +47,7 @@ public class StudentProgress extends AppCompatActivity {
         highestNumConsec.setText("Highest Number of Consecutive Attempts: ");
         ////////////////////////////////////////////////////
 
-        String w = getIntent().getExtras().get("Word").toString();
+        final String w = getIntent().getExtras().get("Word").toString();
         successfulFirstNumber.setText(String.valueOf(MainMenu.successFirstMap.get(w)));
         highestNumConsecNumber.setText(String.valueOf(MainMenu.highestConsecMap.get(w)[0]));
         ArrayList<int[]> innerMap = MainMenu.attemptsMap.get(w);
@@ -64,9 +67,12 @@ public class StudentProgress extends AppCompatActivity {
 //            graph.getGridLabelRenderer().setNumVerticalLabels(10);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
+
+
     }
 
     public void ClickedBackButton(View view) {
+        ImageSaver.saveImageAndReturnPath(graph, this, getIntent().getExtras().get("Word").toString());
         onBackPressed();
     }
 }

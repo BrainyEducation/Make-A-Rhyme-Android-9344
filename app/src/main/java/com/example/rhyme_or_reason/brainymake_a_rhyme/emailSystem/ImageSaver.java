@@ -10,9 +10,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class ImageSaver {
 
+    private static HashMap<String, String> filenameToPathMap = new HashMap<>();
 
     /**
      *
@@ -41,6 +44,12 @@ public class ImageSaver {
         } catch (IOException e) {
             Log.d("ioFileOutput",e.toString());
         }
+        filenameToPathMap.put(fileName, path);
+        Log.d("ATTACHMULTIPLEPUT", path);
         return path;
+    }
+
+    public static HashMap<String, String> getFilenameToPathMap() {
+        return filenameToPathMap;
     }
 }
