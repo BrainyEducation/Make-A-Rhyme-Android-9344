@@ -54,14 +54,19 @@
             android:id="@+id/ClassAnalytics"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:textSize="30sp"
+            android:textSize="45sp"
             android:onClick="ClickedClassAnalytics"
+            android:background="@color/darkGreen"
+            android:fontFamily="@font/imprima"
+            android:layout_margin="10dp"
             android:text="Class Progress"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="30sp"
+            android:fontFamily="@font/imprima"
+            android:layout_marginLeft="10dp"
             android:text="Student Progress:"/>
 
         <ListView

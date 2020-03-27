@@ -27,19 +27,23 @@
                     android:onClick="ClickedLoginStudent"
                     android:src="@drawable/logo"/>
                 <Button
+                    android:layout_margin="10dp"
                     android:id="@+id/child_login"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:textSize="120sp"
                     android:onClick="ClickedLoginStudent"
-                    android:text="Start!"/>
+                    android:fontFamily="@font/imprima"
+                    android:background="@color/darkGreen"
+                    android:text="Kids!"/>
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="40dp"
                     android:textSize="20sp"
                     android:background="@color/colorBackground"
                     android:onClick="ClickedLoginParent"
                     android:text="Parent Login"
+                    android:fontFamily="@font/imprima"
                     style="?android:attr/borderlessButtonStyle"/>
             </LinearLayout>
         </RelativeLayout>

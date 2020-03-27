@@ -104,7 +104,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         }
         String[] a = new String[1];
         a[0] = "jqdude@gmail.com";
-        String subject = "Brainy Make-A-Rhyme: New Rhyme Story!";
+        String subject = "Brainy Make-A-Rhyme: New Rhyme!";
         String body = textForEmail;
         String path = (String) getIntent().getExtras().get("imageUri");
 

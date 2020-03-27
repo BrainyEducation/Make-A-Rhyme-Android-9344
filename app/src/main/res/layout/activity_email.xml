@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:onClick="sendEmail"
             android:text="Email Progress Report"
+            android:background="@color/darkGreen"
             android:textSize="24sp" />
 
         <android.support.design.widget.TextInputLayout
@@ -79,7 +80,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="addEmail"
-            android:text="Add Email To Mailing List" />
+            android:text="Add Email To Mailing List"
+            android:background="@color/darkGreen"
+            />
 
         <ScrollView
             android:layout_width="match_parent"

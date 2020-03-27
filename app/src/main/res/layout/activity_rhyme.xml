@@ -74,15 +74,8 @@
                 android:id="@+id/illustration"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-            <ImageButton
-                android:id="@+id/RhymeUpButton"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:src="@drawable/up_arrow"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_gravity="bottom"
-                ></ImageButton>
         </FrameLayout>
+
 
         <ImageButton
             android:id="@+id/playButton"
@@ -100,6 +93,20 @@
             android:onClick="onPlayAudio"
             app:srcCompat="@drawable/ic_play" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/black"/>
+
+        <ImageButton
+            android:id="@+id/RhymeUpButton"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/up_arrow"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_gravity="bottom"
+            />
+
         <RelativeLayout
             android:id="@+id/ScrollingSection"
             android:layout_width="match_parent"
@@ -111,7 +118,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="#FFF">
 
             <LinearLayout
                 android:id="@+id/RhymeLL"

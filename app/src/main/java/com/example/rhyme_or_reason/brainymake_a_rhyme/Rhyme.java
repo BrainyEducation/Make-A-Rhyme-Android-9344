@@ -356,7 +356,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 LinearLayout.LayoutParams line_params = new LinearLayout.LayoutParams(
                         width, (140) // TODO: Set to something meaningful
                 );
-                line_params.setMargins(0, 0, 0, 0);
+                line_params.setMargins(5, 0, 0, 0);
                 line_params.gravity = CENTER;
 
                 singleLine.setLayoutParams(line_params);
@@ -391,7 +391,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                         RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
                                 ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
                         );
-                        line_params.setMargins(0, 0, 0, 0);
+                        line_params.setMargins(5, 0, 0, 0);
                         line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
                         if (idIndex != 1) {
                             line_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the button that comes before it
@@ -490,6 +490,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 System.out.println(wordCodes.get(selectedButtonIndex));
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
+                listOfButtons.get(selectedButtonIndex).setBackgroundColor(getResources().getColor(R.color.highlighter));
 
                 updateIllustration(selected, selectedButtonIndex);
 
@@ -664,6 +665,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             Word currWord = currRhyme.getChosenWords().get(index);
             if (currWord != null && !currWord.getText().equals("")) {
                 listOfButtons.get(index).setText(currWord.getText());
+                listOfButtons.get(index).setBackgroundColor(getResources().getColor(R.color.highlighter));
                 wordList.set(index, currWord.getText());
                 storyAudioManager.setWordList(wordList);
                 updateIllustration(currWord, index);

@@ -172,7 +172,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
                     android:layout_weight="3"
-                    android:src="@drawable/down_arrow"></ImageButton>
+                    android:src="@drawable/down_arrow"/>
 
                 <ImageButton
                     android:id="@+id/WordScrollDownBtn"
@@ -181,7 +181,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
                     android:layout_weight="3"
-                    android:src="@drawable/down_arrow"></ImageButton>
+                    android:src="@drawable/down_arrow"/>
             </LinearLayout>
         </RelativeLayout>
 

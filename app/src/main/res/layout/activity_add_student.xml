@@ -50,6 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/imprima"
             android:text="Student UUID:"/>
         <EditText
             android:id="@+id/UUID"
@@ -63,7 +65,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/imprima"
             android:textSize="30sp"
+            android:layout_marginLeft="10dp"
             android:text="Student Name:"/>
         <EditText
             android:id="@+id/studentName"
@@ -79,6 +83,9 @@
             android:textSize="30sp"
             android:layout_height="wrap_content"
             android:onClick="ClickedAddByUUID"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/imprima"
+            android:background="@color/darkGreen"
             android:text="Add Student"/>
 
     </LinearLayout>

@@ -2,10 +2,12 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.res.ResourcesCompat;
@@ -37,6 +39,8 @@ public class ApplicationWelcome extends AppCompatActivity {
     Typeface imprima;
     int height, width;
     ImageView welcomeImage;
+    Button kidsButton;
+    int colorToggle = 0;
 
     int RHYME_HEIGHT;
 
@@ -52,8 +56,40 @@ public class ApplicationWelcome extends AppCompatActivity {
         miscellaneousSetUp();
 
         MainActivity.attemptsMap = getMapFromSharedPref();
+
+        // Responsible for flipping the color from black to white every second
+        final Handler handler = new Handler();
+        final int delay = 1000; //milliseconds
+
+        kidsButton = findViewById(R.id.child_login);
+
+        handler.postDelayed(new Runnable(){
+            public void run(){
+
+                if (colorToggle == 0) {
+                    kidsButton.setTextColor(Color.WHITE);
+                    colorToggle = 1;
+                } else {
+                    kidsButton.setTextColor(Color.BLACK);
+                    colorToggle = 0;
+                }
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+
     }
 
+    /**
+     * Workaround designed to allow the pictures for pre-existing rhymes to show up in the
+     * illustration when the page first loads. The page layout needs to be set for this to work,
+     * hence why it cannot be included in onCreate.
+     */
+    @Override
+    public void onWindowFocusChanged(boolean b)
+    {
+        super.onWindowFocusChanged(b);
+
+    }
 
     /**
      * Matches the scrollview and its linear layout with their respective code variables
