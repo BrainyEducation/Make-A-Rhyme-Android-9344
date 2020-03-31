@@ -399,6 +399,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     } else if (currLine.charAt(index) == WORD_MARKER_START) {
                         inWordMarker = true;
                         TextView tempLine = new TextView(this);
+                        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(tempLine, 12, 100,
+                                2, 2);
+
                         tempLine.setTextSize(textSize);
                         tempLine.setTypeface(imprima);
                         tempLine.setText(currPhrase);
@@ -421,8 +424,13 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
 
 
+
+
+
                     } else if (currLine.charAt(index) == WORD_MARKER_END) {
                         Button blankButton = new Button(this);
+                        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(blankButton, 12, 100,
+                                2, 2);
                         blankButton.setTextSize(textSize);
                         blankButton.setTypeface(imprima);
 
@@ -430,6 +438,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                         blankButton.setOnClickListener(this);
                         blankButton.setTag(buttonTag);
                         ++buttonTag;
+
 
                         listOfButtons.add(blankButton);
 
