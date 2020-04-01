@@ -78,6 +78,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ArrayList<String> wordList = new ArrayList<>();
 
     String storyText = "";
+    String uuid = "";
 
     RhymeTemplate currRhyme;
     boolean playCooldown = true;
@@ -198,6 +199,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
 
         Intent newIntent = new Intent(this, MainActivity.class);
+        newIntent.putExtra("uuid", uuid);
 
         //forceStopAudio();
         storyAudioManager.setContinueAudioFlag(false);
@@ -216,6 +218,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void loadIntentsAndViews()
     {
+        uuid = getIntent().getExtras().get("uuid").toString();
+
         currRhyme = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
 
         if (currRhyme.getSavedIllustration() != null) {
@@ -768,6 +772,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         //newIntent.putExtra("illustration", byteArray);
         newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", storyText);
+        newIntent.putExtra("uuid", uuid);
 
         startActivity(newIntent);
     }

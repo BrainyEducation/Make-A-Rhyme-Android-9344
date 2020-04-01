@@ -56,6 +56,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     //final int textSize = 40;
     int incorrectCounter = 0;
 
+    String uuid = "";
+
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
      */
@@ -253,6 +255,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
      */
     public void loadIntentsAndViews()
     {
+        uuid = getIntent().getExtras().get("uuid").toString();
+
         lockedWord = (Word)getIntent().getSerializableExtra("word");
         categoryWords = getIntent().getStringArrayListExtra("category_words");
         lengthWords = getIntent().getStringArrayListExtra("length_words");

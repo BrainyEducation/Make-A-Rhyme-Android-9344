@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static ArrayList<String> wordsAttempted = new ArrayList<>();
     static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
 
+    String uuid = "";
+
     /**
      * Runs when the activity launches; sets up the types on the left side of the screen and loads
      * the default words in on the right side of the screen
@@ -320,6 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void run() {
                                 Intent returnIntent = new Intent();
                                 returnIntent.putExtra("word", selectedWord);
+                                returnIntent.putExtra("uuid", uuid);
                                 setResult(Activity.RESULT_OK, returnIntent);
                                 finish();
                             }
@@ -350,12 +353,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         newIntent.putExtra("length_words", lengthWords);
                         newIntent.putExtra("letter_words", letterWords);
                         newIntent.putExtra("other_words", otherWords);
+                        newIntent.putExtra("uuid", uuid);
                         startActivityForResult(newIntent, 1);
                     }
                 } else {
                     //Friends
                     Intent newIntent = new Intent(this, NameFriend.class);
                     newIntent.putExtra("word", selectedWord);
+                    newIntent.putExtra("uuid", uuid);
                     startActivityForResult(newIntent, 2);
                 }
             }
@@ -443,6 +448,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("word", selectedWord);
+                        returnIntent.putExtra("uuid", uuid);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
@@ -458,6 +464,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Intent returnIntent = new Intent();
                         String name = data.getStringExtra("name");
                         returnIntent.putExtra("word", new Word(name, false, selectedWord.getImageName(), name, "Friends"));
+                        returnIntent.putExtra("uuid", uuid);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
@@ -500,6 +507,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void loadIntentsAndViews()
     {
+        uuid = getIntent().getExtras().get("uuid").toString();
+
         word_scrollview = findViewById(R.id.WordScrollView);
         type_scrollview = findViewById(R.id.TypeScrollView);
         up_btnW = findViewById(R.id.WordScrollUpBtn);

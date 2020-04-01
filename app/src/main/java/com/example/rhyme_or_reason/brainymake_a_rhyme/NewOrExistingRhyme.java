@@ -37,6 +37,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
     private ImageButton up_btn;
     private ImageButton down_btn;
+    String uuid = "";
 
     int RHYME_HEIGHT;
 
@@ -81,6 +82,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
      */
     public void loadIntentsAndViews()
     {
+        uuid = getIntent().getExtras().get("uuid").toString();
+
         chosenRhymeTemplate = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
 
         chosenRhymeTemplate = new RhymeTemplate(chosenRhymeTemplate.getName(), chosenRhymeTemplate.getImageName(), chosenRhymeTemplate.getLocked(), chosenRhymeTemplate.getNumBlanks(), chosenRhymeTemplate.getNumImages());
@@ -179,6 +182,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         Intent newIntent = new Intent(this, Rhyme.class);
         toSend.setSavedIllustration(null);
         newIntent.putExtra("rhyme_template", toSend);
+        newIntent.putExtra("uuid", uuid);
         startActivityForResult(newIntent, 1);
     }
 

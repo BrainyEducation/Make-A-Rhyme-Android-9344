@@ -181,6 +181,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         RhymeTemplate selectedRhymeTemplate = templateOptions.get((int)(v.getTag()));
         Intent newIntent = new Intent(this, NewOrExistingRhyme.class);
         newIntent.putExtra("rhyme_template", selectedRhymeTemplate);
+        newIntent.putExtra("uuid", uuid);
+
         startActivityForResult(newIntent, 1);
     }
     public void ClickedBackButton(View v) {
