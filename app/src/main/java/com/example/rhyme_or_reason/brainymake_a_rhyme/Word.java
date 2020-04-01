@@ -25,8 +25,6 @@ public class Word implements Serializable {
     private String imageName;
     private String audioName;
     private String type;
-    private static ArrayList<String> serializedUnlockedWords;
-    private static Context ioContext;
 
     public Word(String text, Boolean locked, String imageName, String audioName, String type)
     {
@@ -107,7 +105,7 @@ public class Word implements Serializable {
     /*
      *
      */
-    public void saveWord(Context context)
+    public void saveWord(Context context, String uuid)
     {
         // Get the number of saved rhymes
         SharedPreferences appSharedPrefs = PreferenceManager
@@ -119,20 +117,20 @@ public class Word implements Serializable {
         String wordString = this.text;
 
         String json = gson.toJson(this);
-        prefsEditor.putString("SavedWord" + wordString, json);
+        prefsEditor.putString(uuid + "SavedWord" + wordString, json);
         prefsEditor.commit();
     }
 
     /*
      *
      */
-    public static Word retrieveWord(Context context, String wordString, String category) {
+    public static Word retrieveWord(Context context, String wordString, String category, String uuid) {
 
         try {
             SharedPreferences appSharedPrefs = PreferenceManager
                     .getDefaultSharedPreferences(context);
             Gson gson = new Gson();
-            String json = appSharedPrefs.getString("SavedWord" + wordString, "");
+            String json = appSharedPrefs.getString(uuid + "SavedWord" + wordString, "");
             return gson.fromJson(json, Word.class);
         } catch (Exception e) {
             return null;

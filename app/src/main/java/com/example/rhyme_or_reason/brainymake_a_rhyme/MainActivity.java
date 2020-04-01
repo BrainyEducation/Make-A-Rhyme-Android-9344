@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ArrayList<Word> wordlist = new ArrayList<>();
 
             for(int j = 1; j < words[i].length; j++) {
-                Word currWord = Word.retrieveWord(this.getApplicationContext(), words[i][j], words[i][0].toLowerCase());
+                Word currWord = Word.retrieveWord(this.getApplicationContext(), words[i][j], words[i][0].toLowerCase(), uuid);
                 if (currWord == null) {
                     currWord = new Word(words[i][j], true, words[i][j], words[i][j], words[i][0].toLowerCase());
                 }
@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(resultCode == Activity.RESULT_OK){
                 selectedWord.setUnlocked();
                 // Update the saved status of the word
-                selectedWord.saveWord(this.getApplicationContext());
+                selectedWord.saveWord(this.getApplicationContext(), uuid);
                 wordViews.get(wordIndex).setAlpha(1);
                 // Exit quiz
                 Handler returnHandler = new Handler();

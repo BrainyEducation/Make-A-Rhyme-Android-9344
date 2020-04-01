@@ -72,45 +72,45 @@ public class RhymeTemplate implements Serializable {
         this.savedIllustration = savedIllustration;
     }
 
-    public void saveRhymeTemplate(Context context)
+    public void saveRhymeTemplate(Context context, String userUUID)
     {
         // Get the number of saved rhymes
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        int numRhymes = appSharedPrefs.getInt(this.name + "NumRhymes", 0);
+        int numRhymes = appSharedPrefs.getInt(userUUID + this.name + "NumRhymes", 0);
 
         SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
 
-        prefsEditor.putInt(this.name + "NumRhymes", numRhymes + 1);
+        prefsEditor.putInt(userUUID + this.name + "NumRhymes", numRhymes + 1);
 
         String rhymeNumString = ((Integer)numRhymes).toString();
 
         String json = gson.toJson(this);
-        prefsEditor.putString(this.name + "SavedRhyme" + rhymeNumString, json);
+        prefsEditor.putString(userUUID + this.name + "SavedRhyme" + rhymeNumString, json);
         prefsEditor.commit();
     }
 
     /*
      * TODO: Need to update so that will work for multiple rhyme stories
      */
-    public static RhymeTemplate retrieveRhymeTemplate(Context context, int rhymeNumber, String rhymeTemplateName) {
+    public static RhymeTemplate retrieveRhymeTemplate(Context context, int rhymeNumber, String rhymeTemplateName, String userUUID) {
 
         String rhymeNumString = ((Integer)rhymeNumber).toString();
 
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = appSharedPrefs.getString(rhymeTemplateName + "SavedRhyme" + rhymeNumString, "");
+        String json = appSharedPrefs.getString(userUUID + rhymeTemplateName + "SavedRhyme" + rhymeNumString, "");
         return gson.fromJson(json, RhymeTemplate.class);
     }
 
-    public static int getNumberOfExistingRhymes(Context context, String rhymeTemplateName)
+    public static int getNumberOfExistingRhymes(Context context, String rhymeTemplateName, String userUUID)
     {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        int numRhymes = appSharedPrefs.getInt(rhymeTemplateName + "NumRhymes", 0);
+        int numRhymes = appSharedPrefs.getInt(userUUID + rhymeTemplateName + "NumRhymes", 0);
 
         return numRhymes;
     }

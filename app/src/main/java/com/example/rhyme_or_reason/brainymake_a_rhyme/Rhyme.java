@@ -1013,7 +1013,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         if (insertedWord) {
             currRhyme.setSavedIllustration(byteArray);
-            currRhyme.saveRhymeTemplate(this.getApplicationContext());
+            currRhyme.saveRhymeTemplate(this.getApplicationContext(), uuid);
         }
         onBackPressed();
     }
