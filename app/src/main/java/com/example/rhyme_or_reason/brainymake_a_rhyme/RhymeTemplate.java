@@ -72,9 +72,6 @@ public class RhymeTemplate implements Serializable {
         this.savedIllustration = savedIllustration;
     }
 
-    /*
-     * TODO: Need to update so that will work for multiple rhyme stories
-     */
     public void saveRhymeTemplate(Context context)
     {
         // Get the number of saved rhymes

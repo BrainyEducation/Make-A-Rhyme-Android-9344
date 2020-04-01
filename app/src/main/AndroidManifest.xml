@@ -75,7 +75,19 @@
         <activity
             android:name=".ParentTeacherMainMenu"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddStudent"
+        <activity
+            android:name=".AddStudent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Registration1"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ParentTeacherRegistration"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".StudentRegistration"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StudentLogin"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

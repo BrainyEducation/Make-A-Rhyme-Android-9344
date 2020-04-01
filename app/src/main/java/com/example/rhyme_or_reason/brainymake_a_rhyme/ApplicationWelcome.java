@@ -143,9 +143,10 @@ public class ApplicationWelcome extends AppCompatActivity {
      */
     public void ClickedLoginStudent(View v)
     {
-        Intent newIntent = new Intent(this, MainMenu.class);
+        Intent newIntent = new Intent(this, StudentLogin.class);
         startActivityForResult(newIntent, 1);
     }
+
     /**
      * Launches the parent login UI
      */
@@ -154,6 +155,16 @@ public class ApplicationWelcome extends AppCompatActivity {
         Intent newIntent = new Intent(this, ParentLogin.class);
         startActivityForResult(newIntent, 1);
     }
+
+    /**
+     * Launches the generic registration UI
+     */
+    public void ClickedRegistration(View v)
+    {
+        Intent newIntent = new Intent(this, Registration1.class);
+        startActivityForResult(newIntent, 1);
+    }
+
 
     /**
      * When a rhyme template is selected, this recognizes which one has been clicked and passes

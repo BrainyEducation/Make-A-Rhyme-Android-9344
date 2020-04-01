@@ -38,6 +38,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     final int TEXT_SIZE = 30;
     Typeface imprima;
     int height, width;
+    String uuid;
 
     int RHYME_HEIGHT;
 
@@ -137,6 +138,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
      */
     public void loadIntentsAndViews()
     {
+        uuid = getIntent().getExtras().get("uuid").toString();
+
         rhyme_template_scrollview = findViewById(R.id.RhymeTemplatesScrollView);
         rhymesLL = findViewById(R.id.RhymesLL);
         topBar = findViewById(R.id.topLayout);

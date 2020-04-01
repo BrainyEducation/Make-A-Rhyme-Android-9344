@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ParentLogin">
-
+    tools:context=".StudentRegistration">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/topLayout"
             android:layout_width="fill_parent"
@@ -32,8 +32,9 @@
                 android:textSize="30sp"
                 android:typeface="serif" />
 
+
             <Button
-                android:id="@+id/HelpButton"
+                android:id="@+id/ProgressButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -47,13 +48,15 @@
                 android:typeface="serif" />
 
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/imprima"
-            android:text="Name (Username)"/>
+            android:text="Name (Username)"
+            android:layout_weight="0"/>
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -62,33 +65,74 @@
             android:textSize="30sp"
             android:fontFamily="@font/imprima"
             android:gravity="center"
-            android:typeface="serif"/>
+            android:typeface="serif"
+            android:layout_weight="0"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/imprima"
-            android:text="Password"/>
-        <EditText
-            android:id="@+id/txtPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textSize="30sp"
-            android:fontFamily="@font/imprima"
-            android:gravity="center"
-            android:typeface="serif"
-            android:inputType="textPassword"/>
+            android:text="Pick 1 color and 1 animal!"
+            android:layout_weight="0"/>
+
         <Button
+            android:id="@+id/CreateAccount"
             android:layout_width="match_parent"
             android:textSize="30sp"
             android:layout_height="wrap_content"
-            android:onClick="ClickedLogin"
+            android:onClick="ClickedCreateAccount"
             android:background="@color/darkGreen"
             android:fontFamily="@font/imprima"
             android:layout_margin="10dp"
-            android:text="Login"/>
+            android:text="Create Account"/>
+
+        <RelativeLayout
+            android:id="@+id/ScrollingCols"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="0">
+
+            <ScrollView
+            android:id="@+id/ColorScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/ColorLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFF">
+            </LinearLayout>
+
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/AnimalScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="4dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorBackground">
+
+            <LinearLayout
+                android:id="@+id/AnimalLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFF">
+            </LinearLayout>
+        </ScrollView>
+        </RelativeLayout>
+
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

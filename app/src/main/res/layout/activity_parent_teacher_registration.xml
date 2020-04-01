@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ParentLogin">
-
+    tools:context=".ParentTeacherRegistration">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/topLayout"
             android:layout_width="fill_parent"
@@ -32,8 +32,9 @@
                 android:textSize="30sp"
                 android:typeface="serif" />
 
+
             <Button
-                android:id="@+id/HelpButton"
+                android:id="@+id/ProgressButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -47,6 +48,7 @@
                 android:typeface="serif" />
 
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +73,7 @@
             android:fontFamily="@font/imprima"
             android:text="Password"/>
         <EditText
-            android:id="@+id/txtPassword"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -80,15 +82,16 @@
             android:gravity="center"
             android:typeface="serif"
             android:inputType="textPassword"/>
+
         <Button
             android:layout_width="match_parent"
             android:textSize="30sp"
             android:layout_height="wrap_content"
-            android:onClick="ClickedLogin"
+            android:onClick="ClickedCreateAccount"
             android:background="@color/darkGreen"
             android:fontFamily="@font/imprima"
             android:layout_margin="10dp"
-            android:text="Login"/>
+            android:text="Create Account"/>
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

@@ -39,12 +39,25 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:textSize="20sp"
-                    android:background="@color/colorBackground"
+                    android:background="@color/darkGreen"
                     android:onClick="ClickedLoginParent"
                     android:text="Parent Login"
                     android:fontFamily="@font/imprima"
                     style="?android:attr/borderlessButtonStyle"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:background="@color/colorBackground"
+                    android:onClick="ClickedRegistration"
+                    android:text="Registration"
+                    android:fontFamily="@font/imprima"
+                    style="?android:attr/borderlessButtonStyle"/>
+
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

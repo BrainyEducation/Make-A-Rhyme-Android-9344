@@ -17,18 +17,20 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
 
     ArrayAdapter<String> arrayAdapter;
     Teacher currTeacher;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_teacher_main_menu);
 
+        loadIntentsAndViews();
+
         currTeacher = new Teacher();
 
         //ArrayList<String> studentNames = currTeacher.getStudentNameList();
         ArrayList<String> studentNames = new ArrayList<>();
-        studentNames.add("Joey");
-        studentNames.add("Sally");
+        studentNames.add(username); // Just for testing
         arrayAdapter = new ArrayAdapter(this, R.layout.progress_individual_words, studentNames);
         //SavePref(attemptedwords);
 
@@ -50,11 +52,7 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
         });
     }
 
-    /**
-     * Launches the rhyme UI
-     */
-    public void ClickedAddStudent(View v)
-    {
+    public void ClickedAddStudent(View v) {
         Intent newIntent = new Intent(this, AddStudent.class);
         startActivityForResult(newIntent, 1);
     }
@@ -67,4 +65,7 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
         // Link to Eric's page with averaged stats
     }
 
+    public void loadIntentsAndViews() {
+        username = (String) getIntent().getStringExtra("username");
+    }
 }

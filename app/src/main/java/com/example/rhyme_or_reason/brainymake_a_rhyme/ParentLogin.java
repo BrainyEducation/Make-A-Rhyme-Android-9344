@@ -12,26 +12,49 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class ParentLogin extends AppCompatActivity {
-    EditText passwordfield = null;
+
+    EditText username_field;
+    EditText password_field;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_login);
-        passwordfield = (EditText) findViewById(R.id.txtPassword);
+
+        username_field = (EditText) findViewById(R.id.name);
+        password_field = (EditText) findViewById(R.id.txtPassword);
     }
+
     /**
      * Launches the rhyme UI
      */
     public void ClickedLogin(View v)
     {
-        if(passwordfield.getText().toString().equals("Password")) {
-            Intent newIntent = new Intent(this, ParentTeacherMainMenu.class);
-            startActivityForResult(newIntent, 1);
+        // Check if user exists with that username and password
+
+        ArrayList<ParentTeacher> listOfPTs = ParentTeacher.retrieveParentTeachers(this.getApplicationContext());
+
+        Boolean successful = false;
+
+        for (int index = 0; index < listOfPTs.size(); ++index) {
+            if (listOfPTs.get(index).getName().equals(username_field.getText().toString())) {
+                if (listOfPTs.get(index).getPassword().equals(password_field.getText().toString())) {
+                    successful = true;
+                    Intent newIntent = new Intent(this, ParentTeacherMainMenu.class);
+                    newIntent.putExtra("username", username_field.getText().toString());
+
+                    startActivityForResult(newIntent, 1);
+                }
+            }
         }
-        else {
-            Toast.makeText(getApplicationContext(), "Incorrect password, try again", Toast.LENGTH_LONG).show();
-            passwordfield.setText("");
+
+        if (!successful) {
+            Toast.makeText(getApplicationContext(), "Incorrect login, try again", Toast.LENGTH_LONG).show();
+            password_field.setText("");
+            username_field.setText("");
         }
     }
     public void ClickedBackButton(View v) {
