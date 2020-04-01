@@ -157,10 +157,12 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
 
         for (int index = 0; index < allStudents.size(); ++index) {
             if (allStudents.get(index).getName().equals(nameField.getText().toString()) && allStudents.get(index).getColorPassword().equals(chosenColor) && allStudents.get(index).getAnimalPassword().equals(chosenAnimal)) {
+                System.out.println("Hit Student");
                 foundStudent = true;
                 Intent newIntent = new Intent(this, MainMenu.class);
                 newIntent.putExtra("uuid", allStudents.get(index).getUuid());
                 startActivityForResult(newIntent, 1);
+                break;
             }
         }
 

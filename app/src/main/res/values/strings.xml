@@ -6,4 +6,5 @@
     <string name="title_activity_application_welcome">ApplicationWelcome</string>
     <string name="title_activity_parent_login">ParentLogin</string>
     <string name="title_activity_parent_teacher_main_menu">ParentTeacherMainMenu</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 </resources>

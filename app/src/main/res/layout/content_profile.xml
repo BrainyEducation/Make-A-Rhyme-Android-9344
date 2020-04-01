@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".AddStudent">
+    tools:context=".MainMenu">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -31,72 +31,50 @@
                 android:textColor="#666"
                 android:textSize="30sp"
                 android:typeface="serif" />
-            <Button
-                android:id="@+id/ProgressButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:fontFamily="@font/imprima"
-                android:gravity="center"
-                android:padding="0dp"
-                android:text=""
-                android:textColor="#666"
-                android:textSize="30sp"
-                android:typeface="serif" />
         </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:fontFamily="@font/imprima"
             android:textSize="30sp"
+            android:text="Student Name:"/>
+        <TextView
+            android:id="@+id/NameField"
+            android:layout_width="match_parent"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/imprima"
-            android:text="Student UUID:"/>
-        <Button
-            android:layout_width="match_parent"
             android:textSize="30sp"
-            android:layout_height="wrap_content"
-            android:onClick="clickedPaste"
-            android:layout_margin="10dp"
-            android:fontFamily="@font/imprima"
-            android:background="@color/darkGreen"
-            android:text="Paste Student ID"/>
-        <EditText
-            android:id="@+id/UUID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textSize="30sp"
-            android:fontFamily="@font/imprima"
-            android:gravity="center"
-            android:typeface="serif"/>
+            android:layout_height="wrap_content"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/imprima"
-            android:textSize="30sp"
+            android:textColor="#000"
             android:layout_marginLeft="10dp"
-            android:text="Student Name:"/>
-        <EditText
-            android:id="@+id/studentName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
             android:textSize="30sp"
+            android:text="Student Identifier:"/>
+        <TextView
+            android:id="@+id/uuidField"
+            android:layout_width="match_parent"
             android:fontFamily="@font/imprima"
-            android:gravity="center"
-            android:typeface="serif"/>
+            android:layout_marginLeft="10dp"
+            android:textSize="30sp"
+            android:layout_height="wrap_content"/>
+
         <Button
+            android:id="@+id/Copy"
             android:layout_width="match_parent"
             android:textSize="30sp"
             android:layout_height="wrap_content"
-            android:onClick="ClickedAddByUUID"
-            android:layout_margin="10dp"
-            android:fontFamily="@font/imprima"
+            android:onClick="ClickedCopy"
             android:background="@color/darkGreen"
-            android:text="Add Student"/>
+            android:fontFamily="@font/imprima"
+            android:layout_margin="10dp"
+            android:text="Copy Identifier"/>
 
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

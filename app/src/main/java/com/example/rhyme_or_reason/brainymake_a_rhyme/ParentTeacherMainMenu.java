@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class ParentTeacherMainMenu extends AppCompatActivity {
 
     ArrayAdapter<String> arrayAdapter;
-    Teacher currTeacher;
     String username;
+    ParentTeacher currPT = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,56 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
 
         loadIntentsAndViews();
 
-        currTeacher = new Teacher();
+        loadStudents();
+    }
 
-        //ArrayList<String> studentNames = currTeacher.getStudentNameList();
+    public void ClickedAddStudent(View v) {
+        Intent newIntent = new Intent(this, AddStudent.class);
+        newIntent.putExtra("username", username);
+        startActivityForResult(newIntent, 1);
+    }
+
+    public void ClickedBackButton(View v) {
+        onBackPressed();
+    }
+
+    public void ClickedClassAnalytics(View v) {
+        // Link to Eric's page with averaged stats
+    }
+
+    public void loadIntentsAndViews() {
+        username = (String) getIntent().getStringExtra("username");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        loadStudents();
+        /*
+        System.out.println("Hit activity result.");
+        existingRhymesLL.removeAllViews();
+        loadExistingRhymes(true);
+        */
+    }
+
+    public void loadStudents()
+    {
+        ArrayList<ParentTeacher> listOfPTs = ParentTeacher.retrieveParentTeachers(this.getApplicationContext());
+
+        for (int index = 0; index < listOfPTs.size(); ++index) {
+            if (listOfPTs.get(index).getName().equals(username)) {
+                currPT = listOfPTs.get(index);
+            }
+        }
+
+        ArrayList<Student> students = currPT.getStudents();
+
         ArrayList<String> studentNames = new ArrayList<>();
-        studentNames.add(username); // Just for testing
+
+        for (int index = 0; index < students.size(); ++index) {
+            studentNames.add(students.get(index).getName());
+        }
+
         arrayAdapter = new ArrayAdapter(this, R.layout.progress_individual_words, studentNames);
         //SavePref(attemptedwords);
 
@@ -50,22 +95,5 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
                 */
             }
         });
-    }
-
-    public void ClickedAddStudent(View v) {
-        Intent newIntent = new Intent(this, AddStudent.class);
-        startActivityForResult(newIntent, 1);
-    }
-
-    public void ClickedBackButton(View v) {
-        onBackPressed();
-    }
-
-    public void ClickedClassAnalytics(View v) {
-        // Link to Eric's page with averaged stats
-    }
-
-    public void loadIntentsAndViews() {
-        username = (String) getIntent().getStringExtra("username");
     }
 }

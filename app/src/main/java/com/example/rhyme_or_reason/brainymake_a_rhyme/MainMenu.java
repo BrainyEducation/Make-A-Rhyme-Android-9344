@@ -219,4 +219,15 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
         return mapFromPref;
     }
+
+    /**
+     * Handles profile press click; takes user to settings menu
+     *
+     * @param view Automatic parameter for user interaction
+     */
+    public void ClickedSettingsButton(View view) {
+        Intent newIntent = new Intent(this, ProfileActivity.class);
+        newIntent.putExtra("uuid", uuid);
+        startActivityForResult(newIntent, 1);
+    }
 }
