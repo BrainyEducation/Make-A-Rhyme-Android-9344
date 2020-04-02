@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class Student implements Serializable {
     private String animalPassword;
     private ArrayList<RhymeTemplate> savedRhymes;
     private ArrayList<Word> unlockedWords;
+    private ArrayList<int[]> attemptsList;
     //private static Context ioContext;
 
     public Student(String name, String colorPassword, String animalPassword)
@@ -33,12 +35,13 @@ public class Student implements Serializable {
 
     }
 
-    public Student(String name, String uuid, String colorPassword, String animalPassword)
+    public Student(String name, String uuid, String colorPassword, String animalPassword, ArrayList attemptsList)
     {
         this.name = name;
         this.uuid = uuid;
         this.colorPassword = colorPassword;
         this.animalPassword = animalPassword;
+        this.attemptsList = attemptsList;
         this.savedRhymes = new ArrayList<>();
         this.unlockedWords = new ArrayList<>();
 
@@ -81,6 +84,10 @@ public class Student implements Serializable {
     public String getAnimalPassword() {
         return animalPassword;
     }
+
+    public ArrayList getAttemptsList() {return attemptsList;}
+
+    public void addToAttemptsList(int[] newAttempt) {attemptsList.add(newAttempt);}
 
     public void saveStudent(Context context)
     {

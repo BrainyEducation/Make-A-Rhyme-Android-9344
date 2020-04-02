@@ -39,6 +39,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     Typeface imprima;
     int height, width;
     String uuid;
+    Student currentStudent;
 
     int RHYME_HEIGHT;
 

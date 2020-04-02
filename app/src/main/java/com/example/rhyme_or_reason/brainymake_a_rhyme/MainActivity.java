@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static Word selectedWordFromMain;
     static ArrayList<String> wordsAttempted = new ArrayList<>();
     static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
+    ArrayList<Student> temp = Student.retrieveStudents();
 
     String uuid = "";
 
@@ -233,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         typeToWordMapping.put("Friends", friendList);
     }
+
 
     /**
      * Responsible for handling clicks for the types and words in the scrolling columns.
