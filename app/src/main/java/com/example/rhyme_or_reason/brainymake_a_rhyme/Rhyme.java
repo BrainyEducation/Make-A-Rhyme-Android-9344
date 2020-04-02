@@ -79,6 +79,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     String storyText = "";
     String uuid = "";
 
+    Student currStudent;
+
     RhymeTemplate currRhyme;
     boolean playCooldown = true;
 
@@ -93,6 +95,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         sizingSetUp();
 
         loadIntentsAndViews();
+
+        getStudentFromUUID();
 
         loadIllustrationImage();
 
@@ -995,7 +999,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void ClickedBackButton(View view) {
 
-
         displayPlayButton = true;
         storyAudioManager.setContinueAudioFlag(false);
 
@@ -1014,6 +1017,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         if (insertedWord) {
             currRhyme.setSavedIllustration(byteArray);
             currRhyme.saveRhymeTemplate(this.getApplicationContext(), uuid);
+
+            currStudent.addRhyme(currRhyme);
+            currStudent.saveStudent(this.getApplicationContext());
+
         }
         onBackPressed();
     }
@@ -1106,17 +1113,25 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         startActivity(newIntent);
     }
 
+    public void getStudentFromUUID()
+    {
+        ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
 
-    /*
-    private void forceStopAudio() {
-        try {
-            storyAudioManager.setContinueAudioFlag(false);
-        } catch (IllegalStateException e) {
-            try {
-                storyAudioManager.clearMediaPlayer();
-            } catch (Exception nestedException) {
+        for (int index = 0; index < allStudents.size(); ++index) {
+            if (allStudents.get(index).getUuid().equals(uuid)) {
+                currStudent = allStudents.get(index); // HERE we assign the student so we can save on exit.
+                break;
             }
         }
+
+        /*
+        // Testing only
+        for (int index = 0; index < currStudent.getSavedRhymes().size(); ++index) {
+            System.out.print("Index: ");
+            System.out.println(index);
+            System.out.println(currStudent.getSavedRhymes().get(index).getName());
+        }
+        */
     }
-    */
+
 }

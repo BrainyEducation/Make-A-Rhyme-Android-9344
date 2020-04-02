@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
     ArrayList<Student> temp = Student.retrieveStudents();
 
+    ArrayList<Word> unlockedWords = new ArrayList<>();
+
+    Student currStudent;
+
     String uuid = "";
 
     /**
@@ -83,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadIntentsAndViews();
         sizingSetUp();
         miscellaneousSetUp();
+
+        getStudentFromUUID();
 
         setUpScroll();
 
@@ -220,6 +226,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (currWord == null) {
                     currWord = new Word(words[i][j], true, words[i][j], words[i][j], words[i][0].toLowerCase());
                 }
+
+                if (currWord.getLockedStatus()) {
+                    unlockedWords.add(currWord);
+                }
+
                 wordlist.add(currWord);
             }
             typeToWordMapping.put(words[i][0], wordlist);
@@ -441,9 +452,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
                 selectedWord.setUnlocked();
+                unlockedWords.add(selectedWord);
                 // Update the saved status of the word
                 selectedWord.saveWord(this.getApplicationContext(), uuid);
                 wordViews.get(wordIndex).setAlpha(1);
+
+                currStudent.addUnlockedWord(selectedWord);
+                currStudent.saveStudent(this.getApplicationContext()); // This should update the saved state of the student with its unlocked words
+
                 // Exit quiz
                 Handler returnHandler = new Handler();
                 returnHandler.postDelayed(new Runnable() {
@@ -647,6 +663,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 type_scrollview.smoothScrollBy(0, 500);
             }
         });
+    }
+
+    public void getStudentFromUUID()
+    {
+        ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
+
+        for (int index = 0; index < allStudents.size(); ++index) {
+            if (allStudents.get(index).getUuid().equals(uuid)) {
+                currStudent = allStudents.get(index); // HERE we assign the student so we can save on exit.
+                break;
+            }
+        }
+
+        /*
+        // Testing only
+        for (int index = 0; index < currStudent.getUnlockedWords().size(); ++index) {
+            System.out.println(currStudent.getUnlockedWords().get(index).getText());
+        }
+        */
     }
 
 
