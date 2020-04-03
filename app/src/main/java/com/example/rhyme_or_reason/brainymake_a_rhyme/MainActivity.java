@@ -111,8 +111,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Button tempWordImage = new Button(this);
 
             tempWordImage.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, elementHeight));
-
-            tempWordImage.setTag(wordList.get(index).getText());
+            String taglabel = wordList.get(index).getText();
+            if(currType.equals("Friends"))
+                taglabel = wordList.get(index).getImageName();
+            tempWordImage.setTag(taglabel);
             tempWordImage.setOnClickListener(MainActivity.this);
             int resourceID = getResources().getIdentifier(wordList.get(index).getImageName(), "drawable", getPackageName());
             tempWordImage.setBackgroundResource(resourceID);
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             tempWordText.setOnClickListener(MainActivity.this);
 
-            tempWordText.setTag(wordList.get(index).getText());
+            tempWordText.setTag(taglabel);
             if(!currType.equals("Friends"))
                 tempWordText.setText(wordList.get(index).getText());
             tempWordText.setBackgroundColor(Color.WHITE);
@@ -287,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int matchIndex = -1;
 
             for (int index = 0; index < wordList.size(); ++index) {
-                if (!(v.getTag().equals(wordList.get(index).getText()))) {
+                if (!(v.getTag().equals(wordList.get(index).getText()) || v.getTag().equals(wordList.get(index).getImageName()))) {
                     categoryWords.add(wordList.get(index).getText());
                 } else {
                     matchIndex = index;
@@ -352,12 +354,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         newIntent.putExtra("other_words", otherWords);
                         startActivityForResult(newIntent, 1);
                     }
-                } else {
-                    //Friends
-                    Intent newIntent = new Intent(this, NameFriend.class);
-                    newIntent.putExtra("word", selectedWord);
-                    startActivityForResult(newIntent, 2);
                 }
+            } else {
+                //Friends
+                Intent newIntent = new Intent(this, NameFriend.class);
+                newIntent.putExtra("word", selectedWord);
+                startActivityForResult(newIntent, 2);
             }
 
 
