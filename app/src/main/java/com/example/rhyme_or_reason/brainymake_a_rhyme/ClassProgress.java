@@ -47,6 +47,7 @@ public class ClassProgress extends AppCompatActivity {
         if (studentNames.length > 1) {
             StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
             staticLabelsFormatter.setHorizontalLabels(studentNames);
+
             graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         }
 
@@ -58,7 +59,12 @@ public class ClassProgress extends AppCompatActivity {
         });
 
         series.setSpacing(50);
+        graph.getViewport().setMinX(1);
         graph.getViewport().setMinY(0);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Words Attempted");
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Child");
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.RED);
         //series.setValuesOnTopSize(50);
