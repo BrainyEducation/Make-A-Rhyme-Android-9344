@@ -36,6 +36,8 @@ public class ProgressWordList extends AppCompatActivity {
                 String wordFromList = adapterView.getItemAtPosition(i).toString();
                 Intent myIntent = new Intent(view.getContext(), StudentProgress.class);
                 myIntent.putExtra("Word", wordFromList);
+                String uuid = getIntent().getExtras().get("uuid").toString();
+                myIntent.putExtra("uuid",uuid);
                 startActivityForResult(myIntent, 0);
             }
         });

@@ -24,6 +24,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.ImageSaver;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -208,7 +209,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
      * Returns to the rhyme screen
      */
     public void ClickedBackButton(View view) {
-
+        ImageSaver.clearHashmap();
         onBackPressed();
     }
 

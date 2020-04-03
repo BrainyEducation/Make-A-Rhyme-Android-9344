@@ -6,10 +6,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.EmailSystem;
 
 import java.util.ArrayList;
 
@@ -18,6 +22,10 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     String username;
     ParentTeacher currPT = null;
+    Button emailButton;
+
+
+    ArrayList<Student> studentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,14 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
         loadIntentsAndViews();
 
         loadStudents();
+
+        emailButton = (Button) findViewById(R.id.emailButtonClass);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEmailClick(v);
+            }
+        });
     }
 
     public void ClickedAddStudent(View v) {
@@ -69,6 +85,7 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
         }
 
         ArrayList<Student> students = currPT.getStudents();
+        studentList = students;
 
         ArrayList<String> studentNames = new ArrayList<>();
 
@@ -95,5 +112,58 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
                 */
             }
         });
+
+
+    }
+
+
+    //TODO move the email button to individual students once Eric integrates his changes
+    public void onEmailClick(View v) {
+
+        //forceStopAudio();
+
+
+        Intent newIntent = new Intent(ParentTeacherMainMenu.this,EmailActivity.class);
+        //View parentView = findViewById(R.id.totalIllustration);
+
+        //String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
+
+
+        //newIntent.putStringArrayListExtra("rhyme_words", wordList);
+
+        newIntent.putExtra("imageUri", "");
+
+        StringBuilder sb = new StringBuilder();
+
+        if (studentList == null || studentList.size() == 0) {
+            Snackbar.make(v, "Please add at least one child", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        for (int i = 0; i < studentList.size(); i++) {
+            Student student = studentList.get(i);
+            sb.append("Student: ");
+            sb.append(student.getName());
+            sb.append(" has learned the following words:\n");
+            ArrayList<Word> unlockedWords = student.getUnlockedWords();
+
+            //TODO: Figure out why this list is always empty
+            for (int j = 0; j < unlockedWords.size(); j++) {
+                Log.d("ParentTeacherMainMenu", unlockedWords.get(j).getText());
+                Word word = unlockedWords.get(j);
+                sb.append(word.getText());
+                sb.append("\n");
+            }
+            sb.append("\n");
+        }
+
+
+        newIntent.putExtra("general_rhyme_text", sb.toString());
+
+
+        //TODO: replace this with the right UUID call
+        newIntent.putExtra("uuid", "dummy-uuid");
+
+        startActivity(newIntent);
     }
 }

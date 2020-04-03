@@ -34,19 +34,28 @@ public class EmailSystem
     private Pattern emailRegexPattern;
     private static int maxEmails = 20;
     private String emailShortener = "... ";
-    private Uri attachmentURI;
+    private Uri attachmentURI = null;
 
 
     public EmailSystem() {
         emailRegexPattern = Pattern.compile(emailValidationRegex);
     }
 
+    /**
+     *
+     * @param emails
+     * @param subjectLine
+     * @param emailBody
+     * @param path if this string is an empty string, no pictures will be attached
+     */
     public void setEmailVariables(String[] emails, String subjectLine, String emailBody, String path) {
         this.emails = emails;
         this.subjectLine = subjectLine;
         this.emailBody = emailBody;
         Log.d("ATTACHMULTIPLEORIGINAL", path);
-        this.attachmentURI = reformatPathStringToURI(path);
+        if (!path.equals("")) {
+            this.attachmentURI = reformatPathStringToURI(path);
+        }
     }
 
     private Uri reformatPathStringToURI(String s) {
@@ -64,7 +73,7 @@ public class EmailSystem
 
 
 
-        String path = attachmentURI.getPath();
+        //String path = attachmentURI.getPath();
         // Log.d("examplepath",path);
 
         //File f = new File(attachmentURI.getPath());
@@ -83,6 +92,12 @@ public class EmailSystem
 
         //Log.d("attachmentURI", attachmentURI.getPath());
 
+        it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        if (attachmentURI == null) {
+            return it;
+        }
+
 
         HashMap<String, String> filenameToPathMap = ImageSaver.getFilenameToPathMap();
         ArrayList<Uri> uris = new ArrayList<>();
@@ -97,7 +112,7 @@ public class EmailSystem
         it.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 
 
-        it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
 
         return it;
     }

@@ -52,4 +52,8 @@ public class ImageSaver {
     public static HashMap<String, String> getFilenameToPathMap() {
         return filenameToPathMap;
     }
+
+    public static void clearHashmap() {
+        getFilenameToPathMap().clear();
+    }
 }

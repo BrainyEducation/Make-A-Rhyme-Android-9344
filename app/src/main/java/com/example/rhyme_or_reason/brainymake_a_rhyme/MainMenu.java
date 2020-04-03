@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.ImageSaver;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -55,6 +56,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 Intent thisIntent = new Intent(v.getContext(), ProgressWordList.class);
+                String uuid = getIntent().getExtras().get("uuid").toString();
+                thisIntent.putExtra("uuid",uuid);
                 startActivityForResult(thisIntent, 0);
             }
         });
