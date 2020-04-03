@@ -5,12 +5,20 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Student implements Serializable {
 
@@ -20,6 +28,7 @@ public class Student implements Serializable {
     private String animalPassword;
     private ArrayList<RhymeTemplate> savedRhymes;
     private ArrayList<Word> unlockedWords;
+    private HashMap<String, ArrayList<Integer>> attemptsMap;
     //private static Context ioContext;
 
     public Student(String name, String colorPassword, String animalPassword)
@@ -30,18 +39,31 @@ public class Student implements Serializable {
         this.animalPassword = animalPassword;
         this.savedRhymes = new ArrayList<>();
         this.unlockedWords = new ArrayList<>();
+        this.attemptsMap = new HashMap<>();
+    }
+
+    public Student(String name, String colorPassword, String animalPassword, HashMap<String, ArrayList<Integer>> attemptsMap)
+    {
+        this.name = name;
+        this.uuid = UUID.randomUUID().toString();
+        this.colorPassword = colorPassword;
+        this.animalPassword = animalPassword;
+        this.savedRhymes = new ArrayList<>();
+        this.unlockedWords = new ArrayList<>();
+        this.attemptsMap = attemptsMap;
 
     }
 
-    public Student(String name, String uuid, String colorPassword, String animalPassword)
+    public Student(String name, String uuid, String colorPassword, String animalPassword, HashMap<String, ArrayList<Integer>> attemptsMap)
     {
         this.name = name;
         this.uuid = uuid;
         this.colorPassword = colorPassword;
         this.animalPassword = animalPassword;
+        this.attemptsMap = attemptsMap;
         this.savedRhymes = new ArrayList<>();
         this.unlockedWords = new ArrayList<>();
-
+        //this.attemptsMap = new HashMap<>();
     }
 
     public void addRhyme(RhymeTemplate newRhyme)
@@ -82,6 +104,20 @@ public class Student implements Serializable {
         return animalPassword;
     }
 
+    public HashMap<String, ArrayList<Integer>> getAttemptsMap() {return attemptsMap;}
+
+    public void addToAttemptsMap(String word, int newAttempt) {
+        if (!attemptsMap.containsKey(word)) {
+            ArrayList<Integer> initAttempt = new ArrayList<>();
+            initAttempt.add(newAttempt);
+            attemptsMap.put(word, initAttempt);
+        } else {
+            ArrayList<Integer> attempts = attemptsMap.get(word);
+            attempts.add(newAttempt);
+            attemptsMap.put(word, attempts);
+        }
+    }
+
     public void saveStudent(Context context)
     {
         SharedPreferences appSharedPrefs = PreferenceManager
@@ -114,10 +150,11 @@ public class Student implements Serializable {
 
         ArrayList<Student> toReturn = new ArrayList<>();
 
-        // Checking against the size of the set but checking against array element)
+        // Checking against the size of the set but checking against array element
         for (int index = 0; index < currUUIDs.size(); ++index) {
             String tempStudentJson = appSharedPrefs.getString(currUUIDsArray[index], "");
-            toReturn.add(gson.fromJson(tempStudentJson, Student.class));
+            Student tempStudent = gson.fromJson(tempStudentJson, Student.class);
+            toReturn.add(tempStudent);
         }
 
         return toReturn;
@@ -125,5 +162,24 @@ public class Student implements Serializable {
         //String json = appSharedPrefs.getString("SavedRhyme" + rhymeNumString, "");
         //return gson.fromJson(json, RhymeTemplate.class);
     }
+
+    /*
+    public void saveData(Context context) { //key - uuid, obj - attemptsMap
+        SharedPreferences pref = context.getSharedPreferences("AttemptsMap", MODE_PRIVATE);
+        String objToString = new Gson().toJson(attemptsMap);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("ProgressMap", objToString);
+        editor.apply();
+    }
+
+    public HashMap loadMap(Context context) { //key - uuid
+        SharedPreferences sharedpref = context.getSharedPreferences("AttemptsMap", MODE_PRIVATE);
+        String val = new Gson().toJson(new HashMap<String, ArrayList<int[]>>());
+        String jsonStr = sharedpref.getString("ProgressMap", val);
+        TypeToken<HashMap<String, ArrayList<int[]>>> token = new TypeToken<HashMap<String, ArrayList<int[]>>>() {};
+        HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
+        return mapFromPref;
+    }
+    */
 
 }

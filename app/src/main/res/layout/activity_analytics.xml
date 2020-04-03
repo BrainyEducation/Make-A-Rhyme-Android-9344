@@ -65,6 +65,56 @@
                 android:padding="0dp"/>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/TextAnalytics"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#FFFFFFFF">
+
+            <TextView
+                android:id="@+id/AverageIncorrections"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
+            </TextView>
+
+            <TextView
+                android:id="@+id/AverageIncorrectionsNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/AverageIncorrections">
+            </TextView>
+
+            <TextView
+                android:id="@+id/NumAttempts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/AverageIncorrections"
+                android:layout_alignParentLeft="true"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/NumAttemptsNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/AverageIncorrections"
+                android:layout_toRightOf="@id/NumAttempts"></TextView>
+
+            <TextView
+                android:id="@+id/highestConsec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NumAttempts"></TextView>
+
+            <TextView
+                android:id="@+id/highestConsecutiveNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NumAttempts"
+                android:layout_toRightOf="@id/highestConsec"></TextView>
+
+        </RelativeLayout>
+
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
             android:layout_width="match_parent"

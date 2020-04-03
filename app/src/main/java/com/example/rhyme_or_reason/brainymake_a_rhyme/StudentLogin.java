@@ -128,6 +128,7 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
 
         if (tag.equals("animal")) {
             selectedAnimal = true;
+            chosenAnimal = animalNames.get(index);
             for (int count = 0; count < animalNames.size(); ++count) {
                 animalViews.get(count).setAlpha(0.5f);
             }
@@ -135,6 +136,7 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
 
         } else if (tag.equals("color")) {
             selectedColor = true;
+            chosenColor = colorNames.get(index);
             for (int count = 0; count < colorNames.size(); ++count) {
                 colorViews.get(count).setAlpha(0.5f);
             }

@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //private Button progressBtn;
     static int attempts = 0;
     static Word selectedWordFromMain;
-    static ArrayList<String> wordsAttempted = new ArrayList<>();
-    static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
+    //static ArrayList<String> wordsAttempted = new ArrayList<>();
+    //static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
 
     ArrayList<Word> unlockedWords = new ArrayList<>();
 
@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         typeToWordMapping.put("Friends", friendList);
     }
 
+
     /**
      * Responsible for handling clicks for the types and words in the scrolling columns.
      * When a type is selected, it is highlighted and its words are shown in the right scrolling
@@ -339,24 +340,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }, 0);   // Instantaneous
                     } else {
-                        wordsAttempted.add(selectedWord.getText());
-                        selectedWordFromMain = selectedWord;
-                        ArrayList<int[]> wordAttempts;
-                        int[] attemptsToIncorrects = new int[2];
-                        if (!attemptsMap.containsKey(selectedWord)) {
-                            attemptsToIncorrects[0] = 1;
-                            attemptsToIncorrects[1] = 0;
-                            wordAttempts = new ArrayList<>();
-                            wordAttempts.add(attemptsToIncorrects);
-                        } else {
-                            wordAttempts = attemptsMap.get(selectedWord);
-                            int[] lastAttemptArray = wordAttempts.get(wordAttempts.size() - 1);
-                            int lastAttempt = lastAttemptArray[0];
-                            attemptsToIncorrects[0] = lastAttempt + 1;
-                            attemptsToIncorrects[1] = 0;
-                        }
+//                        wordsAttempted.add(selectedWord.getText());
+//                        selectedWordFromMain = selectedWord;
+//                        ArrayList<int[]> wordAttempts;
+//                        int[] attemptsToIncorrects = new int[2];
+//                        if (!attemptsMap.containsKey(selectedWord)) {
+//                            attemptsToIncorrects[0] = 1;
+//                            attemptsToIncorrects[1] = 0;
+//                            wordAttempts = new ArrayList<>();
+//                            wordAttempts.add(attemptsToIncorrects);
+//                        } else {
+//                            wordAttempts = attemptsMap.get(selectedWord);
+//                            int[] lastAttemptArray = wordAttempts.get(wordAttempts.size() - 1);
+//                            int lastAttempt = lastAttemptArray[0];
+//                            attemptsToIncorrects[0] = lastAttempt + 1;
+//                            attemptsToIncorrects[1] = 0;
+//                        }
 
-                        attemptsMap.put(selectedWord.getText(), wordAttempts);
+                        //attemptsMap.put(selectedWord.getText(), wordAttempts);
 
                         Intent newIntent = new Intent(this, Quiz.class);
                         newIntent.putExtra("word", selectedWord);
@@ -449,6 +450,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
+
+                getStudentFromUUID(); // Have to call this again to get updated version of student (with added attempts)
+
                 selectedWord.setUnlocked();
                 unlockedWords.add(selectedWord);
                 // Update the saved status of the word
