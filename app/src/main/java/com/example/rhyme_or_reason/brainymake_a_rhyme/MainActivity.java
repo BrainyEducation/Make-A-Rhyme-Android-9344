@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(selectedWord.getAudioName().length() > 0) {
                 //Most words
                 for (String s : typeToWordMapping.keySet()) {
-                    if (s != activeType)
+                    if (s != activeType && !s.equals("Friends"))
                         for (Word w : typeToWordMapping.get(s)) {
                             if (w.getText().length() == selectedWord.getText().length())
                                 lengthWords.add(w.getText());
