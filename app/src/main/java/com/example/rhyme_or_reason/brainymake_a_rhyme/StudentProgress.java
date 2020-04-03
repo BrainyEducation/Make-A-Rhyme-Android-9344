@@ -3,6 +3,8 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem.ImageSaver;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -41,6 +43,7 @@ public class StudentProgress extends AppCompatActivity {
     }
 
     public void ClickedBackButton(View view) {
+        ImageSaver.saveImageAndReturnPath(graph, this, getIntent().getExtras().get("Word").toString());
         onBackPressed();
     }
 }
