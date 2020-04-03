@@ -58,7 +58,7 @@ public class ClassProgress extends AppCompatActivity {
         });
 
         series.setSpacing(50);
-
+        graph.getViewport().setMinY(0);
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.RED);
         //series.setValuesOnTopSize(50);
