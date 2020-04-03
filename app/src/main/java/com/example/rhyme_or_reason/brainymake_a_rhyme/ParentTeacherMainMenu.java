@@ -88,11 +88,12 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String studentName = adapterView.getItemAtPosition(i).toString();
                 // Link to Eric's analytics screen for that student
-                /*
-                Intent myIntent = new Intent(view.getContext(), StudentProgress.class);
-                myIntent.putExtra("Word", wordFromList);
+
+                Intent myIntent = new Intent(view.getContext(), ProgressWordList.class);
+                myIntent.putExtra("name", studentName);
+                myIntent.putExtra("uuid", "empty");
                 startActivityForResult(myIntent, 0);
-                */
+
             }
         });
     }

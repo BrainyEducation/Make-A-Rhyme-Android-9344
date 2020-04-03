@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StudentRegistration extends AppCompatActivity implements View.OnClickListener {
 
@@ -154,7 +155,8 @@ public class StudentRegistration extends AppCompatActivity implements View.OnCli
      */
     public void ClickedCreateAccount(View v)
     {
-        Student newStudent = new Student(nameField.getText().toString(), chosenColor, chosenAnimal);
+        HashMap<String, ArrayList<int[]>> newMap = new HashMap<>();
+        Student newStudent = new Student(nameField.getText().toString(), chosenColor, chosenAnimal, newMap);
 
         newStudent.saveStudent(this.getApplicationContext()); // Saves student into local storage
 

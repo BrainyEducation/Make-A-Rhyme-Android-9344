@@ -55,7 +55,7 @@ public class ApplicationWelcome extends AppCompatActivity {
 
         miscellaneousSetUp();
 
-        MainActivity.attemptsMap = getMapFromSharedPref();
+        //MainActivity.attemptsMap = getMapFromSharedPref();
 
         // Responsible for flipping the color from black to white every second
         final Handler handler = new Handler();
