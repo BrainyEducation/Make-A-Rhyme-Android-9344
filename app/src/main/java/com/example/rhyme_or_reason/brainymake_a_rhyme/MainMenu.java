@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
@@ -35,7 +36,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     RelativeLayout topBar;
     int HEIGHT_UNIT;
     private ScrollView rhyme_template_scrollview;
-    final int TEXT_SIZE = 30;
     Typeface imprima;
     int height, width;
     String uuid;
@@ -80,16 +80,17 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     public void loadRhymeStoryOptions()
     {
         for (int index = 0; index < templateOptions.size(); ++index) {
-            Button tempType = new Button(this);
+            Button storyName = new Button(this);
 
-            tempType.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            storyName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-            tempType.setText(templateOptions.get(index).getName());
-            tempType.setTag(index); // Set tag to the index in the ArrayList
-            tempType.setBackgroundColor(getResources().getColor(R.color.colorBackground));
-            tempType.setTextSize(TEXT_SIZE);
-            tempType.setTypeface(imprima);
-            tempType.setAlpha(0.6f);
+            storyName.setText(templateOptions.get(index).getName());
+            storyName.setTag(index); // Set tag to the index in the ArrayList
+            storyName.setBackgroundColor(getResources().getColor(R.color.colorBackground));
+            storyName.setTextSize(Constants.HEADER_TEXT_SIZE);
+
+            storyName.setTypeface(imprima);
+            storyName.setAlpha(0.6f);
 
             ImageView rhymeImage = new ImageView(this);
             rhymeImage.setTag(index);
@@ -97,11 +98,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             int pictureResourceID = getResources().getIdentifier(templateOptions.get(index).getImageName(), "drawable", getPackageName());
 
             if (!templateOptions.get(index).getLocked()) {
-                tempType.setOnClickListener(this);
+                storyName.setOnClickListener(this);
                 rhymeImage.setOnClickListener(this);
             } else {
                 rhymeImage.setAlpha(Constants.LOCKED_ALPHA);
-                tempType.setAlpha(Constants.LOCKED_ALPHA);
+                storyName.setAlpha(Constants.LOCKED_ALPHA);
             }
 
             rhymeImage.setImageResource(pictureResourceID);
@@ -112,7 +113,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
             separator.setBackgroundColor(getResources().getColor(R.color.colorBackground));
 
-            rhymesLL.addView(tempType);
+            rhymesLL.addView(storyName);
             rhymesLL.addView(rhymeImage);
             rhymesLL.addView(separator);
         }

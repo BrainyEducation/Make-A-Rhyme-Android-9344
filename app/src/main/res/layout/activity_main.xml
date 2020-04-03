@@ -74,13 +74,15 @@
                 android:id="@+id/TypeLabel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:text="Type"
+                android:background="@color/darkGreen"
                 android:textAlignment="gravity"
                 android:textAllCaps="false"
-                android:textColor="#666"
+                android:textColor="#000"
                 android:textSize="40sp" />
 
 
@@ -88,11 +90,13 @@
                 android:id="@+id/WordLabel"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:text="Word"
-                android:textColor="#666"
+                android:background="@color/darkGreen"
+                android:textColor="#000"
                 android:textSize="40sp" />
 
         </LinearLayout>

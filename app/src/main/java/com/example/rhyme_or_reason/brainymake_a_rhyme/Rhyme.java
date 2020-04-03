@@ -427,7 +427,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 LinearLayout.LayoutParams line_params = new LinearLayout.LayoutParams(
                         width, (140) // TODO: Set to something meaningful
                 );
-                line_params.setMargins(5, 0, 0, 0);
+                line_params.setMargins(0, 0, 0, 0);
                 line_params.gravity = CENTER;
 
                 singleLine.setLayoutParams(line_params);
@@ -462,7 +462,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                         RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
                                 ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
                         );
-                        line_params.setMargins(5, 0, 0, 0);
+                        line_params.setMargins(0, 0, 0, 0);
                         line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
                         if (idIndex != 1) {
                             line_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the button that comes before it

@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static ArrayList<String> wordsAttempted = new ArrayList<>();
     static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
 
+    int scaledTextSize = 0;
+
     ArrayList<Word> unlockedWords = new ArrayList<>();
 
     Student currStudent;
@@ -107,6 +110,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void updateWordList(String currType)
     {
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double inchesWidth = Math.sqrt(Math.pow(dm.widthPixels/dm.xdpi,2));
+
+        //System.out.println("Inches Width: ");
+        //System.out.println(inchesWidth);
+
+        //int scaledTextSize = (int)(inchesWidth * 9);
+
         activeType = currType;
         wordLL.removeAllViews(); // Removes the current buttons
 
@@ -136,7 +148,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tempWordText.setText(wordList.get(index).getText());
             tempWordText.setBackgroundColor(Color.WHITE);
             tempWordText.setTextColor(Color.BLACK);
-            tempWordText.setTextSize(Constants.STANDARD_TEXT_SIZE);
+            //tempWordText.setTextSize(Constants.STANDARD_TEXT_SIZE);
+            tempWordText.setTextSize(scaledTextSize);
+
             tempWordText.setTypeface(imprima);
 
             View separator = new View(this);
@@ -516,6 +530,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double inchesWidth = Math.sqrt(Math.pow(dm.widthPixels/dm.xdpi,2));
+
+        scaledTextSize = (int)(inchesWidth * 9);
     }
 
     /**
@@ -584,7 +604,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempType.setText(typeList.get(index));
             tempType.setTag(typeList.get(index)); // Set tag to the name of the type
             tempType.setBackgroundColor(getResources().getColor(R.color.colorButton));
-            tempType.setTextSize(Constants.STANDARD_TEXT_SIZE);
+            //tempType.setTextSize(Constants.STANDARD_TEXT_SIZE);
+
+            tempType.setTextSize(scaledTextSize);
+
             tempType.setTypeface(imprima);
             tempType.setOnClickListener(MainActivity.this);
 
