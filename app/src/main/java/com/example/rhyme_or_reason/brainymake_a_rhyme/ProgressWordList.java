@@ -38,7 +38,7 @@ public class ProgressWordList extends AppCompatActivity {
         //currStudent.loadMap(this.getApplicationContext(), uuid);
         Log.d("student", currStudent.getName());
         Log.d("map", currStudent.getAttemptsMap().keySet().toString());
-        ArrayList<String> attemptedwords = new ArrayList<>(currStudent.loadMap(this.getApplicationContext()).keySet());
+        ArrayList<String> attemptedwords = new ArrayList<String>(currStudent.getAttemptsMap().keySet());
         arrayAdapter = new ArrayAdapter(this, R.layout.progress_individual_words, attemptedwords);
         //SavePref(attemptedwords);
 

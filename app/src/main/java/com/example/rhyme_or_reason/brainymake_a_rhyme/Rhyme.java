@@ -547,6 +547,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
 
+                getStudentFromUUID(); // Have to call this again to get updated version of student (with added attempts)
+
                 insertedWord = true;
 
                 //selectedWord.setUnlocked();

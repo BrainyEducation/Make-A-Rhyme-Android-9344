@@ -28,7 +28,7 @@ public class Student implements Serializable {
     private String animalPassword;
     private ArrayList<RhymeTemplate> savedRhymes;
     private ArrayList<Word> unlockedWords;
-    private HashMap<String, ArrayList<int[]>> attemptsMap;
+    private HashMap<String, ArrayList<Integer>> attemptsMap;
     //private static Context ioContext;
 
     public Student(String name, String colorPassword, String animalPassword)
@@ -39,10 +39,10 @@ public class Student implements Serializable {
         this.animalPassword = animalPassword;
         this.savedRhymes = new ArrayList<>();
         this.unlockedWords = new ArrayList<>();
-
+        this.attemptsMap = new HashMap<>();
     }
 
-    public Student(String name, String colorPassword, String animalPassword, HashMap attemptsMap)
+    public Student(String name, String colorPassword, String animalPassword, HashMap<String, ArrayList<Integer>> attemptsMap)
     {
         this.name = name;
         this.uuid = UUID.randomUUID().toString();
@@ -54,7 +54,7 @@ public class Student implements Serializable {
 
     }
 
-    public Student(String name, String uuid, String colorPassword, String animalPassword, HashMap attemptsMap)
+    public Student(String name, String uuid, String colorPassword, String animalPassword, HashMap<String, ArrayList<Integer>> attemptsMap)
     {
         this.name = name;
         this.uuid = uuid;
@@ -63,7 +63,7 @@ public class Student implements Serializable {
         this.attemptsMap = attemptsMap;
         this.savedRhymes = new ArrayList<>();
         this.unlockedWords = new ArrayList<>();
-
+        //this.attemptsMap = new HashMap<>();
     }
 
     public void addRhyme(RhymeTemplate newRhyme)
@@ -104,15 +104,15 @@ public class Student implements Serializable {
         return animalPassword;
     }
 
-    public HashMap getAttemptsMap() {return attemptsMap;}
+    public HashMap<String, ArrayList<Integer>> getAttemptsMap() {return attemptsMap;}
 
-    public void addToAttemptsMap(String word, int[] newAttempt) {
+    public void addToAttemptsMap(String word, int newAttempt) {
         if (!attemptsMap.containsKey(word)) {
-            ArrayList<int[]> initAttempt = new ArrayList<>();
+            ArrayList<Integer> initAttempt = new ArrayList<>();
             initAttempt.add(newAttempt);
             attemptsMap.put(word, initAttempt);
         } else {
-            ArrayList attempts = attemptsMap.get(word);
+            ArrayList<Integer> attempts = attemptsMap.get(word);
             attempts.add(newAttempt);
             attemptsMap.put(word, attempts);
         }
@@ -150,10 +150,11 @@ public class Student implements Serializable {
 
         ArrayList<Student> toReturn = new ArrayList<>();
 
-        // Checking against the size of the set but checking against array element)
+        // Checking against the size of the set but checking against array element
         for (int index = 0; index < currUUIDs.size(); ++index) {
             String tempStudentJson = appSharedPrefs.getString(currUUIDsArray[index], "");
-            toReturn.add(gson.fromJson(tempStudentJson, Student.class));
+            Student tempStudent = gson.fromJson(tempStudentJson, Student.class);
+            toReturn.add(tempStudent);
         }
 
         return toReturn;
@@ -162,6 +163,7 @@ public class Student implements Serializable {
         //return gson.fromJson(json, RhymeTemplate.class);
     }
 
+    /*
     public void saveData(Context context) { //key - uuid, obj - attemptsMap
         SharedPreferences pref = context.getSharedPreferences("AttemptsMap", MODE_PRIVATE);
         String objToString = new Gson().toJson(attemptsMap);
@@ -178,5 +180,6 @@ public class Student implements Serializable {
         HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
         return mapFromPref;
     }
+    */
 
 }

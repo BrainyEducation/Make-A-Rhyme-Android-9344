@@ -450,6 +450,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
+
+                getStudentFromUUID(); // Have to call this again to get updated version of student (with added attempts)
+
                 selectedWord.setUnlocked();
                 unlockedWords.add(selectedWord);
                 // Update the saved status of the word

@@ -171,8 +171,13 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 //                    editor.putString("ProgressMap", objToString);
 //                    editor.apply();
 
-                    HashMap<String, ArrayList<int[]>> attemptsMap = currStudent.getAttemptsMap();
-                    ArrayList<int[]> attemptsList = attemptsMap.get(lockedWord.getText());
+                    //HashMap<String, ArrayList<int[]>> attemptsMap = currStudent.getAttemptsMap();
+                    //ArrayList<int[]> attemptsList = attemptsMap.get(lockedWord.getText());
+
+                    currStudent.addToAttemptsMap(lockedWord.getText(), incorrectCounter);
+                    currStudent.saveStudent(this.getApplicationContext());
+
+                    /*
                     Log.d("word", lockedWord.getText());
                     if (!attemptsMap.containsKey(lockedWord.getText())) {
                         //ArrayList<int[]> initialAttempt = new ArrayList<>();
@@ -189,9 +194,10 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                         currAttempt[1] = incorrectCounter;
                         currStudent.addToAttemptsMap(lockedWord.getText(), currAttempt);
                     }
+                    */
 
                     //currStudent.saveStudent(this.getApplicationContext());
-                    currStudent.saveData(this.getApplicationContext());
+                    //currStudent.saveData(this.getApplicationContext());
                     Log.d("map", currStudent.getAttemptsMap().keySet().toString());
 
                     // Exit quiz
@@ -229,8 +235,12 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
      * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
-        HashMap<String, ArrayList<int[]>> attemptsMap = currStudent.getAttemptsMap();
-        ArrayList<int[]> attemptsList = attemptsMap.get(lockedWord.getText());
+        //HashMap<String, ArrayList<int[]>> attemptsMap = currStudent.getAttemptsMap();
+        //ArrayList<int[]> attemptsList = attemptsMap.get(lockedWord.getText());
+
+        currStudent.addToAttemptsMap(lockedWord.getText(), incorrectCounter);
+        currStudent.saveStudent(this.getApplicationContext());
+        /*
         if (!attemptsMap.containsKey(lockedWord.getText())) {
             int[] firstAttempt = new int[2];
             firstAttempt[0] = 1;
@@ -245,9 +255,12 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
             currAttempt[1] = incorrectCounter;
             currStudent.addToAttemptsMap(lockedWord.getText(), currAttempt);
         }
+        */
+
+        Log.d("map", currStudent.getAttemptsMap().keySet().toString());
 
 //        currStudent.saveStudent(this.getApplicationContext());
-        currStudent.saveData(this.getApplicationContext());
+        //currStudent.saveData(this.getApplicationContext());
         onBackPressed();
     }
 
@@ -491,5 +504,6 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
                 break;
             }
         }
+        Log.d("map", currStudent.getAttemptsMap().keySet().toString());
     }
 }
