@@ -49,19 +49,20 @@ public class StudentProgress extends AppCompatActivity {
 
         String w = getIntent().getExtras().get("word").toString();
 
-        ArrayList<int[]> innerMap = (ArrayList) currStudent.getAttemptsMap().get(w);
+        ArrayList<Integer> innerList = currStudent.getAttemptsMap().get(w);
         int total = 0;
-        for (int[] att : innerMap) {
-            total += att[1];
+        for (int att : innerList) {
+            total += att;
         }
-        double average = total / innerMap.size();
-        int[] lastAttempt = innerMap.get(innerMap.size() - 1);
-        averageIncorrectionsNumber.setText(String.valueOf(average));
-        numAttemptsNumber.setText(String.valueOf(lastAttempt[0]));
+        double average = total / innerList.size();
 
-        for (int[] eachAttempt : innerMap) {
-            series.appendData(new DataPoint(eachAttempt[0], eachAttempt[1]), true, 50);
+        averageIncorrectionsNumber.setText(String.valueOf(average));
+        numAttemptsNumber.setText(String.valueOf(innerList.size()));
+
+        for (int i = 0; i < innerList.size(); i++) {
+            series.appendData(new DataPoint(i + 1, innerList.get(i)), true, 50);
         }
+
         series.setDrawDataPoints(true);
         graph.addSeries(series);
 

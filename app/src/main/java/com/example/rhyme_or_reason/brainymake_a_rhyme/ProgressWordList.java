@@ -28,12 +28,6 @@ public class ProgressWordList extends AppCompatActivity {
 
         uuid = getIntent().getExtras().get("uuid").toString();
         Log.d("message", uuid);
-        if (uuid.equals("empty")) {
-            studentName = getIntent().getExtras().get("name").toString();
-            getStudentFromName();
-        } else {
-            getStudentFromUUID();
-        }
         getStudentFromUUID();
         //currStudent.loadMap(this.getApplicationContext(), uuid);
         Log.d("student", currStudent.getName());
@@ -67,17 +61,6 @@ public class ProgressWordList extends AppCompatActivity {
 
         for (int index = 0; index < allStudents.size(); ++index) {
             if (allStudents.get(index).getUuid().equals(uuid)) {
-                currStudent = allStudents.get(index); // HERE we assign the student so we can save on exit.
-                break;
-            }
-        }
-    }
-
-    public void getStudentFromName() {
-        ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
-
-        for (int index = 0; index < allStudents.size(); ++index) {
-            if (allStudents.get(index).getName().equals(studentName)) {
                 currStudent = allStudents.get(index); // HERE we assign the student so we can save on exit.
                 break;
             }

@@ -41,6 +41,9 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
 
     public void ClickedClassAnalytics(View v) {
         // Link to Eric's page with averaged stats
+        Intent newIntent = new Intent(this, ClassProgress.class);
+        newIntent.putExtra("name", currPT.getName());
+        startActivityForResult(newIntent, 1);
     }
 
     public void loadIntentsAndViews() {
@@ -68,7 +71,7 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
             }
         }
 
-        ArrayList<Student> students = currPT.getStudents();
+        final ArrayList<Student> students = currPT.getStudents();
 
         ArrayList<String> studentNames = new ArrayList<>();
 
@@ -88,10 +91,16 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String studentName = adapterView.getItemAtPosition(i).toString();
                 // Link to Eric's analytics screen for that student
-
+                String uuid = "";
+                for (Student student : students) {
+                    if (student.getName().equals(studentName)) {
+                        uuid = student.getUuid();
+                        break;
+                    }
+                }
                 Intent myIntent = new Intent(view.getContext(), ProgressWordList.class);
                 myIntent.putExtra("name", studentName);
-                myIntent.putExtra("uuid", "empty");
+                myIntent.putExtra("uuid", uuid);
                 startActivityForResult(myIntent, 0);
 
             }

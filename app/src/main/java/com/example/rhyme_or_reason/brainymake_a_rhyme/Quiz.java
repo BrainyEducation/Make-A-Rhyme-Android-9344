@@ -171,30 +171,30 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 //                    editor.putString("ProgressMap", objToString);
 //                    editor.apply();
 
-                    //HashMap<String, ArrayList<int[]>> attemptsMap = currStudent.getAttemptsMap();
-                    //ArrayList<int[]> attemptsList = attemptsMap.get(lockedWord.getText());
+//                    HashMap<String, ArrayList<int[]>> attemptsMap = currStudent.getAttemptsMap();
+//                    ArrayList<int[]> attemptsList = attemptsMap.get(lockedWord.getText());
 
                     currStudent.addToAttemptsMap(lockedWord.getText(), incorrectCounter);
                     currStudent.saveStudent(this.getApplicationContext());
 
-                    /*
-                    Log.d("word", lockedWord.getText());
-                    if (!attemptsMap.containsKey(lockedWord.getText())) {
-                        //ArrayList<int[]> initialAttempt = new ArrayList<>();
-                        int[] firstAttempt = new int[2];
-                        firstAttempt[0] = 1;
-                        firstAttempt[1] = incorrectCounter;
-                        currStudent.addToAttemptsMap(lockedWord.getText(), firstAttempt);
-                    } else {
-                        int[] lastAttempt = attemptsList.get(attemptsList.size() - 1);
-                        int attemptNumber = lastAttempt[0];
-                        attemptNumber++;
-                        int[] currAttempt = new int[2];
-                        currAttempt[0] = attemptNumber;
-                        currAttempt[1] = incorrectCounter;
-                        currStudent.addToAttemptsMap(lockedWord.getText(), currAttempt);
-                    }
-                    */
+
+//                    Log.d("word", lockedWord.getText());
+//                    if (!attemptsMap.containsKey(lockedWord.getText())) {
+//                        //ArrayList<int[]> initialAttempt = new ArrayList<>();
+//                        int[] firstAttempt = new int[2];
+//                        firstAttempt[0] = 1;
+//                        firstAttempt[1] = incorrectCounter;
+//                        currStudent.addToAttemptsMap(lockedWord.getText(), firstAttempt);
+//                    } else {
+//                        int[] lastAttempt = attemptsList.get(attemptsList.size() - 1);
+//                        int attemptNumber = lastAttempt[0];
+//                        attemptNumber++;
+//                        int[] currAttempt = new int[2];
+//                        currAttempt[0] = attemptNumber;
+//                        currAttempt[1] = incorrectCounter;
+//                        currStudent.addToAttemptsMap(lockedWord.getText(), currAttempt);
+//                    }
+
 
                     //currStudent.saveStudent(this.getApplicationContext());
                     //currStudent.saveData(this.getApplicationContext());
