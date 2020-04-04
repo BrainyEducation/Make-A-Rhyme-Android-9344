@@ -75,6 +75,7 @@
                 android:id="@+id/AverageIncorrections"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:layout_alignParentTop="true">
             </TextView>
 
@@ -82,6 +83,7 @@
                 android:id="@+id/AverageIncorrectionsNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:layout_toRightOf="@id/AverageIncorrections">
             </TextView>
 
@@ -90,28 +92,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/AverageIncorrections"
+                android:textSize="18sp"
                 android:layout_alignParentLeft="true"
-                ></TextView>
+                />
 
             <TextView
                 android:id="@+id/NumAttemptsNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/AverageIncorrections"
-                android:layout_toRightOf="@id/NumAttempts"></TextView>
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/NumAttempts"/>
 
             <TextView
                 android:id="@+id/highestConsec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/NumAttempts"></TextView>
+                android:textSize="18sp"
+                android:layout_below="@id/NumAttempts"/>
 
             <TextView
                 android:id="@+id/highestConsecutiveNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/NumAttempts"
-                android:layout_toRightOf="@id/highestConsec"></TextView>
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/highestConsec"/>
 
         </RelativeLayout>
 

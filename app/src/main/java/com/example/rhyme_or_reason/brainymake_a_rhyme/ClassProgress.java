@@ -44,11 +44,19 @@ public class ClassProgress extends AppCompatActivity {
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         graph.setBackgroundColor(getResources().getColor(android.R.color.white));
-        String[] studentNames = new String[students.size()];
-        for (int i = 0; i < students.size(); i++) {
-            series.appendData(new DataPoint(i + 1, students.get(i).getAttemptsMap().size()), true, 50);
-            studentNames[i] = students.get(i).getName();
+        String[] studentNames = new String[students.size() + 2]; // Add one for buffer
+
+        series.appendData(new DataPoint(1, 0), true, 50); // Fake point at 0 for buffer
+        studentNames[0] = "";
+
+        for (int i = 1; i <= students.size(); i++) {
+            series.appendData(new DataPoint(i + 1, students.get(i - 1).getAttemptsMap().size()), true, 50);
+            studentNames[i] = students.get(i -  1).getName();
         }
+
+        series.appendData(new DataPoint(students.size() + 2, 0), true, 50); // Fake point at 0 for buffer
+        studentNames[students.size() + 1] = "";
+
         graph.addSeries(series);
         if (studentNames.length > 1) {
             StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
@@ -63,10 +71,17 @@ public class ClassProgress extends AppCompatActivity {
             }
         });
 
-        series.setSpacing(50);
 
-        series.setDrawValuesOnTop(true);
-        series.setValuesOnTopColor(Color.RED);
+        series.setSpacing(50);
+        graph.getViewport().setMinX(1);
+        graph.getViewport().setMinY(0);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Words Attempted");
+        //graph.getGridLabelRenderer().setHorizontalAxisTitle("Child");
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);
+
+        //series.setDrawValuesOnTop(true);
+        //series.setValuesOnTopColor(Color.RED);
         //series.setValuesOnTopSize(50);
 
         emailButton = (Button) findViewById(R.id.emailButtonClassProgress);
@@ -128,8 +143,9 @@ public class ClassProgress extends AppCompatActivity {
             sb.append("\n");
         }
 
-
+        newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", sb.toString());
+        newIntent.putExtra("subject_line", "Brainy Make-A-Rhyme: Your Class Update Is Here!");
 
 
         //TODO: replace this with the right UUID call

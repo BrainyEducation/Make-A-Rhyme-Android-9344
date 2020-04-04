@@ -45,6 +45,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
     byte[] illustration;
     ArrayList<String> chosenWords;
     String storyText = "";
+    String subjectText = "";
     String textForEmail = "";
     boolean paused = false;
 
@@ -71,6 +72,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         chosenWords =  getIntent().getStringArrayListExtra("rhyme_words");
         illustration = getIntent().getByteArrayExtra("illustration");
         storyText = getIntent().getStringExtra("general_rhyme_text");
+        subjectText = getIntent().getStringExtra("subject_line");
     }
 
     public void stitchStoryText()
@@ -105,7 +107,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         }
         String[] a = new String[1];
         a[0] = "jqdude@gmail.com";
-        String subject = "Brainy Make-A-Rhyme: New Rhyme!";
+        String subject = subjectText;
         String body = textForEmail;
         String path = (String) getIntent().getExtras().get("imageUri");
 

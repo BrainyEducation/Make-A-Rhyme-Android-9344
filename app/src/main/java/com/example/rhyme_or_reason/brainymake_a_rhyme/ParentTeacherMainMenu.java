@@ -100,8 +100,12 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String studentName = adapterView.getItemAtPosition(i).toString();
+                //String studentName = adapterView.getItemAtPosition(i).toString();
+                // Use the position in the list to reference the current Student object
+                Student currStudent = students.get(i);
+
                 // Link to Eric's analytics screen for that student
+                /*
                 String uuid = "";
                 for (Student student : students) {
                     if (student.getName().equals(studentName)) {
@@ -109,9 +113,12 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
                         break;
                     }
                 }
+                */
+
+                // TODO: Currently using the name the student chose for themselves, NOT the one the parent/teacher chooses
                 Intent myIntent = new Intent(view.getContext(), ProgressWordList.class);
-                myIntent.putExtra("name", studentName);
-                myIntent.putExtra("uuid", uuid);
+                myIntent.putExtra("name", currStudent.getName());
+                myIntent.putExtra("uuid", currStudent.getUuid());
                 startActivityForResult(myIntent, 0);
 
             }

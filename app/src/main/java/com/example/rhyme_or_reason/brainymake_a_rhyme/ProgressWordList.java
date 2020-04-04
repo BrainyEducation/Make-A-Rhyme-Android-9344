@@ -97,10 +97,8 @@ public class ProgressWordList extends AppCompatActivity {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Your child, \n");
         sb.append(currStudent.getName());
-        sb.append("\n\n");
-        sb.append("has learned the following words:\n");
+        sb.append(" has learned the following words:\n\n");
 
 
         ArrayList<Word> unlockedWords = currStudent.getUnlockedWords();
@@ -110,11 +108,8 @@ public class ProgressWordList extends AppCompatActivity {
             sb.append("\n");
         }
 
-
-
         newIntent.putExtra("general_rhyme_text", sb.toString());
-
-
+        newIntent.putExtra("subject_line", "Brainy Make-A-Rhyme: Unlocked Words For " + currStudent.getName());
 
         newIntent.putExtra("uuid", uuid);
 

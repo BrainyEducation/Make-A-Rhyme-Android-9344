@@ -110,13 +110,15 @@ public class StudentProgress extends AppCompatActivity {
         View parentView = findViewById(R.id.graph);
         String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
 
+        String currWord = getIntent().getExtras().get("word").toString();
 
         //newIntent.putExtra("current_rhyme", currRhyme);
         //newIntent.putStringArrayListExtra("rhyme_words", wordList);
         //newIntent.putExtra("illustration", byteArray);
         newIntent.putExtra("imageUri", path);
-        newIntent.putExtra("general_rhyme_text", "Here is the student's progress with this word");
+        newIntent.putExtra("general_rhyme_text", "Here is your quiz progress for the word: " + currWord);
         newIntent.putExtra("uuid", uuid);
+        newIntent.putExtra("subject_line", "Brainy Make-A-Rhyme (" + currStudent.getName() + "): Progress Report For " + currWord);
 
         startActivity(newIntent);
 

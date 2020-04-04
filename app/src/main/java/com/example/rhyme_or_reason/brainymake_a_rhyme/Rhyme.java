@@ -1090,10 +1090,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         return illustrationBitmap;
     }
 
-    public void onThing(View v) {
-
-    }
-
     public void onEmailClick(View v) {
 
         //forceStopAudio();
@@ -1111,6 +1107,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", storyText);
         newIntent.putExtra("uuid", uuid);
+        newIntent.putExtra("subject_line", "Brainy Make-A-Rhyme: New Rhyme!");
 
         startActivity(newIntent);
     }
