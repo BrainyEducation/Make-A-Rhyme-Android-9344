@@ -50,6 +50,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     ScrollView rhymeScroll;
     ImageButton iB;
     Button emailButton;
+    Boolean modification_enabled;
 
     ImageView img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19;
     ArrayList<ImageView> neededIVs;
@@ -232,6 +233,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void loadIntentsAndViews()
     {
         uuid = getIntent().getExtras().get("uuid").toString();
+        modification_enabled = (Boolean)(getIntent().getExtras().get("modification"));
 
         currRhyme = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
 
@@ -482,7 +484,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                         blankButton.setTypeface(imprima);
 
                         blankButton.setBackgroundColor(Color.LTGRAY);
-                        blankButton.setOnClickListener(this);
+                        if (modification_enabled) {
+                            blankButton.setOnClickListener(this);
+                        }
                         blankButton.setTag(buttonTag);
                         ++buttonTag;
 

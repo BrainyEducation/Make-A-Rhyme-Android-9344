@@ -183,6 +183,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
         toSend.setSavedIllustration(null);
         newIntent.putExtra("rhyme_template", toSend);
         newIntent.putExtra("uuid", uuid);
+        newIntent.putExtra("modification", true);
         startActivityForResult(newIntent, 1);
     }
 

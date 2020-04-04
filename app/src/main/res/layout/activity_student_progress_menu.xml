@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".StudentProgressMenu">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp"
+            android:background="@color/colorMenuBar"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/BackButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="ClickedBackButton"
+                android:padding="0dp"
+                android:text="&lt;"
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif" />
+
+
+            <Button
+                android:id="@+id/ProgressButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/imprima"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text=""
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <Button
+                    android:layout_margin="10dp"
+                    android:id="@+id/child_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:textSize="40sp"
+                    android:onClick="ClickedCreatedRhymes"
+                    android:fontFamily="@font/imprima"
+                    android:background="@color/darkGreen"
+                    android:text="Created Rhymes"/>
+                <Button
+                    android:layout_margin="10dp"
+                    android:id="@+id/parent_teacher_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:textSize="40sp"
+                    android:onClick="ClickedQuizAnalytics"
+                    android:fontFamily="@font/imprima"
+                    android:background="@color/darkGreen"
+                    android:text="Quiz Analytics"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

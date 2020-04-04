@@ -116,7 +116,7 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
                 */
 
                 // TODO: Currently using the name the student chose for themselves, NOT the one the parent/teacher chooses
-                Intent myIntent = new Intent(view.getContext(), ProgressWordList.class);
+                Intent myIntent = new Intent(view.getContext(), StudentProgressMenu.class);
                 myIntent.putExtra("name", currStudent.getName());
                 myIntent.putExtra("uuid", currStudent.getUuid());
                 startActivityForResult(myIntent, 0);
