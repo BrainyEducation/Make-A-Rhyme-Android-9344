@@ -132,6 +132,9 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     /**
      * Responsible for handling clicks for the four choices. Will also recognize when the repeat
      * button has been pressed and play the word again.
+     * Counts the number of incorrect selections made in an attempt of the quiz
+     * Adds the number to the student's attempts map after the student successfully passes the quiz
+     * and saves the state of the student.
      */
     public void onClick(View v)
     {
@@ -231,7 +234,9 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * Handles back press click; takes user back to previous activity (word select screen)
-     *
+     * Takes the number of incorrect selections counted in the onClick method
+     * Adds the number to the student's attempts map when the student presses the back button
+     * and saves the state of the student.
      * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
@@ -310,6 +315,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * Creates the buttons that serve as options for the word being spoken
+     * Gets the UUID passed into the current activity from the previous activity
      */
     public void loadIntentsAndViews()
     {
@@ -495,6 +501,9 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         encompassing.addView(starRelativeLayout);
     }
 
+    /**
+     * Retrieves the student associated with the UUID updated in the loadIntentsAndViews method
+     */
     public void getStudentFromUUID() {
         ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
 

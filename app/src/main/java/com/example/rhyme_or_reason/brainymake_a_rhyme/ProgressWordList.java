@@ -24,6 +24,10 @@ public class ProgressWordList extends AppCompatActivity {
     String studentName;
     Button emailButton;
 
+    /**
+     * Loads the words the student has attempted and displays in a list
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +69,18 @@ public class ProgressWordList extends AppCompatActivity {
 
     }
 
+    /**
+     * Activity when user clicks on back button
+     * Returns to the previous activity
+     * @param view
+     */
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
 
+    /**
+     * Retrieves the student associated with the UUID updated in the onCreate method
+     */
     public void getStudentFromUUID() {
         ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
 
