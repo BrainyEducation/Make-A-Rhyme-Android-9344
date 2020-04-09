@@ -50,16 +50,14 @@ public class StoryAudioManager {
     }
 
 
-    private void clearMediaPlayer() {
+    public void clearMediaPlayer() {
         try {
             mediaPlayer.stop();
         } catch (Exception e) {
-            return;
         }
         try {
             mediaPlayer.release();
         } catch (Exception e) {
-            return;
         }
         try {
             mediaPlayer.reset();
@@ -73,11 +71,13 @@ public class StoryAudioManager {
         AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(s, "raw",context.getPackageName()));
         try
         {
+            /*
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer.reset();
-            }
+            }*/
+            clearMediaPlayer();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.reset();
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
@@ -123,8 +123,8 @@ public class StoryAudioManager {
      * @param storyName
      */
     private void play_story(String storyName) {
-        Log.d("story stuff",wordList.get(0));
         ArrayList<String> fileNames = new ArrayList<>();
+        Log.d("storyName", storyName);
         StoryAudioConstantContainer constantContainer = mp3Data.storyNameToConstantContainer.get(storyName);
         int numberOfFiles = constantContainer.numberOfFiles;
         String fileprefix = constantContainer.fileNamePrefix;
@@ -136,20 +136,27 @@ public class StoryAudioManager {
 
         for (int i = 0; i < numberOfFiles; i++) {
             final boolean[] lock = {true};
+            clearMediaPlayer();
             setMediaPlayerFile(fileNames.get(i));
             mediaPlayer.start();
             try {
-                Thread.sleep(200);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 Log.d("wait","broken");
             }
-            while (mediaPlayer.isPlaying()) {
-                if (!continueAudioFlag) {
-                    break;
+            try {
+                while (mediaPlayer.isPlaying()) {
+                    if (!continueAudioFlag) {
+                        break;
+                    }
+                    continue;
                 }
-                continue;
+            } catch (IllegalStateException e) {
+                Log.d("wait","broken");
             }
-            mediaPlayer.stop();
+
+            //mediaPlayer.stop();
+            clearMediaPlayer();
             if (!continueAudioFlag) {
                 return;
             }
@@ -164,16 +171,24 @@ public class StoryAudioManager {
                     setMediaPlayerFile(wordList.get(traversedBlanks));
                     //traversedBlanks++;
                 }
+                if (!continueAudioFlag) {
+                    return;
+                }
                 mediaPlayer.start();
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     Log.d("wait","broken");
                 }
-                while (mediaPlayer.isPlaying()) {
-                    if (!continueAudioFlag) {
-                        break;
+                try {
+                    while (mediaPlayer.isPlaying()) {
+                        if (!continueAudioFlag) {
+                            break;
+                        }
+                        continue;
                     }
+                } catch (IllegalStateException e) {
+                    Log.d("wait","broken");
                 }
 
                 mediaPlayer.stop();
