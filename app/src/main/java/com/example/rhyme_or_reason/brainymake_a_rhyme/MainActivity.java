@@ -485,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         Intent returnIntent = new Intent();
                         String name = data.getStringExtra("name");
-                        returnIntent.putExtra("word", new Word(name, false, selectedWord.getImageName(), name, "Friends"));
+                        returnIntent.putExtra("word", new Word(name, false, selectedWord.getImageName(), name.toLowerCase(), "Friends"));
                         returnIntent.putExtra("uuid", uuid);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
