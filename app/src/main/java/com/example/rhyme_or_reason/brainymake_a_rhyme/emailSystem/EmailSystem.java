@@ -2,24 +2,13 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.net.Uri;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.View;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -28,12 +17,20 @@ public class EmailSystem
     private String[] emails;
     private String subjectLine;
     private String emailBody;
+
+    //This variable determines how long an email can be before being truncated
     public static int maxEmailDisplayLength = 28;
+
+    //When an email is more than maxEmailDisplayLength characters long, the middle of the email is replaced with this string
+    private String emailShortener = "... ";
+
+    //The max number of email addresses that can receive the email produced from this class
+    //This is to prevent email services from flagging the message as spam
+    private static int maxEmails = 20;
+
     //regex comes from https://howtodoinjava.com/regex/java-regex-validate-email-address/
     private String emailValidationRegex = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     private Pattern emailRegexPattern;
-    private static int maxEmails = 20;
-    private String emailShortener = "... ";
     private Uri attachmentURI = null;
 
 
@@ -42,55 +39,45 @@ public class EmailSystem
     }
 
     /**
+     * Call this function to register the necessary data for this object to produce an email in the future
      *
-     * @param emails
-     * @param subjectLine
-     * @param emailBody
-     * @param path if this string is an empty string, no pictures will be attached
+     * @param emails an array of email addresses
+     * @param subjectLine the subject line of the email
+     * @param emailBody the text that goes inside the email
+     * @param path pass in data from the saveViewAsPngAndReturnPath method, if this string is an empty string, no pictures will be attached.
      */
     public void setEmailVariables(String[] emails, String subjectLine, String emailBody, String path) {
         this.emails = emails;
         this.subjectLine = subjectLine;
         this.emailBody = emailBody;
-        Log.d("ATTACHMULTIPLEORIGINAL", path);
         if (!path.equals("")) {
             this.attachmentURI = reformatPathStringToURI(path);
         }
     }
 
-    private Uri reformatPathStringToURI(String s) {
-        String returnString = s.substring(1);
-        Uri imageURI = new Uri.Builder().appendPath(returnString).build();
-        return imageURI;
+    /**
+     * @param path path to an image resource that needs to be turned into its Uri path form
+     * @return a URI that contains the path passed in
+     */
+    private Uri reformatPathStringToURI(String path) {
+        String returnString = path.substring(1);
+        Uri imageUri = new Uri.Builder().appendPath(returnString).build();
+        return imageUri;
     }
 
+    /**
+     * This creates an Android Intent that will bring up a menu with whatever email clients
+     * the user has on their phone.
+     *
+     * @param context the Context object that will be launching the email Intent
+     * @return an Intent with Email data
+     */
     public Intent createEmailIntent(Context context) {
         Intent it = new Intent(Intent.ACTION_SEND_MULTIPLE);
         it.putExtra(Intent.EXTRA_EMAIL, emails);
         it.putExtra(Intent.EXTRA_SUBJECT,subjectLine);
         it.putExtra(Intent.EXTRA_TEXT,emailBody);
         it.setType("image/png");
-
-
-
-        //String path = attachmentURI.getPath();
-        // Log.d("examplepath",path);
-
-        //File f = new File(attachmentURI.getPath());
-        //Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider",f);
-
-        //it.putExtra(Intent.EXTRA_STREAM, contentUri);
-
-        //ArrayList<Parcelable>  uris = new ArrayList<Parcelable>();
-        //uris.add(contentUri);
-        //Log.d("ATTACHMULTIPLE", uris.get(0).getPath());
-        //it.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-
-        //it.putExtra(Intent.EXTRA_STREAM, uris.get(0));
-
-        // it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-        //Log.d("attachmentURI", attachmentURI.getPath());
 
         it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
@@ -102,30 +89,37 @@ public class EmailSystem
         HashMap<String, String> filenameToPathMap = ImageSaver.getFilenameToPathMap();
         ArrayList<Uri> uris = new ArrayList<>();
         for (String s : filenameToPathMap.keySet()) {
-            Log.d("ATTACHMULTIPLE",filenameToPathMap.get(s));
-            Log.d("ATTACHMULTIPLECOMPARE",attachmentURI.getPath());
             File f = new File(filenameToPathMap.get(s));
             Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName()+".fileprovider",f);
             uris.add(contentUri);
         }
 
         it.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-
-
-
-
         return it;
     }
 
 
+    /**
+     * Checks if the provided email address is a valid email
+     * @param email the email address
+     * @return whether the email address is valid
+     */
     public boolean isValidEmail(String email) {
         return emailRegexPattern.matcher(email).matches();
     }
 
+    /**
+     * @param emails an ArrayList of email addresses
+     * @return whether the ArrayList has more than the maximum number of emails
+     */
     public boolean tooManyEmails(ArrayList<String> emails) {
         return emails.size() > maxEmails;
     }
 
+    /**
+     * @param email the email address
+     * @return the email address that has been shortened if it exceeds the max email length
+     */
     public String shortenedEmailText(String email) {
         if (email.length() >= maxEmailDisplayLength) {
             int atSymbolIndex = email.indexOf("@");
@@ -147,27 +141,6 @@ public class EmailSystem
      * the file
      */
     public static String saveViewAsPngAndReturnPath(View parentView, Context context) {
-        /*
-        Bitmap bm = Bitmap.createBitmap(parentView.getWidth(), parentView.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bm);
-        parentView.draw(canvas);
-
-        String path = "";
-        try {
-            File imagePath = new File(context.getFilesDir(),"images");
-            imagePath.mkdir();
-            File imageFile = new File(imagePath.getPath(), "brainy_image.png");
-            path = imageFile.getPath();
-            FileOutputStream out = new FileOutputStream(imageFile);
-            bm.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            Log.d("notfound", e.toString());
-        } catch (IOException e) {
-            Log.d("ioFileOutput",e.toString());
-        }
-        return path;*/
         return ImageSaver.saveImageAndReturnPath(parentView, context, "brainy_image");
     }
 }

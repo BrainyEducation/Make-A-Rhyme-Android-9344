@@ -101,10 +101,13 @@ public class StudentProgress extends AppCompatActivity {
     }
 
 
+    /**
+     * Triggers the creation of the email activity and passes over the image of the graph
+     * and the necessary email information
+     * @param v
+     */
     public void onEmailClick(View v) {
-
         uuid = getIntent().getExtras().get("uuid").toString();
-        //forceStopAudio();
 
         Intent newIntent = new Intent(StudentProgress.this, EmailActivity.class);
         View parentView = findViewById(R.id.graph);
@@ -112,9 +115,6 @@ public class StudentProgress extends AppCompatActivity {
 
         String currWord = getIntent().getExtras().get("word").toString();
 
-        //newIntent.putExtra("current_rhyme", currRhyme);
-        //newIntent.putStringArrayListExtra("rhyme_words", wordList);
-        //newIntent.putExtra("illustration", byteArray);
         newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", "Here is your quiz progress for the word: " + currWord);
         newIntent.putExtra("uuid", uuid);

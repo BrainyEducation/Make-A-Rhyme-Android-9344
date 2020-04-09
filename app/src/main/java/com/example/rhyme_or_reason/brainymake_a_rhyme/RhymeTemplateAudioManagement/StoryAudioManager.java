@@ -26,6 +26,10 @@ public class StoryAudioManager {
 
     private MediaPlayer mediaPlayer;
 
+    /**
+     *
+     * @param context Android context that is running the activity using this object
+     */
     public StoryAudioManager(Context context) {
         this.context = context;
         mp3Data = new StoryAudioConstants();
@@ -45,11 +49,19 @@ public class StoryAudioManager {
         }
     }
 
+    /**
+     * Sets an internal list of Strings representing the list of words
+     * @param wordList
+     */
     public void setWordList(ArrayList<String> wordList) {
         this.wordList = wordList;
     }
 
 
+    /**
+     * This function tries all that it can do to shutoff the MediaPlayer and cause it to
+     * reset into its original state
+     */
     private void clearMediaPlayer() {
         try {
             mediaPlayer.stop();
@@ -69,8 +81,12 @@ public class StoryAudioManager {
         mediaPlayer = new MediaPlayer();
     }
 
-    private void setMediaPlayerFile(String s) {
-        AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(s, "raw",context.getPackageName()));
+    /**
+     * Assigns mediaPlayer an mp3 file to run
+     * @param mediafilename the name of the mp3 resource. It should not have any file extension.
+     */
+    private void setMediaPlayerFile(String mediafilename) {
+        AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(mediafilename, "raw",context.getPackageName()));
         try
         {
             if (mediaPlayer.isPlaying()) {
@@ -99,6 +115,10 @@ public class StoryAudioManager {
     }
 
 
+    /**
+     * Plays the audio files of a story on a separate thread
+     * @param storyName the name of the story. String is case sensitive
+     */
     public void playStoryThread(final String storyName) {
         setContinueAudioFlag(true);
         Thread stopThread = new Thread() {

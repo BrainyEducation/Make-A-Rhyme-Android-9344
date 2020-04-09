@@ -67,6 +67,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * Loads this activity with the necessary data to produce the email intent from whatever
+     * activity preceded this one
+     */
     public void loadIntentsAndViews()
     {
         chosenWords =  getIntent().getStringArrayListExtra("rhyme_words");
@@ -75,6 +79,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         subjectText = getIntent().getStringExtra("subject_line");
     }
 
+    /**
+     * Takes the raw story text (from Rhyme.java) and  combines it with the words that the user has selected
+     * and places it into the textForEmail instance variable
+     */
     public void stitchStoryText()
     {
         boolean inSquareBrackets = false;
@@ -100,6 +108,11 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         textForEmail = textForEmail.replace("  ", " ");
     }
 
+    /**
+     * Hitting the email button triggers this function that opens up the messaging client selection menu
+     * supplied by the Android OS
+     * @param v
+     */
     public void sendEmail(View v) {
         if (emails.size() == 0) {
             displayError("No emails have been added");
@@ -125,6 +138,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Adds an email to the UI and updates emailSystem with a list of the added emails
+     * @param v
+     */
     public void addEmail(View v) {
         final String email = textInputLayout.getEditText().getText().toString();
         if (!emailSystem.isValidEmail(email)) {
@@ -163,10 +180,20 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         emailTable.addView(newEmailRow);
     }
 
-    private void displayError(String s) {
-        Snackbar.make(emailTable, s, Snackbar.LENGTH_LONG).show();
+    /**
+     * Displays the error as a Snackbar activity
+     * @param errorMessage
+     */
+    private void displayError(String errorMessage) {
+        Snackbar.make(emailTable, errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
+    /**
+     * When an email is added, this function provides the event listener that allows the user to remove
+     * an added email
+     * @param email the email address to remove
+     * @return
+     */
     private View.OnClickListener generateRemoveEmailListener(final String email) {
         View.OnClickListener  returnListener = new View.OnClickListener() {
 

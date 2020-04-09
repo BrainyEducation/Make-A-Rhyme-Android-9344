@@ -97,18 +97,13 @@ public class ClassProgress extends AppCompatActivity {
         onBackPressed();
     }
 
+    /**
+     * Triggers the creation of the email activity and passes over the image of the graph
+     * and the necessary email information
+     * @param v
+     */
     public void onEmailClick(View v) {
-
-        //forceStopAudio();
-
-
         Intent newIntent = new Intent(ClassProgress.this,EmailActivity.class);
-        //View parentView = findViewById(R.id.totalIllustration);
-
-        //String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
-
-
-        //newIntent.putStringArrayListExtra("rhyme_words", wordList);
 
         View parentView = findViewById(R.id.graph);
         String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
@@ -135,7 +130,6 @@ public class ClassProgress extends AppCompatActivity {
 
             //TODO: Figure out why this list is always empty
             for (int j = 0; j < unlockedWords.size(); j++) {
-                Log.d("ParentTeacherMainMenu", unlockedWords.get(j).getText());
                 Word word = unlockedWords.get(j);
                 sb.append(word.getText());
                 sb.append("\n");
@@ -146,9 +140,6 @@ public class ClassProgress extends AppCompatActivity {
         newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", sb.toString());
         newIntent.putExtra("subject_line", "Brainy Make-A-Rhyme: Your Class Update Is Here!");
-
-
-        //TODO: replace this with the right UUID call
         newIntent.putExtra("uuid", "dummy-uuid");
 
         startActivity(newIntent);

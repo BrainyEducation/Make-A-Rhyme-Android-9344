@@ -140,6 +140,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         fillInRhyme();
     }
 
+    /**
+     * This function is called when the play button is hit. Manages what symbol
+     * is being displayed and whether to play or pause the audio
+     * @param v
+     */
     public void onPlayAudio(View v) {
         //ImageButton iB = findViewById(R.id.playButton);
 
@@ -155,6 +160,10 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * This function prevents the app user from spamming the play button quicker
+     * than Android's MediaPlayer can handle
+     */
     private void blockPlayButton() {
         Thread stopThread = new Thread() {
             @Override
@@ -1094,6 +1103,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         return illustrationBitmap;
     }
 
+    /**
+     * Triggers the creation of the email activity and passes over the image of the graph
+     * and the necessary email information
+     * @param v
+     */
     public void onEmailClick(View v) {
 
         //forceStopAudio();

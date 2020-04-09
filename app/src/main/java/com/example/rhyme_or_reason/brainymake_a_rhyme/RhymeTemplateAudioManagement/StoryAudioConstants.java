@@ -7,6 +7,9 @@ public class StoryAudioConstants {
 
     public HashMap<String, StoryAudioConstantContainer> storyNameToConstantContainer;
 
+    /**
+     * Sets up all the constants needed to link up all the audio files with the words the user has selected
+     */
     public StoryAudioConstants() {
 
         storyNameToConstantContainer = new HashMap<String, StoryAudioConstantContainer>();
