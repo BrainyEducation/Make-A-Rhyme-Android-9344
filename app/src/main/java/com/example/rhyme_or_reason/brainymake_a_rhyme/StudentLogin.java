@@ -29,7 +29,6 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
     Boolean selectedColor = false;
     String chosenColor = "";
     String chosenAnimal = "";
-    //String chosenStudent = "";
     int chosenStudentIndex = -1;
     ArrayList<String> colorNames = new ArrayList<>();
     ArrayList<String> animalNames = new ArrayList<>();
@@ -51,6 +50,8 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
 
         sizingSetUp();
         loadIntentsAndViews();
+
+        miscellaneousSetUp();
 
         setUpUserNames();
 
@@ -75,6 +76,11 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
     }
 
+    /*
+     * Child can choose one of six colors to be the color portion of their password.
+     * Using animals and colors is done since they are easier for children to remember than
+     * passwords and tight security is not essential for the application
+     */
     public void setUpColors() {
         colorNames.add("blue");
         colorNames.add("green");
@@ -104,6 +110,11 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
+     * Child can choose one of six animals to be the animal portion of their password.
+     * Using animals and colors is done since they are easier for children to remember than
+     * passwords and tight security is not essential for the application
+     */
     public void setUpAnimals() {
         animalNames.add("cat");
         animalNames.add("dog");
@@ -133,6 +144,12 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
+     * When an animal is clicked, sets the animal to be lit up and makes it the child's selection.
+     * When a color is clicked, sets the color to be lit up and makes it the child's selection.
+     * When a student's name is clicked, sets the name to be green.
+     * When all three selections have been made, the student can attempt to login.
+     */
     public void onClick(View v) {
         String tag = (String) v.getTag();
 
@@ -162,8 +179,6 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
             }
             colorViews.get(index).setAlpha(1.0f);
         } else {
-            // Is a student's name
-
             for (int count = 0; count < usernameNames.size(); ++count) {
                 usernameViews.get(count).setBackgroundColor(Color.WHITE);
                 usernameViews.get(count).setTextColor(Color.BLACK);
@@ -202,34 +217,6 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
                 colorViews.get(count).setAlpha(0.5f);
             }
         }
-
-        /*
-        Boolean foundStudent = false;
-
-        for (int index = 0; index < allStudents.size(); ++index) {
-            if (allStudents.get(index).getName().equals(nameField.getText().toString()) && allStudents.get(index).getColorPassword().equals(chosenColor) && allStudents.get(index).getAnimalPassword().equals(chosenAnimal)) {
-                System.out.println("Hit Student");
-                foundStudent = true;
-                Intent newIntent = new Intent(this, MainMenu.class);
-                newIntent.putExtra("uuid", allStudents.get(index).getUuid());
-                startActivityForResult(newIntent, 1);
-                break;
-            }
-        }
-
-        if (!foundStudent) {
-            Toast.makeText(getApplicationContext(), "Incorrect login, try again", Toast.LENGTH_LONG).show();
-            for (int count = 0; count < animalNames.size(); ++count) {
-                animalViews.get(count).setAlpha(0.5f);
-            }
-            for (int count = 0; count < colorNames.size(); ++count) {
-                colorViews.get(count).setAlpha(0.5f);
-            }
-            nameField.setText("");
-
-        }
-        */
-
     }
 
     /**
@@ -243,7 +230,6 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
         display.getSize(screenSize);
         width = screenSize.x;
         height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
         elementWidth = width / NUM_COLUMNS;
         elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
 

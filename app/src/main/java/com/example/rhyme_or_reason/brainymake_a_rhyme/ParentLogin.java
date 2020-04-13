@@ -24,8 +24,8 @@ public class ParentLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_login);
 
-        username_field = (EditText) findViewById(R.id.name);
-        password_field = (EditText) findViewById(R.id.txtPassword);
+        username_field = findViewById(R.id.name);
+        password_field = findViewById(R.id.txtPassword);
     }
 
     /**

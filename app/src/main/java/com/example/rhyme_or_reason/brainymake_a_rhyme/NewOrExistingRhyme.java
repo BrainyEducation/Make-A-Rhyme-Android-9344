@@ -32,7 +32,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     int HEIGHT_UNIT;
     private ScrollView existingRhymesScrollview;
     Typeface imprima;
-    final int TEXT_SIZE = 30;
     RhymeTemplate chosenRhymeTemplate;
 
     private ImageButton up_btn;
@@ -45,8 +44,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_or_existing_rhyme);
-
-        System.out.println("Hit oncreate.");
 
         sizingSetUp();
 
@@ -82,7 +79,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
      */
     public void loadIntentsAndViews()
     {
-        uuid = getIntent().getExtras().get("uuid").toString();
+        uuid = getIntent().getExtras().getString("uuid");
 
         chosenRhymeTemplate = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
 
@@ -121,7 +118,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
             ImageView rhymeImage = new ImageView(this);
             rhymeImage.setTag(index);
             rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int) (width * Constants.ASPECT_RATIO)));
-            //int pictureResourceID = getResources().getIdentifier(currRhyme.getImageName(), "drawable", getPackageName());
 
             byte[] savedIllustration =  currRhyme.getSavedIllustration();
             Bitmap savedIllustrationBitmap = BitmapFactory.decodeByteArray(savedIllustration,0,savedIllustration.length);
@@ -129,8 +125,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
             rhymeImage.setImageBitmap(savedIllustrationBitmap);
 
             rhymeImage.setOnClickListener(this);
-
-            //rhymeImage.setImageResource(pictureResourceID);
 
             View separator = new View(this);
 
@@ -161,8 +155,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
         System.out.println("Hit onClick.");
-
-        // Need to update this
 
         RhymeTemplate toSend;
 

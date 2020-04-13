@@ -55,8 +55,6 @@ public class ApplicationWelcome extends AppCompatActivity {
 
         miscellaneousSetUp();
 
-        //MainActivity.attemptsMap = getMapFromSharedPref();
-
         // Responsible for flipping the color from black to white every second
         final Handler handler = new Handler();
         final int delay = 1000; //milliseconds
@@ -94,7 +92,6 @@ public class ApplicationWelcome extends AppCompatActivity {
                 width, (int)(width * .811)
         );
         illustration_params.setMargins(0, 0, 0, 0);
-        //illustration_params.gravity = CENTER;
 
         welcomeImage.setLayoutParams(illustration_params);
         welcomeImage.setBackgroundResource(R.drawable.logo);
@@ -105,7 +102,6 @@ public class ApplicationWelcome extends AppCompatActivity {
      */
     public void miscellaneousSetUp()
     {
-        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
         RHYME_HEIGHT = (int)(width * Constants.ASPECT_RATIO);
     }

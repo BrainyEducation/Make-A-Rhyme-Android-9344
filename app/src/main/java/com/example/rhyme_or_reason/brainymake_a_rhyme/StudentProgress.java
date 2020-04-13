@@ -49,7 +49,6 @@ public class StudentProgress extends AppCompatActivity {
         highestNumConsecNumber = (TextView) findViewById(R.id.highestConsecutiveNumber);
         averageIncorrections.setText("Average Incorrect Selections Per Attempt: ");
         numAttempts.setText("Number of Attempts To Read: ");
-        //highestNumConsec.setText("Highest Number of Consecutive Attempts: ");
         ////////////////////////////////////////////////////
 
         String w = getIntent().getExtras().get("word").toString();
@@ -77,8 +76,6 @@ public class StudentProgress extends AppCompatActivity {
         graph.getViewport().setMaxY(10);
         graph.getGridLabelRenderer().setVerticalAxisTitle("Incorrect Selections");
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Attempts");
-//            graph.getGridLabelRenderer().setNumHorizontalLabels(5);
-//            graph.getGridLabelRenderer().setNumVerticalLabels(10);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
 
@@ -104,7 +101,6 @@ public class StudentProgress extends AppCompatActivity {
     public void onEmailClick(View v) {
 
         uuid = getIntent().getExtras().get("uuid").toString();
-        //forceStopAudio();
 
         Intent newIntent = new Intent(StudentProgress.this, EmailActivity.class);
         View parentView = findViewById(R.id.graph);
@@ -112,9 +108,6 @@ public class StudentProgress extends AppCompatActivity {
 
         String currWord = getIntent().getExtras().get("word").toString();
 
-        //newIntent.putExtra("current_rhyme", currRhyme);
-        //newIntent.putStringArrayListExtra("rhyme_words", wordList);
-        //newIntent.putExtra("illustration", byteArray);
         newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", "Here is your quiz progress for the word: " + currWord);
         newIntent.putExtra("uuid", uuid);

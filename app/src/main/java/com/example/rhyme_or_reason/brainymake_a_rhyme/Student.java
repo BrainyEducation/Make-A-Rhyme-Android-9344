@@ -29,7 +29,6 @@ public class Student implements Serializable {
     private ArrayList<RhymeTemplate> savedRhymes;
     private ArrayList<Word> unlockedWords;
     private HashMap<String, ArrayList<Integer>> attemptsMap;
-    //private static Context ioContext;
 
     public Student(String name, String colorPassword, String animalPassword)
     {
@@ -51,7 +50,6 @@ public class Student implements Serializable {
         this.savedRhymes = new ArrayList<>();
         this.unlockedWords = new ArrayList<>();
         this.attemptsMap = attemptsMap;
-
     }
 
     public Student(String name, String uuid, String colorPassword, String animalPassword, HashMap<String, ArrayList<Integer>> attemptsMap)
@@ -63,7 +61,6 @@ public class Student implements Serializable {
         this.attemptsMap = attemptsMap;
         this.savedRhymes = new ArrayList<>();
         this.unlockedWords = new ArrayList<>();
-        //this.attemptsMap = new HashMap<>();
     }
 
     public void addRhyme(RhymeTemplate newRhyme)
@@ -158,28 +155,5 @@ public class Student implements Serializable {
         }
 
         return toReturn;
-
-        //String json = appSharedPrefs.getString("SavedRhyme" + rhymeNumString, "");
-        //return gson.fromJson(json, RhymeTemplate.class);
     }
-
-    /*
-    public void saveData(Context context) { //key - uuid, obj - attemptsMap
-        SharedPreferences pref = context.getSharedPreferences("AttemptsMap", MODE_PRIVATE);
-        String objToString = new Gson().toJson(attemptsMap);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("ProgressMap", objToString);
-        editor.apply();
-    }
-
-    public HashMap loadMap(Context context) { //key - uuid
-        SharedPreferences sharedpref = context.getSharedPreferences("AttemptsMap", MODE_PRIVATE);
-        String val = new Gson().toJson(new HashMap<String, ArrayList<int[]>>());
-        String jsonStr = sharedpref.getString("ProgressMap", val);
-        TypeToken<HashMap<String, ArrayList<int[]>>> token = new TypeToken<HashMap<String, ArrayList<int[]>>>() {};
-        HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
-        return mapFromPref;
-    }
-    */
-
 }

@@ -38,19 +38,6 @@ public class Word implements Serializable {
 
     public void setUnlocked() {
         this.locked = false;
-        /*
-        try{
-            FileOutputStream fos = ioContext.openFileOutput("UnlockedWords", Context.MODE_APPEND);
-            PrintStream printstream = new PrintStream(fos);
-            printstream.println(text);
-            fos.close();
-            serializedUnlockedWords.add(text);
-
-        } catch (FileNotFoundException fnfe) {
-            throw new IllegalArgumentException(fnfe);
-        } catch (IOException ioe) {
-        throw new IllegalArgumentException(ioe);
-        }*/
     }
 
     public Boolean getLockedStatus() {
@@ -74,36 +61,9 @@ public class Word implements Serializable {
 
     public String getType() { return this.type; }
 
-    /*
-    public static void initialize(Context context)
-    {
-        serializedUnlockedWords = new ArrayList<>();
-        try {
-            ioContext = context;
-            FileInputStream fis = context.openFileInput("UnlockedWords");
-            InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
-            try(BufferedReader reader = new BufferedReader(inputStreamReader)) {
-                String line = reader.readLine();
-                while (line != null) {
-                    line = reader.readLine();
-                    serializedUnlockedWords.add(line);
-                }
-                fis.close();
-            }
-            catch(IOException e)
-            {
-                //shouldn't happen, if it does, something went wrong
-                throw new IllegalArgumentException(e);
-            }
-        } catch (FileNotFoundException fnfe) {//If file doesn't exist, it's new and should stay empty
-
-        }
-
-    }
-    */
 
     /*
-     *
+     * Saves a word's status (locked/unlocked) for the particular user (from the UUID)
      */
     public void saveWord(Context context, String uuid)
     {
@@ -122,7 +82,7 @@ public class Word implements Serializable {
     }
 
     /*
-     *
+     * Get the current status of a word for a particular student to see if it's locked/unlocked
      */
     public static Word retrieveWord(Context context, String wordString, String category, String uuid) {
 

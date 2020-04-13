@@ -35,23 +35,18 @@ public class NameFriend extends AppCompatActivity implements View.OnClickListene
 
     Word lockedWord;
     Typeface imprima;
-    //final String CHOICE_BOX_COLOR = "#9370DB";
     int height, width;
     int HEIGHT_UNIT;
     ImageView topIV;
     RelativeLayout topBar;
     LinearLayout topTwoOptions, bottomTwoOptions, encompassing;
     int lockedWordImageResourceID;
-    final int NUM_CHOICES = 4;
     final int TEXT_SIZE = 40;
     ArrayList<View> wordViews = new ArrayList<>();
     int elementWidth, elementHeight;
-    int buttonColor = Color.parseColor("#f4faf8");
-    //final int textSize = 40;
     final int TEXT_HEIGHT = 200;
     final int SEPARATOR_HEIGHT = 20;
-    LinearLayout wordLL;
-    final float LOCKED_ALPHA = 0.3f;
+    LinearLayout friendLL;
 
     /**
      * Runs when the activity launches; sets up the screen elements for selecting the word
@@ -89,7 +84,6 @@ public class NameFriend extends AppCompatActivity implements View.OnClickListene
         onBackPressed();
     }
 
-
     /**
      * Creates the buttons that serve as options for the word being spoken
      */
@@ -102,7 +96,7 @@ public class NameFriend extends AppCompatActivity implements View.OnClickListene
         topTwoOptions = findViewById(R.id.TopTwoOptions);
         bottomTwoOptions = findViewById(R.id.BottomTwoOptions);
         encompassing = findViewById(R.id.EncompassingLL);
-        wordLL = findViewById(R.id.WordLL);
+        friendLL = findViewById(R.id.WordLL);
     }
 
     /**
@@ -139,32 +133,31 @@ public class NameFriend extends AppCompatActivity implements View.OnClickListene
                 "Eva", "Mia", "Rio", "Uma", "Joy", "Rose", "Mary", "Lily", "Iris", "Ann", "Joan",
                 "Pat", "Jan", "Deb", "Kate", "Beth"};
 
-        wordLL.removeAllViews();
+        friendLL.removeAllViews();
         wordViews = new ArrayList<>(); // Wipe out existing entries
 
         for (int index = 0; index < names.length; ++index) {
 
-            Button tempWordText = new Button(this);
+            Button tempFriendText = new Button(this);
 
-            tempWordText.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, TEXT_HEIGHT));
+            tempFriendText.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, TEXT_HEIGHT));
 
-            tempWordText.setOnClickListener(NameFriend.this);
+            tempFriendText.setOnClickListener(NameFriend.this);
 
-            tempWordText.setTag(names[index]);
-            tempWordText.setText(names[index]);
-            tempWordText.setBackgroundColor(Color.WHITE);
-            tempWordText.setTextColor(Color.BLACK);
-            tempWordText.setTextSize(TEXT_SIZE);
-            tempWordText.setTypeface(imprima);
+            tempFriendText.setTag(names[index]);
+            tempFriendText.setText(names[index]);
+            tempFriendText.setBackgroundColor(Color.WHITE);
+            tempFriendText.setTextColor(Color.BLACK);
+            tempFriendText.setTextSize(TEXT_SIZE);
+            tempFriendText.setTypeface(imprima);
 
             View separator = new View(this);
 
             separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
 
-            wordLL.addView(tempWordText);
-            wordLL.addView(separator);
+            friendLL.addView(tempFriendText);
+            friendLL.addView(separator);
         }
-
     }
 
     /**

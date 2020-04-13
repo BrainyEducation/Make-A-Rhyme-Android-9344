@@ -50,9 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     HashMap<String, ArrayList<Integer>> typeToImageMapping = new HashMap<String, ArrayList<Integer>>();
     String activeType = "";
     Word selectedWord;
-    int wordIndex, typeIndex;
+    int wordIndex;
     int height, width, elementWidth, elementHeight;
-    final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
     Typeface imprima;
@@ -62,11 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button progressBtn;
     private ScrollView word_scrollview, type_scrollview;
     private ImageButton up_btnW, down_btnW, up_btnT, down_btnT;
-    //private Button progressBtn;
-    static int attempts = 0;
-    static Word selectedWordFromMain;
-    //static ArrayList<String> wordsAttempted = new ArrayList<>();
-    //static HashMap<String, ArrayList<int[]>> attemptsMap = new HashMap<>();
 
     ArrayList<Word> unlockedWords = new ArrayList<>();
 
@@ -145,10 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, Constants.SEPARATOR_HEIGHT));
 
-            //System.out.println("Curr Type: ");
-            //System.out.println(currType);
-            //System.out.println(wordList.get(index));
-            //System.out.println(wordList.get(index).getText());
             if (!currType.equals("Friends") && (wordList.get(index)).getLockedStatus()) {
                 // Is Locked
                 tempWordImage.setAlpha(Constants.LOCKED_ALPHA);
@@ -315,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(selectedWord.getAudioName().length() > 0) {
                 //Most words
                 for (String s : typeToWordMapping.keySet()) {
-                    if (s != activeType && !s.equals("Friends"))
+                    if (!s.equals(activeType) && !s.equals("Friends"))
                         for (Word w : typeToWordMapping.get(s)) {
                             if (w.getText().length() == selectedWord.getText().length())
                                 lengthWords.add(w.getText());
@@ -421,7 +411,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         finish();
                     }
                 }, 0);   // Instantaneous
-
             }
         }
     }
@@ -438,7 +427,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         display.getSize(screenSize);
         width = screenSize.x;
         height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
         elementWidth = width / NUM_COLUMNS;
         elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
 
@@ -450,7 +438,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void miscellaneousSetUp()
     {
-        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
     }
 
@@ -530,7 +517,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             separator.setBackgroundColor(getResources().getColor(R.color.colorBackground));
 
-            //up_btnT.setLayoutParams();
             typeViews.add(tempType);
             typeLL.addView(tempType);
             typeLL.addView(generateImagePreview(tempType));

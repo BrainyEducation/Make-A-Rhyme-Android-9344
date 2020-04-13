@@ -86,7 +86,7 @@ public class AddStudent extends AppCompatActivity {
     {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
-        Gson gson = new Gson();
+
         String currSavedUUID = appSharedPrefs.getString("UUID Clipboard", "");
 
         uuid.setText(currSavedUUID);
@@ -99,7 +99,7 @@ public class AddStudent extends AppCompatActivity {
     {
         username = getIntent().getExtras().get("username").toString();
 
-        name = findViewById(R.id.studentName);
+        //name = findViewById(R.id.studentName);
         uuid = findViewById(R.id.UUID);
     }
 

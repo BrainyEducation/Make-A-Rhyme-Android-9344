@@ -109,7 +109,7 @@ public class RhymeTemplate implements Serializable {
     {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        Gson gson = new Gson();
+
         int numRhymes = appSharedPrefs.getInt(userUUID + rhymeTemplateName + "NumRhymes", 0);
 
         return numRhymes;

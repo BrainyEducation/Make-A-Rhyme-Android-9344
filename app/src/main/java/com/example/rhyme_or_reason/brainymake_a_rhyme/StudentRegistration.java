@@ -165,40 +165,6 @@ public class StudentRegistration extends AppCompatActivity implements View.OnCli
         Intent newIntent = new Intent(this, MainMenu.class);
         newIntent.putExtra("uuid", newStudent.getUuid());
         startActivityForResult(newIntent, 1);
-
-        /*
-        // Need to save parent's details here
-        // Add check to see if username has already been taken (locally)
-
-        ArrayList<ParentTeacher> listOfPTs =  ParentTeacher.retrieveParentTeachers(this.getApplicationContext());
-
-        if (username_field.getText().toString().equals("") || password_field.getText().toString().equals("")) {
-            Toast.makeText(getApplicationContext(), "Please ensure that both fields are filled.", Toast.LENGTH_LONG).show();
-        } else {
-            Boolean validUsername = true;
-
-            for (int index = 0; index < listOfPTs.size(); ++index) {
-                if (listOfPTs.get(index).getName().equals(username_field.getText().toString())) {
-                    validUsername = false;
-                    break;
-                }
-            }
-
-            if (validUsername) {
-
-                ParentTeacher tempPT = new ParentTeacher(username_field.getText().toString(), password_field.getText().toString());
-
-                tempPT.saveParentTeacher(this.getApplicationContext()); // Saves parent into local storage
-
-                Intent newIntent = new Intent(this, ParentTeacherMainMenu.class);
-                newIntent.putExtra("username", username_field.getText().toString());
-                startActivityForResult(newIntent, 1);
-            } else {
-                Toast.makeText(getApplicationContext(), "That username is already taken; please choose a different username", Toast.LENGTH_LONG).show();
-                username_field.setText("");
-            }
-        }
-        */
     }
 
     /**
@@ -213,7 +179,6 @@ public class StudentRegistration extends AppCompatActivity implements View.OnCli
         display.getSize(screenSize);
         width = screenSize.x;
         height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
         elementWidth = width / NUM_COLUMNS;
         elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
 

@@ -88,20 +88,6 @@ public class ParentTeacher implements Serializable {
         }
 
         return toReturn;
-
-        //String json = appSharedPrefs.getString("SavedRhyme" + rhymeNumString, "");
-        //return gson.fromJson(json, RhymeTemplate.class);
-    }
-
-    public static Set<String> getUsernames(Context context)
-    {
-        SharedPreferences appSharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(context);
-        Gson gson = new Gson();
-
-        Set<String> usernames = appSharedPrefs.getStringSet("Usernames", new HashSet<String>());
-
-        return usernames;
     }
 
 }

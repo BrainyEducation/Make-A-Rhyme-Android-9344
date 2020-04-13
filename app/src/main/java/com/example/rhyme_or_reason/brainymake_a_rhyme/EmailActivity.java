@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class EmailActivity extends AppCompatActivity implements View.OnClickListener{
+public class EmailActivity extends AppCompatActivity {
 
     TextInputLayout textInputLayout;
     TableRow tableRowTemplate;
@@ -71,7 +71,6 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         loadIntentsAndViews();
 
         stitchStoryText();
-
     }
 
     public void loadIntentsAndViews()
@@ -122,12 +121,9 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         String body = textForEmail;
         String path = (String) getIntent().getExtras().get("imageUri");
 
-
         emailSystem.setEmailVariables( emails.toArray(new String[0]), subject, body, path);
 
-
         Intent in = emailSystem.createEmailIntent(this);
-
 
         try {
             startActivity(Intent.createChooser(in, "Send mail..."));
@@ -150,7 +146,6 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
             displayError("Email already exists");
             return;
         }
-
 
         submitButton.setAlpha(1.0f); // Allow button to be clicked after a button is added
         enteredEmailAddresses.setAlpha(1.0f);
@@ -197,11 +192,6 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
             }
         };
         return returnListener;
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 
     /**

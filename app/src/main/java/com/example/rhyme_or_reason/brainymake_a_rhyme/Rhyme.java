@@ -46,7 +46,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     FrameLayout totalIllustration;
     ImageView illustration;
     LinearLayout rhymeTextLL;
-    ImageView img;
     ImageButton rhymeUpBtn;
     ImageButton rhymeDownBtn;
     ScrollView rhymeScroll;
@@ -55,16 +54,13 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     Boolean modification_enabled;
 
     ImageView img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19;
-    ArrayList<ImageView> neededIVs;
 
     ArrayList<ImageView> illustrationIVs = new ArrayList<>();
 
     boolean insertedWord = false;
-    int imageCoordIndex = 0;
     int width;
     int height;
     int HEIGHT_UNIT;
-    //final double ASPECT_RATIO = 0.6802;
     int CHARACTER_LIMIT = 20; // TODO: Set this dynamically based on screen width
     final char WORD_MARKER_START = '[';
     final char WORD_MARKER_END = ']';
@@ -143,7 +139,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void onPlayAudio(View v) {
-        //ImageButton iB = findViewById(R.id.playButton);
 
         if (displayPlayButton) {
             storyAudioManager.playStoryThread("Pet Party Picnic Story");
@@ -181,7 +176,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         Intent newIntent = new Intent(this, MainActivity.class);
         newIntent.putExtra("uuid", uuid);
 
-        //forceStopAudio();
         storyAudioManager.setContinueAudioFlag(false);
 
         selectedButtonIndex = (Integer)v.getTag();
@@ -243,7 +237,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 width, (int)(width * Constants.ASPECT_RATIO)
         );
         illustration_params.setMargins(0, 0, 0, 0);
-        //illustration_params.gravity = CENTER;
 
         totalIllustration.setLayoutParams(illustration_params);
 
@@ -464,9 +457,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                                 (Integer)(width / 8), (70) // TODO: Set to something meaningful
                         );
 
-                        button_params.setMargins(0, 0, 0, 0);
-
-                        //button_params.addRule(RelativeLayout.ALIGN_BOTTOM);
+                        button_params.setMargins(0, 10, 0, 10);
 
                         blankView.setLayoutParams(button_params);
                         blankView.setId(idIndex);
@@ -481,7 +472,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 }
 
                 if (!currPhrase.equals("")) {
-                    inWordMarker = true;
                     TextView tempLine = new TextView(this);
                     tempLine.setTextSize(textSize);
                     tempLine.setTypeface(imprima);
@@ -489,7 +479,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT, (70) // TODO: Set to something meaningful
                     );
-                    line_params.setMargins(0, 0, 0, 0);
+                    line_params.setMargins(0, 10, 0, 10);
                     line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
                     if (idIndex != 1) {
                         line_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the button that comes before it
@@ -498,8 +488,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     tempLine.setLayoutParams(line_params);
                     tempLine.setId(idIndex);
                     ++idIndex;
-
-                    currPhrase = "";
 
                     textAndButton.addView(tempLine);
                 }
@@ -523,7 +511,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 insertedWord = true;
 
-                //selectedWord.setUnlocked();
                 Word selected = (Word)data.getSerializableExtra("word");
 
                 wordList.set(selectedButtonIndex, selected.getText());
@@ -538,7 +525,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
                 TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(listOfButtons.get(selectedButtonIndex), 6, 30,
                         2, 2);
-
 
                 listOfButtons.get(selectedButtonIndex).setBackgroundColor(getResources().getColor(R.color.highlighter));
 
@@ -561,7 +547,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      * position of the top left corner of the square-ish gray box in the illustration.
      * Starts at left picture and rotates counter-clockwise.
      */
-
     public void setImageCoordsPetPartyPicnic()
     {
         imageCoords.add(new double[]{width * .0985, width * Constants.ASPECT_RATIO * .3415});
@@ -612,7 +597,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         imageCoords.add(new double[]{width * .677, width * Constants.ASPECT_RATIO * .6537});
         imageCoords.add(new double[]{width * .661, width * Constants.ASPECT_RATIO * .7571});
         imageCoords.add(new double[]{width * .808, width * Constants.ASPECT_RATIO * .7871});
-
     }
 
     /**
@@ -685,8 +669,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         illustrationIVs.add(img4);
         illustrationIVs.add(img5);
 
-        //this.addContentView(img1, img_params1);
-
         totalIllustration.addView(img1);
         totalIllustration.addView(img2);
         totalIllustration.addView(img3);
@@ -757,8 +739,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         illustrationIVs.add(img5);
         illustrationIVs.add(img6);
 
-        //this.addContentView(img1, img_params1);
-
         totalIllustration.addView(img1);
         totalIllustration.addView(img2);
         totalIllustration.addView(img3);
@@ -791,8 +771,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         img17 = new ImageView(this);
         img18 = new ImageView(this);
         img19 = new ImageView(this);
-
-        //img1.setBackgroundColor(Color.BLUE);
 
         // Image View (Picture of Word Being Quizzed)
         FrameLayout.LayoutParams img_params1 = new FrameLayout.LayoutParams(
@@ -837,7 +815,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         img_params6.setMargins((int) (imageCoords.get(5)[0]), (int) (imageCoords.get(5)[1]), 0, 0);
         img6.setLayoutParams(img_params6);
 
-        // Image View (Picture of Word Being Quizzed)
         FrameLayout.LayoutParams img_params7 = new FrameLayout.LayoutParams(
                 (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
         );
@@ -880,7 +857,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         img_params12.setMargins((int) (imageCoords.get(11)[0]), (int) (imageCoords.get(11)[1]), 0, 0);
         img12.setLayoutParams(img_params12);
 
-        // Image View (Picture of Word Being Quizzed)
         FrameLayout.LayoutParams img_params13 = new FrameLayout.LayoutParams(
                 (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
         );
@@ -923,14 +899,12 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         img_params18.setMargins((int) (imageCoords.get(17)[0]), (int) (imageCoords.get(17)[1]), 0, 0);
         img18.setLayoutParams(img_params18);
 
-        // Image View (Picture of Word Being Quizzed)
         FrameLayout.LayoutParams img_params19 = new FrameLayout.LayoutParams(
                 (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE), (int) (totalIllustration.getHeight() * Constants.STRANGER_PARADE_PICTURE_HEIGHT_SCALE)
         );
 
         img_params19.setMargins((int) (imageCoords.get(18)[0]), (int) (imageCoords.get(18)[1]), 0, 0);
         img19.setLayoutParams(img_params19);
-
 
         illustrationIVs.add(img1);
         illustrationIVs.add(img2);
@@ -981,8 +955,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         displayPlayButton = true;
         storyAudioManager.setContinueAudioFlag(false);
 
-        //forceStopAudio();
-
         Bitmap illustrationBitmap = takeScreenShot();
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -991,7 +963,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
         // Create a byte array from ByteArrayOutputStream
         byte[] byteArray = stream.toByteArray();
-
 
         if (insertedWord) {
             currRhyme.setSavedIllustration(byteArray);
@@ -1023,10 +994,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void updateIllustration(Word selectedWord, int buttonIndex)
     {
-        System.out.println("Button index: ");
-        System.out.println(buttonIndex);
         if (buttonIndex < imageCoords.size()) {
-
             try {
                 totalIllustration.removeView(illustrationIVs.get(buttonIndex));
             } catch (Exception e) {
@@ -1038,9 +1006,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
             int resourceID = getResources().getIdentifier(selectedWord.getImageName(), "drawable", getPackageName());
             illustrationIVs.get(buttonIndex).setImageResource(resourceID);
-            //img.setImageResource(resourceID);
             totalIllustration.addView(illustrationIVs.get(buttonIndex));
-            //imageCoordIndex++;
         }
     }
 
@@ -1069,7 +1035,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
 
     public void onEmailClick(View v) {
 
-        //forceStopAudio();
         storyAudioManager.setContinueAudioFlag(false);
         displayPlayButton = true;
 
@@ -1077,10 +1042,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         View parentView = findViewById(R.id.totalIllustration);
         String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
 
-
-        //newIntent.putExtra("current_rhyme", currRhyme);
         newIntent.putStringArrayListExtra("rhyme_words", wordList);
-        //newIntent.putExtra("illustration", byteArray);
         newIntent.putExtra("imageUri", path);
         newIntent.putExtra("general_rhyme_text", storyText);
         newIntent.putExtra("uuid", uuid);
@@ -1099,15 +1061,5 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 break;
             }
         }
-
-        /*
-        // Testing only
-        for (int index = 0; index < currStudent.getSavedRhymes().size(); ++index) {
-            System.out.print("Index: ");
-            System.out.println(index);
-            System.out.println(currStudent.getSavedRhymes().get(index).getName());
-        }
-        */
     }
-
 }
