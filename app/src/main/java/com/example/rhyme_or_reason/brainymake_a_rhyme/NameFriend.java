@@ -166,16 +166,6 @@ public class NameFriend extends AppCompatActivity implements View.OnClickListene
         }
 
     }
-    /**
-     * Plays the sound file for the word being learned
-     */
-    public void playWordAudio() {
-        int audioResourceID = getResources().getIdentifier(lockedWord.getAudioName(), "raw", getPackageName());
-        MediaPlayer mPlayer = MediaPlayer.create(this.getApplicationContext(), audioResourceID);
-        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mPlayer.start();
-    }
-
 
     /**
      * Called when the page first loads; lays out elements dynamically based on screen dimensions
