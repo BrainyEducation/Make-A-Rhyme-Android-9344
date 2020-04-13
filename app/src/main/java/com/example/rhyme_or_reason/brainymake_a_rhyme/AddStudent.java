@@ -26,10 +26,17 @@ public class AddStudent extends AppCompatActivity {
         loadIntentsAndViews();
     }
 
+    /**
+     * Returns to the ParentTeacherMainMenu (without having added a student
+     */
     public void ClickedBackButton(View v) {
         onBackPressed();
     }
 
+    /**
+     * Attempts to add the student by their UUID (not their name); if the parent/teacher has already added
+     * the student or the ID is incorrect, the student will not be added.
+     */
     public void ClickedAddByUUID(View v)
     {
         ArrayList<ParentTeacher> listOfPTs = ParentTeacher.retrieveParentTeachers(this.getApplicationContext());
@@ -63,16 +70,18 @@ public class AddStudent extends AppCompatActivity {
             if (valid) {
                 currPT.addStudent(toAdd);
                 currPT.saveParentTeacher(this.getApplicationContext());
+                onBackPressed(); // Only go back if successful
             } else {
                 Toast.makeText(getApplicationContext(), "You've already added that student", Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "No student found with that identifier.", Toast.LENGTH_LONG).show();
         }
-
-        onBackPressed();
     }
 
+    /**
+     * Takes the 'copied' UUID that is saved in shared preferences and places it in the Student ID field
+     */
     public void clickedPaste(View v)
     {
         SharedPreferences appSharedPrefs = PreferenceManager

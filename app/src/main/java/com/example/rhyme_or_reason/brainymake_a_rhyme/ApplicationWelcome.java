@@ -80,18 +80,6 @@ public class ApplicationWelcome extends AppCompatActivity {
     }
 
     /**
-     * Workaround designed to allow the pictures for pre-existing rhymes to show up in the
-     * illustration when the page first loads. The page layout needs to be set for this to work,
-     * hence why it cannot be included in onCreate.
-     */
-    @Override
-    public void onWindowFocusChanged(boolean b)
-    {
-        super.onWindowFocusChanged(b);
-
-    }
-
-    /**
      * Matches the scrollview and its linear layout with their respective code variables
      */
     public void loadIntentsAndViews()
@@ -178,6 +166,10 @@ public class ApplicationWelcome extends AppCompatActivity {
         newIntent.putExtra("rhyme_template", selectedRhymeTemplate);
         startActivityForResult(newIntent, 1);
     }
+
+    /**
+     * TODO: Eric comment explanation
+     */
 
     public HashMap getMapFromSharedPref() {
         SharedPreferences sharedpref = getSharedPreferences("AttemptsMap", MODE_PRIVATE);

@@ -9,11 +9,13 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -70,7 +72,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     final int NUM_SPACES = 5;
     boolean displayPlayButton = true;
     ArrayList<String> wordCodes = new ArrayList<>();
-    ArrayList<Button> listOfButtons = new ArrayList<>();
+    ArrayList<TextView> listOfButtons = new ArrayList<>();
     int selectedButtonIndex;
     ArrayList<double[]> imageCoords = new ArrayList<>();
     Typeface imprima;
@@ -168,43 +170,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         };
         stopThread.start();
     }
-
-
-    /*
-    public void onPlayAudio(View v) {
-        if (displayPlayButton && playCooldown) {
-            storyAudioManager.clearMediaPlayer();
-            storyAudioManager.playStoryThread("Pet Party Picnic Story");
-            displayPlayButton = false;
-            iB.setImageResource(R.drawable.ic_pause);
-            playCooldown = false;
-            blockPlayButton();
-        } else if (!displayPlayButton && playCooldown){
-            storyAudioManager.setContinueAudioFlag(false);
-            storyAudioManager.clearMediaPlayer();
-            displayPlayButton = true;
-            iB.setImageResource(R.drawable.ic_play);
-            playCooldown = false;
-            blockPlayButton();
-            storyAudioManager.clearMediaPlayer();
-            storyAudioManager.setWordList(wordList);
-        }
-    }
-
-    private void blockPlayButton() {
-        Thread stopThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(333);
-                    playCooldown = true;
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-        stopThread.start();
-    }
-    */
 
     /**
      * Occurs when the user selects an empty gap to fill with a word; saves the index of the button
@@ -427,9 +392,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 singleLine.setTypeface(imprima);
 
                 LinearLayout.LayoutParams line_params = new LinearLayout.LayoutParams(
-                        width, (140) // TODO: Set to something meaningful
+                        width, (70) // TODO: Set to something meaningful
                 );
-                line_params.setMargins(5, 0, 0, 0);
+                line_params.setMargins(5, 10, 0, 10);
                 line_params.gravity = CENTER;
 
                 singleLine.setLayoutParams(line_params);
@@ -443,9 +408,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 RelativeLayout textAndButton = new RelativeLayout(this);
 
                 RelativeLayout.LayoutParams rL_params = new RelativeLayout.LayoutParams(
-                        width, (140) // TODO: Set to something meaningful
+                        width, (70) // TODO: Set to something meaningful
                 );
-                rL_params.setMargins(0, 0, 0, 0);
+                rL_params.setMargins(0, 10, 0, 10);
 
                 String currPhrase = "";
 
@@ -462,9 +427,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                         tempLine.setTypeface(imprima);
                         tempLine.setText(currPhrase);
                         RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
+                                ViewGroup.LayoutParams.WRAP_CONTENT, (70) // TODO: Set to something meaningful
                         );
-                        line_params.setMargins(5, 0, 0, 0);
+                        line_params.setMargins(5, 10, 0, 10);
                         line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
                         if (idIndex != 1) {
                             line_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the button that comes before it
@@ -479,36 +444,39 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                         textAndButton.addView(tempLine);
 
                     } else if (currLine.charAt(index) == WORD_MARKER_END) {
-                        Button blankButton = new Button(this);
-                        blankButton.setTextSize(textSize);
-                        blankButton.setTypeface(imprima);
 
-                        blankButton.setBackgroundColor(Color.LTGRAY);
+                        TextView blankView = new TextView(this);
+                        blankView.setTextSize(textSize);
+                        blankView.setTypeface(imprima);
+                        blankView.setMaxLines(1);
+                        blankView.setGravity(Gravity.CENTER);
+
+                        blankView.setBackgroundColor(Color.LTGRAY);
                         if (modification_enabled) {
-                            blankButton.setOnClickListener(this);
+                            blankView.setOnClickListener(this);
                         }
-                        blankButton.setTag(buttonTag);
+                        blankView.setTag(buttonTag);
                         ++buttonTag;
 
-                        listOfButtons.add(blankButton);
+                        listOfButtons.add(blankView);
 
                         RelativeLayout.LayoutParams button_params = new RelativeLayout.LayoutParams(
-                                200, (100) // TODO: Set to something meaningful
+                                (Integer)(width / 8), (70) // TODO: Set to something meaningful
                         );
 
                         button_params.setMargins(0, 0, 0, 0);
 
                         //button_params.addRule(RelativeLayout.ALIGN_BOTTOM);
 
-                        blankButton.setLayoutParams(button_params);
-                        blankButton.setId(idIndex);
+                        blankView.setLayoutParams(button_params);
+                        blankView.setId(idIndex);
                         button_params.addRule(RelativeLayout.RIGHT_OF, idIndex - 1); // to the right of the text that comes before it
                         ++idIndex;
 
-                        blankButton.setPadding(0,0,0,0);
+                        blankView.setPadding(0,0,0,0);
                         inWordMarker = false;
 
-                        textAndButton.addView(blankButton);
+                        textAndButton.addView(blankView);
                     }
                 }
 
@@ -519,7 +487,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                     tempLine.setTypeface(imprima);
                     tempLine.setText(currPhrase);
                     RelativeLayout.LayoutParams line_params = new RelativeLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT, (140) // TODO: Set to something meaningful
+                            ViewGroup.LayoutParams.WRAP_CONTENT, (70) // TODO: Set to something meaningful
                     );
                     line_params.setMargins(0, 0, 0, 0);
                     line_params.addRule(RelativeLayout.ALIGN_BOTTOM);
@@ -567,6 +535,11 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 System.out.println(wordCodes.get(selectedButtonIndex));
 
                 listOfButtons.get(selectedButtonIndex).setText(selected.getText());
+
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(listOfButtons.get(selectedButtonIndex), 6, 30,
+                        2, 2);
+
+
                 listOfButtons.get(selectedButtonIndex).setBackgroundColor(getResources().getColor(R.color.highlighter));
 
                 updateIllustration(selected, selectedButtonIndex);

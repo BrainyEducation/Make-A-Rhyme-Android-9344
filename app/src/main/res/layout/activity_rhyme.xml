@@ -87,7 +87,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="89dp"
             android:layout_marginBottom="6dp"
-            android:layout_toStartOf="@+id/HelpButton"
+            android:layout_toStartOf="@+id/emailButton"
             android:layout_toEndOf="@+id/BackButton"
             android:background="@null"
             android:onClick="onPlayAudio"

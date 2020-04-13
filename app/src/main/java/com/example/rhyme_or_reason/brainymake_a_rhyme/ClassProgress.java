@@ -26,6 +26,10 @@ public class ClassProgress extends AppCompatActivity {
     BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
     Button emailButton;
 
+
+    /**
+     * TODO: Jonathan comment explanation
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +101,9 @@ public class ClassProgress extends AppCompatActivity {
         onBackPressed();
     }
 
+    /**
+     * TODO: Jonathan comment explanation
+     */
     public void onEmailClick(View v) {
 
         //forceStopAudio();

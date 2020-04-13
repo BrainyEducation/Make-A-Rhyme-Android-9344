@@ -57,8 +57,6 @@
                 android:layout_alignParentRight="true"
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
-                android:onClick="ClickedHelpButton"
-                android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
                 android:typeface="serif"

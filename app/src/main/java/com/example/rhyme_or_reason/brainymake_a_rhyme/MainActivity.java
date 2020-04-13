@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {"Body Parts", "ankle", /*"arm",*/ "chin", "elbow", "face", "feet", "foot", "hair",
                     "hand", "head", "lip", "mouth", "nose", "thigh", "thumb", "toe"},
                 {"Animals", "ape", /*"ant"*/ "bat", "bear", "bee", "camel", "cat", "centipede",
-                        "collie", "cow", "cub", "dog", "dogs", "donkey", "elk", /*"fly",*/ "fox",
+                        "collie", "cow", /*"cub",*/ "dog", "dogs", "donkey", "elk", /*"fly",*/ "fox",
                         "goat", "kitten", "mole", "monkey", "moth", "mouse", "paw",/*"pet",*/"pig",
                         "rabbit", /*"ram",*/ "sheep", "skunk", "snail", "tail", "tiger", "toad",
                         "wasp", "whale", "wolf", "worms", "zebra"},
@@ -211,11 +211,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "rescue", "scold", "see", "sing", "ski", "skip", "sleep", "slip", "smell",
                         "smile", "spill", "stand", "stop", "swim", /*"throw"*/ "twinkle", "wash",
                         /*"weigh",*/ "whisper", "yawn"},
-                {"Describe", "afraid", "cloudy", "dark", "eight", "eight", "five", "high", "hot",
+                {"Describe", "afraid", "cloudy", "dark",/*"eight", "eight",*/ "five", "high", "hot",
                         "loud", "naughty", "old", "quiet", "rude", "silly", "six", "sixteen",
                         "sleepy", "slow", "smart", "stripes", "twelve"},
-                {"Colors", "black", "blue", "brown", "gold", "green", "purple", "red", "silver",
-                        "white", "yellow"}
+                {"Colors", "black", "blue", "brown", "gold", "green", "purple", /*"red",*/ "silver",
+                        /*"white",*/ "yellow"}
         };
         for(int i = 0; i < words.length; i++)
         {
@@ -342,25 +342,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }, 0);   // Instantaneous
                     } else {
-//                        wordsAttempted.add(selectedWord.getText());
-//                        selectedWordFromMain = selectedWord;
-//                        ArrayList<int[]> wordAttempts;
-//                        int[] attemptsToIncorrects = new int[2];
-//                        if (!attemptsMap.containsKey(selectedWord)) {
-//                            attemptsToIncorrects[0] = 1;
-//                            attemptsToIncorrects[1] = 0;
-//                            wordAttempts = new ArrayList<>();
-//                            wordAttempts.add(attemptsToIncorrects);
-//                        } else {
-//                            wordAttempts = attemptsMap.get(selectedWord);
-//                            int[] lastAttemptArray = wordAttempts.get(wordAttempts.size() - 1);
-//                            int lastAttempt = lastAttemptArray[0];
-//                            attemptsToIncorrects[0] = lastAttempt + 1;
-//                            attemptsToIncorrects[1] = 0;
-//                        }
-
-                        //attemptsMap.put(selectedWord.getText(), wordAttempts);
-
                         Intent newIntent = new Intent(this, Quiz.class);
                         newIntent.putExtra("word", selectedWord);
                         newIntent.putExtra("category_words", categoryWords);
@@ -379,58 +360,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(newIntent, 2);
             }
 
-
-            /*
-            if (switchingActivities) {
-                wordIndex = matchIndex;
-                selectedWord = wordList.get(matchIndex);
-
-                if (!selectedWord.getLockedStatus()) {
-                    Handler returnHandler = new Handler();
-                    returnHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("word", selectedWord);
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
-                        }
-                    }, 0);   // Instantaneous
-                } else {
-                    wordsAttempted.add(selectedWord.getText());
-                    selectedWordFromMain = selectedWord;
-                    ArrayList<int[]> wordAttempts;
-                    int[] attemptsToIncorrects = new int[2];
-                    if (!attemptsMap.containsKey(selectedWord)) {
-                        attemptsToIncorrects[0] = 1;
-                        attemptsToIncorrects[1] = 0;
-                        wordAttempts = new ArrayList<>();
-                        wordAttempts.add(attemptsToIncorrects);
-                    } else {
-                        wordAttempts = attemptsMap.get(selectedWord);
-                        int[] lastAttemptArray = wordAttempts.get(wordAttempts.size() - 1);
-                        int lastAttempt = lastAttemptArray[0];
-                        attemptsToIncorrects[0] = lastAttempt + 1;
-                        attemptsToIncorrects[1] = 0;
-                    }
-
-                    attemptsMap.put(selectedWord.getText(), wordAttempts);
-                    Intent newIntent = new Intent(this, Quiz.class);
-                    newIntent.putExtra("word", selectedWord);
-                    newIntent.putExtra("category_words", categoryWords);
-                    newIntent.putExtra("length_words", lengthWords);
-                    newIntent.putExtra("letter_words", letterWords);
-                    newIntent.putExtra("other_words", otherWords);
-                    startActivityForResult(newIntent, 1);
-                }
-            }
-            else
-            {
-                //Friends
-                Intent newIntent = new Intent(this, NameFriend.class);
-                newIntent.putExtra("word", selectedWord);
-                startActivityForResult(newIntent, 2);
-            }
-            */
         }
 
 
@@ -450,11 +379,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
+        getStudentFromUUID(); // Have to call this again to get updated version of student (with added attempts)
+
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
 
-                getStudentFromUUID(); // Have to call this again to get updated version of student (with added attempts)
-
+                //getStudentFromUUID();
                 selectedWord.setUnlocked();
                 unlockedWords.add(selectedWord);
                 // Update the saved status of the word
@@ -633,6 +563,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return linearElement;
     }
 
+    /**
+     * Returns the user to the Rhyme screen.
+     */
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
@@ -669,6 +602,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * Uses the Student class with a static method to get a list of all students that are saved locally.
+     * Spins through this list and checks if the UUID that is being passed around matches one of these students.
+     * This ensures that the student variable used on the page is the saved one, preventing a modified one
+     * from being passed between pages without being saved to the system.
+     */
     public void getStudentFromUUID()
     {
         ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
@@ -679,13 +618,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
         }
-
-        /*
-        // Testing only
-        for (int index = 0; index < currStudent.getUnlockedWords().size(); ++index) {
-            System.out.println(currStudent.getUnlockedWords().get(index).getText());
-        }
-        */
     }
 
 

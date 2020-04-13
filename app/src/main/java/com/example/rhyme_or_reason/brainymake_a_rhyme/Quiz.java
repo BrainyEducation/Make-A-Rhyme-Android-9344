@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -41,7 +43,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     Word lockedWord;
     ArrayList<String> categoryWords, letterWords, lengthWords, otherWords;
     String correctChoiceNum = "0";
-    Button choice1, choice2, choice3, choice4;
+    //Button choice1, choice2, choice3, choice4;
+    TextView choice1, choice2, choice3, choice4;
     ImageView starIV1, starIV2, starIV3;
     int correctStreak = 0;
     Typeface imprima;
@@ -56,6 +59,8 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
     int buttonColor = Color.parseColor("#f4faf8");
     //final int textSize = 40;
     int incorrectCounter = 0;
+    Boolean initialLoad = true;
+
     Student currStudent;
     String uuid = "";
 
@@ -71,16 +76,51 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         sizingSetUp();
         miscellaneousSetUp();
 
-        getStudentFromUUID();
 
         createChoiceButtons();
-        setChoices();
 
         createStarButtons();
 
         performLayout();
 
+        setChoices();
+
         playWordAudio();
+        /*
+        loadIntentsAndViews();
+        sizingSetUp();
+        miscellaneousSetUp();
+        performLayout();
+        createChoiceButtons();
+        setChoices();
+        createStarButtons();
+        playWordAudio();
+        */
+    }
+
+    /**
+     * Workaround designed to allow the pictures for pre-existing rhymes to show up in the
+     * illustration when the page first loads. The page layout needs to be set for this to work,
+     * hence why it cannot be included in onCreate.
+     */
+    @Override
+    public void onWindowFocusChanged(boolean b)
+    {
+        super.onWindowFocusChanged(b);
+
+        /*
+        if (initialLoad) {
+            loadIntentsAndViews();
+            sizingSetUp();
+            miscellaneousSetUp();
+            createChoiceButtons();
+            createStarButtons();
+            performLayout();
+            setChoices();
+            playWordAudio();
+        }
+        initialLoad = false;
+        */
     }
 
     /**
@@ -116,15 +156,26 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
 
         choice1.setText(words[order.get(0)].toLowerCase());
         choice1.setBackgroundColor(buttonColor);
+        choice1.setGravity(Gravity.CENTER);
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(choice1, 12, 100,
+                2, 2);
 
         choice2.setText(words[order.get(1)].toLowerCase());
         choice2.setBackgroundColor(buttonColor);
-
+        choice2.setGravity(Gravity.CENTER);
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(choice2, 12, 100,
+                2, 2);
         choice3.setText(words[order.get(2)].toLowerCase());
         choice3.setBackgroundColor(buttonColor);
+        choice3.setGravity(Gravity.CENTER);
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(choice3, 12, 100,
+                2, 2);
 
         choice4.setText(words[order.get(3)].toLowerCase());
         choice4.setBackgroundColor(buttonColor);
+        choice4.setGravity(Gravity.CENTER);
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(choice4, 12, 100,
+                2, 2);
 
         correctChoiceNum = ""+(order.indexOf(0)+1);
     }
@@ -235,32 +286,6 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
      * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
-        //HashMap<String, ArrayList<int[]>> attemptsMap = currStudent.getAttemptsMap();
-        //ArrayList<int[]> attemptsList = attemptsMap.get(lockedWord.getText());
-
-        currStudent.addToAttemptsMap(lockedWord.getText(), incorrectCounter);
-        currStudent.saveStudent(this.getApplicationContext());
-        /*
-        if (!attemptsMap.containsKey(lockedWord.getText())) {
-            int[] firstAttempt = new int[2];
-            firstAttempt[0] = 1;
-            firstAttempt[1] = incorrectCounter;
-            currStudent.addToAttemptsMap(lockedWord.getText(), firstAttempt);
-        } else {
-            int[] lastAttempt = attemptsList.get(attemptsList.size() - 1);
-            int attemptNumber = lastAttempt[0];
-            attemptNumber++;
-            int[] currAttempt = new int[2];
-            currAttempt[0] = attemptNumber;
-            currAttempt[1] = incorrectCounter;
-            currStudent.addToAttemptsMap(lockedWord.getText(), currAttempt);
-        }
-        */
-
-        Log.d("map", currStudent.getAttemptsMap().keySet().toString());
-
-//        currStudent.saveStudent(this.getApplicationContext());
-        //currStudent.saveData(this.getApplicationContext());
         onBackPressed();
     }
 
@@ -280,21 +305,29 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
      */
     public void createChoiceButtons()
     {
-        choice1 = new Button(this);
+        //choice1 = new Button(this);
+        choice1 = new TextView(this);
         choice1.setTag("1");
-        choice1.setTextSize(Constants.HEADER_TEXT_SIZE);
+        choice1.setMaxLines(1);
+        //choice1.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice1.setTypeface(imprima);
-        choice2 = new Button(this);
+        //choice2 = new Button(this);
+        choice2 = new TextView(this);
         choice2.setTag("2");
-        choice2.setTextSize(Constants.HEADER_TEXT_SIZE);
+        choice2.setMaxLines(1);
+        //choice2.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice2.setTypeface(imprima);
-        choice3 = new Button(this);
+        //choice3 = new Button(this);
+        choice3 = new TextView(this);
         choice3.setTag("3");
-        choice3.setTextSize(Constants.HEADER_TEXT_SIZE);
+        choice3.setMaxLines(1);
+        //choice3.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice3.setTypeface(imprima);
-        choice4 = new Button(this);
+        //choice4 = new Button(this);
+        choice4 = new TextView(this);
         choice4.setTag("4");
-        choice4.setTextSize(Constants.HEADER_TEXT_SIZE);
+        choice4.setMaxLines(1);
+        //choice4.setTextSize(Constants.HEADER_TEXT_SIZE);
         choice4.setTypeface(imprima);
 
         choice1.setOnClickListener(this);
@@ -493,17 +526,5 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener {
         starRelativeLayout.addView(starIV3, star_params3);
 
         encompassing.addView(starRelativeLayout);
-    }
-
-    public void getStudentFromUUID() {
-        ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
-
-        for (int index = 0; index < allStudents.size(); ++index) {
-            if (allStudents.get(index).getUuid().equals(uuid)) {
-                currStudent = allStudents.get(index); // HERE we assign the student so we can save on exit.
-                break;
-            }
-        }
-        Log.d("map", currStudent.getAttemptsMap().keySet().toString());
     }
 }

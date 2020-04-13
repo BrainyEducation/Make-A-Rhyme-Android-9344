@@ -49,6 +49,13 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
     String textForEmail = "";
     boolean paused = false;
 
+    Button submitButton;
+    TextView enteredEmailAddresses;
+
+    /**
+     * TODO: Jonathan comment explanation for all functions
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +80,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         illustration = getIntent().getByteArrayExtra("illustration");
         storyText = getIntent().getStringExtra("general_rhyme_text");
         subjectText = getIntent().getStringExtra("subject_line");
+        submitButton = (Button) findViewById(R.id.SubmitButton);
+        enteredEmailAddresses = findViewById(R.id.EmailAddressesLabel);
+        submitButton.setAlpha(0.0f);
+        enteredEmailAddresses.setAlpha(0.0f);
     }
 
     public void stitchStoryText()
@@ -141,6 +152,9 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         }
 
 
+        submitButton.setAlpha(1.0f); // Allow button to be clicked after a button is added
+        enteredEmailAddresses.setAlpha(1.0f);
+        textInputLayout.getEditText().setText(""); // Reset the text field for another entry
         emails.add(email);
         emailHashSet.add(email);
         String displayText = emailSystem.shortenedEmailText(email);
@@ -176,6 +190,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
                 emails.remove(rowNum);
                 emailTable.removeViewAt(rowNum+1);
                 emailHashSet.remove(email);
+                if (emails.size() == 0) {
+                    submitButton.setAlpha(0.0f);
+                    enteredEmailAddresses.setAlpha(0.0f);
+                }
             }
         };
         return returnListener;

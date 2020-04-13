@@ -32,21 +32,6 @@
                 android:padding="0dp"/>
 
             <Button
-                android:id="@+id/ProgressButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="174dp"
-                android:gravity="center"
-                android:padding="0dp"
-                android:textColor="#666"
-                android:text="Progress"
-                android:textSize="25sp"
-                android:typeface="serif"/>
-
-            <Button
                 android:id="@+id/HelpButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
@@ -54,8 +39,6 @@
                 android:layout_alignParentRight="true"
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
-                android:onClick="ClickedHelpButton"
-                android:text="HELP"
                 android:textColor="#666"
                 android:textSize="30sp"
                 android:typeface="serif"

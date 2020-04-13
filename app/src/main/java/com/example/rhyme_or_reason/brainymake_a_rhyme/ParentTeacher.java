@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class designed to house all attributes about a Parent or a Teacher. Parents/Teachers do not have
+ * UUIDs; however, their usernames (name) must be unique. All parents and teachers will have a password,
+ * and students can be associated with the account.
+ */
 public class ParentTeacher implements Serializable {
 
     private String name;
