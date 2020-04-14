@@ -28,6 +28,8 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.view.Gravity.CENTER;
+
 public class ApplicationWelcome extends AppCompatActivity {
 
     ArrayList<RhymeTemplate> templateOptions = new ArrayList<>();
@@ -40,6 +42,8 @@ public class ApplicationWelcome extends AppCompatActivity {
     int height, width;
     ImageView welcomeImage;
     Button kidsButton;
+    Button parentsButton;
+    Button registrationButton;
     int colorToggle = 0;
 
     int RHYME_HEIGHT;
@@ -55,11 +59,11 @@ public class ApplicationWelcome extends AppCompatActivity {
 
         miscellaneousSetUp();
 
+        //buttonScaling();
+
         // Responsible for flipping the color from black to white every second
         final Handler handler = new Handler();
         final int delay = 1000; //milliseconds
-
-        kidsButton = findViewById(R.id.child_login);
 
         handler.postDelayed(new Runnable(){
             public void run(){
@@ -77,6 +81,14 @@ public class ApplicationWelcome extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean b)
+    {
+        super.onWindowFocusChanged(b);
+
+        buttonScaling();
+    }
+
     /**
      * Matches the scrollview and its linear layout with their respective code variables
      */
@@ -86,6 +98,9 @@ public class ApplicationWelcome extends AppCompatActivity {
         rhymesLL = findViewById(R.id.RhymesLL);
         topBar = findViewById(R.id.topLayout);
         welcomeImage = findViewById(R.id.WelcomeImage);
+        kidsButton = findViewById(R.id.child_login);
+        parentsButton = findViewById(R.id.parent_login);
+        registrationButton = findViewById(R.id.registration);
 
         // Illustration boundaries
         LinearLayout.LayoutParams illustration_params = new LinearLayout.LayoutParams(
@@ -164,16 +179,50 @@ public class ApplicationWelcome extends AppCompatActivity {
     }
 
     /**
-     * TODO: Eric comment explanation
+     * Scales fractionally depending on the size of the device so that it looks the same regardless
+     * of what the user is using the app on.
      */
+    public void buttonScaling()
+    {
+        LinearLayout.LayoutParams welcomeParams = new LinearLayout.LayoutParams(
+                28 * HEIGHT_UNIT / 10,
+                28 * HEIGHT_UNIT / 10
+        );
+        welcomeParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+        welcomeParams.gravity = CENTER;
 
-    public HashMap getMapFromSharedPref() {
-        SharedPreferences sharedpref = getSharedPreferences("AttemptsMap", MODE_PRIVATE);
-        String val = new Gson().toJson(new HashMap<String, ArrayList<int[]>>());
-        String jsonStr = sharedpref.getString("ProgressMap", val);
-        TypeToken<HashMap<String, ArrayList<int[]>>> token = new TypeToken<HashMap<String, ArrayList<int[]>>>() {};
-        HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
-        return mapFromPref;
+        welcomeImage.setLayoutParams(welcomeParams);
+
+        ////////
+
+        LinearLayout.LayoutParams kidsParams = new LinearLayout.LayoutParams(
+                9 * width / 10,
+                18 * HEIGHT_UNIT / 10
+        );
+        kidsParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+
+        kidsButton.setLayoutParams(kidsParams);
+
+        ////////
+
+        LinearLayout.LayoutParams parentsParams = new LinearLayout.LayoutParams(
+                9 * width / 10,
+                8 * HEIGHT_UNIT / 10
+        );
+        parentsParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+
+        parentsButton.setLayoutParams(parentsParams);
+
+        ////////
+
+        LinearLayout.LayoutParams registrationParams = new LinearLayout.LayoutParams(
+                9 * width / 10,
+                8 * HEIGHT_UNIT / 10
+        );
+        registrationParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+
+        registrationButton.setLayoutParams(registrationParams);
+
     }
 
 }

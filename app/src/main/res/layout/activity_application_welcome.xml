@@ -31,12 +31,13 @@
                     android:id="@+id/child_login"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:textSize="120sp"
+                    android:textSize="90sp"
                     android:onClick="ClickedLoginStudent"
                     android:fontFamily="@font/imprima"
                     android:background="@color/darkGreen"
                     android:text="Kids!"/>
                 <Button
+                    android:id="@+id/parent_login"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
@@ -48,6 +49,7 @@
                     android:fontFamily="@font/imprima"
                     style="?android:attr/borderlessButtonStyle"/>
                 <Button
+                    android:id="@+id/registration"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_margin="10dp"
