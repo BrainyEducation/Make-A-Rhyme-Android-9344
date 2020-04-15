@@ -188,6 +188,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
         startActivityForResult(newIntent, 1);
     }
+
+    /**
+     * Returns user to previous activity
+     */
     public void ClickedBackButton(View v) {
         onBackPressed();
     }
