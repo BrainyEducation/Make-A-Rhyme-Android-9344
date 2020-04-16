@@ -80,7 +80,7 @@ public class StudentProgress extends AppCompatActivity {
         graph.getViewport().setMinX(1);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxX(5);
-        graph.getViewport().setMaxY(10);
+
         graph.getGridLabelRenderer().setVerticalAxisTitle("Incorrect Selections");
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Attempts");
 //            graph.getGridLabelRenderer().setNumHorizontalLabels(5);
