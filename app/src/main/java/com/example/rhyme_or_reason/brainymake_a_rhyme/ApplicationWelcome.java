@@ -138,12 +138,21 @@ public class ApplicationWelcome extends AppCompatActivity {
     }
 
     /**
-     * Launches the rhyme UI
+     * Launches the rhyme UI (or the registration UI if it's the first user)
      */
     public void ClickedLoginStudent(View v)
     {
-        Intent newIntent = new Intent(this, StudentLogin.class);
-        startActivityForResult(newIntent, 1);
+        ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
+
+        // In the event that there are no students currently registered, redirect to registration screen.
+        if (allStudents.size() == 0) {
+            Intent newIntent = new Intent(this, StudentRegistration.class);
+            startActivityForResult(newIntent, 1);
+        } else {
+            Intent newIntent = new Intent(this, StudentLogin.class);
+            startActivityForResult(newIntent, 1);
+        }
+
     }
 
     /**

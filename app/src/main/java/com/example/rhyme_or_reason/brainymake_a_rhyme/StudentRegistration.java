@@ -56,7 +56,12 @@ public class StudentRegistration extends AppCompatActivity implements View.OnCli
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        onBackPressed();
+
+        //System.out.println("SR: On Activity Result.");
+
+        finish();
+        //ClickedBackButton(new View(this)); // Temp fix
+        //onBackPressed();
     }
 
     public void setUpColors()

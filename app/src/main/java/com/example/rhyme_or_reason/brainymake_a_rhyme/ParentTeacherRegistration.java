@@ -81,6 +81,9 @@ public class ParentTeacherRegistration extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        onBackPressed();
+        //System.out.println("PTR: On Activity Result.");
+        //onBackPressed();
+
+        finish();
     }
 }

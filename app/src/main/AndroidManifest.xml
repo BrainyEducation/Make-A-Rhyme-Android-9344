@@ -90,16 +90,20 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Registration1"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false"/>
         <activity
             android:name=".ParentTeacherRegistration"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false"/>
         <activity
             android:name=".StudentRegistration"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false"/>
         <activity
             android:name=".StudentLogin"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false"/>
         <activity android:name=".StudentProgressMenu"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity

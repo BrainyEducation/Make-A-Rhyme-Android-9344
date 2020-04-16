@@ -69,7 +69,10 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        onBackPressed();
+
+        finish();
+        //System.out.println("SL: On Activity Result.");
+        //onBackPressed();
     }
 
     public void miscellaneousSetUp() {

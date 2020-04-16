@@ -72,5 +72,7 @@ public class ParentLogin extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
-        onBackPressed();
+        finish();
+
+        //onBackPressed();
     }}

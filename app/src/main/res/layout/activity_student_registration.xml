@@ -66,6 +66,8 @@
             android:fontFamily="@font/imprima"
             android:gravity="center"
             android:typeface="serif"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:layout_weight="0"/>
 
         <TextView
