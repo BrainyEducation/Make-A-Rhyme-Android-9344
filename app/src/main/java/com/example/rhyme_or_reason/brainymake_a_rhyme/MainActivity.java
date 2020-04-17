@@ -3,7 +3,9 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -21,6 +23,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int index = 0; index < wordList.size(); ++index) {
 
-            Button tempWordImage = new Button(this);
+            ImageView tempWordImage = new ImageView(this);
 
             tempWordImage.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, elementHeight));
             String taglabel = wordList.get(index).getText();
@@ -125,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempWordImage.setTag(taglabel);
             tempWordImage.setOnClickListener(MainActivity.this);
             int resourceID = getResources().getIdentifier(wordList.get(index).getImageName(), "drawable", getPackageName());
-            tempWordImage.setBackgroundResource(resourceID);
+            setScaledImage(tempWordImage, resourceID);
 
             Button tempWordText = new Button(this);
 
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tempWordImage.setAlpha(Constants.LOCKED_ALPHA);
             } else {
                 // Is Unlocked
-                tempWordImage.setAlpha(1);
+                //tempWordImage.setAlpha(1);
             }
 
             wordViews.add(tempWordImage);
@@ -627,7 +630,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 pictureResourceID = getResources().getIdentifier(wordsForSelectedType.get(i).getImageName(), "drawable", getPackageName());
             }
 
-            sampleImage.setImageResource(pictureResourceID);
+            setScaledImage(sampleImage, pictureResourceID);
             linearElement.addView(sampleImage);
         }
         return linearElement;
@@ -686,6 +689,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(currStudent.getUnlockedWords().get(index).getText());
         }
         */
+    }
+    private void setScaledImage(ImageView imageView, final int resId) {
+        final ImageView iv = imageView;
+        ViewTreeObserver viewTreeObserver = iv.getViewTreeObserver();
+        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            public boolean onPreDraw() {
+                iv.getViewTreeObserver().removeOnPreDrawListener(this);
+                int imageViewHeight = iv.getMeasuredHeight();
+                int imageViewWidth = iv.getMeasuredWidth();
+                Bitmap bp = decodeSampledBitmapFromResource(getApplicationContext().getResources(),
+                        resId, imageViewWidth, imageViewHeight);
+                iv.setImageBitmap(bp);
+                iv.setImageBitmap(decodeSampledBitmapFromResource(getApplicationContext().getResources(),
+                        resId, imageViewWidth, imageViewHeight));
+                return true;
+            }
+        });
+    }
+    //needed to keep memory low
+    private static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                          int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds = true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4;
+        //options.inJustDecodeBounds = true;
+        return BitmapFactory.decodeResource(res, resId, options);
+        /*
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);*/
+    }
+
+    private static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
 
