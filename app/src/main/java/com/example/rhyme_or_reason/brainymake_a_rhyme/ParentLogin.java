@@ -24,12 +24,12 @@ public class ParentLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_login);
 
-        username_field = (EditText) findViewById(R.id.name);
-        password_field = (EditText) findViewById(R.id.txtPassword);
+        username_field = findViewById(R.id.name);
+        password_field = findViewById(R.id.txtPassword);
     }
 
     /**
-     * Launches the rhyme UI
+     * Launches the Parent Main Menu UI
      */
     public void ClickedLogin(View v)
     {
@@ -57,16 +57,22 @@ public class ParentLogin extends AppCompatActivity {
             username_field.setText("");
         }
     }
+
+    /**
+     * Returns users to the Application Welcome screen.
+     */
     public void ClickedBackButton(View v) {
         onBackPressed();
     }
 
     /**
-     * Responsible for getting the result of the quiz. When RESULT_OK, then the quiz was passed,
-     * so the word will be unlocked
+     * When the parent/teacher hits the back button on the Parent Teacher Main Menu, this will
+     * automatically send the user back to the Application Welcome screen.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
-        onBackPressed();
+        finish();
+
+        //onBackPressed();
     }}

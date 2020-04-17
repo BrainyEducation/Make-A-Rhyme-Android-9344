@@ -107,18 +107,12 @@ public class ClassProgress extends AppCompatActivity {
         onBackPressed();
     }
 
+    /**
+     * TODO: Jonathan comment explanation
+     */
     public void onEmailClick(View v) {
 
-        //forceStopAudio();
-
-
         Intent newIntent = new Intent(ClassProgress.this,EmailActivity.class);
-        //View parentView = findViewById(R.id.totalIllustration);
-
-        //String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
-
-
-        //newIntent.putStringArrayListExtra("rhyme_words", wordList);
 
         View parentView = findViewById(R.id.graph);
         String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);

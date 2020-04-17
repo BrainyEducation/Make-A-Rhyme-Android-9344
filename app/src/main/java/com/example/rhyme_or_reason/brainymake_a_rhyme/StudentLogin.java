@@ -1,7 +1,10 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -19,18 +22,26 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
     int height, width, elementWidth, elementHeight;
     int NUM_COLUMNS = 2;
     int HEIGHT_UNIT = 0;
-    LinearLayout animalLL, colorLL;
-    ScrollView color_scrollview, animal_scrollview;
+    LinearLayout animalLL, colorLL, username_LL;
+    ScrollView color_scrollview, animal_scrollview, username_scrollview;
     Button goButton;
     Boolean selectedAnimal = false;
     Boolean selectedColor = false;
     String chosenColor = "";
     String chosenAnimal = "";
+    int chosenStudentIndex = -1;
     ArrayList<String> colorNames = new ArrayList<>();
     ArrayList<String> animalNames = new ArrayList<>();
     ArrayList<Button> animalViews = new ArrayList<>();
     ArrayList<Button> colorViews = new ArrayList<>();
+    ArrayList<String> usernameNames = new ArrayList<>();
+    ArrayList<Button> usernameViews = new ArrayList<>();
     EditText nameField;
+    final int TEXT_SIZE = 25;
+    final int TEXT_HEIGHT = 200;
+
+    Typeface imprima;
+    final int SEPARATOR_HEIGHT = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,10 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
 
         sizingSetUp();
         loadIntentsAndViews();
+
+        miscellaneousSetUp();
+
+        setUpUserNames();
 
         setUpColors();
         setUpAnimals();
@@ -54,9 +69,21 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        onBackPressed();
+
+        finish();
+        //System.out.println("SL: On Activity Result.");
+        //onBackPressed();
     }
 
+    public void miscellaneousSetUp() {
+        imprima = ResourcesCompat.getFont(this, R.font.imprima);
+    }
+
+    /*
+     * Child can choose one of six colors to be the color portion of their password.
+     * Using animals and colors is done since they are easier for children to remember than
+     * passwords and tight security is not essential for the application
+     */
     public void setUpColors() {
         colorNames.add("blue");
         colorNames.add("green");
@@ -86,6 +113,11 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
+     * Child can choose one of six animals to be the animal portion of their password.
+     * Using animals and colors is done since they are easier for children to remember than
+     * passwords and tight security is not essential for the application
+     */
     public void setUpAnimals() {
         animalNames.add("cat");
         animalNames.add("dog");
@@ -115,16 +147,24 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
+     * When an animal is clicked, sets the animal to be lit up and makes it the child's selection.
+     * When a color is clicked, sets the color to be lit up and makes it the child's selection.
+     * When a student's name is clicked, sets the name to be green.
+     * When all three selections have been made, the student can attempt to login.
+     */
     public void onClick(View v) {
         String tag = (String) v.getTag();
 
+        String[] splitTag = tag.split("\\s+"); // Split on spaces
+
         System.out.println(tag);
 
-        int index = tag.charAt(0) - '0';
+        int index = Integer.parseInt(splitTag[0]);
 
         System.out.println(index);
 
-        tag = tag.substring(2); // cut off the SINGLE digit number and the space
+        tag = splitTag[1]; // cut off the number and the space
 
         if (tag.equals("animal")) {
             selectedAnimal = true;
@@ -141,6 +181,16 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
                 colorViews.get(count).setAlpha(0.5f);
             }
             colorViews.get(index).setAlpha(1.0f);
+        } else {
+            for (int count = 0; count < usernameNames.size(); ++count) {
+                usernameViews.get(count).setBackgroundColor(Color.WHITE);
+                usernameViews.get(count).setTextColor(Color.BLACK);
+            }
+
+            usernameViews.get(index).setBackgroundColor(getResources().getColor(R.color.darkGreen));
+            usernameViews.get(index).setTextColor(Color.WHITE);
+
+            chosenStudentIndex = index;
         }
 
         if (selectedAnimal && selectedColor) {
@@ -155,20 +205,13 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
 
         ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
 
-        Boolean foundStudent = false;
+        Student selectedStudent = allStudents.get(chosenStudentIndex);
 
-        for (int index = 0; index < allStudents.size(); ++index) {
-            if (allStudents.get(index).getName().equals(nameField.getText().toString()) && allStudents.get(index).getColorPassword().equals(chosenColor) && allStudents.get(index).getAnimalPassword().equals(chosenAnimal)) {
-                System.out.println("Hit Student");
-                foundStudent = true;
-                Intent newIntent = new Intent(this, MainMenu.class);
-                newIntent.putExtra("uuid", allStudents.get(index).getUuid());
-                startActivityForResult(newIntent, 1);
-                break;
-            }
-        }
-
-        if (!foundStudent) {
+        if (selectedStudent.getAnimalPassword().equals(chosenAnimal) && selectedStudent.getColorPassword().equals(chosenColor)) {
+            Intent newIntent = new Intent(this, MainMenu.class);
+            newIntent.putExtra("uuid", selectedStudent.getUuid());
+            startActivityForResult(newIntent, 1);
+        } else {
             Toast.makeText(getApplicationContext(), "Incorrect login, try again", Toast.LENGTH_LONG).show();
             for (int count = 0; count < animalNames.size(); ++count) {
                 animalViews.get(count).setAlpha(0.5f);
@@ -176,10 +219,7 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
             for (int count = 0; count < colorNames.size(); ++count) {
                 colorViews.get(count).setAlpha(0.5f);
             }
-            nameField.setText("");
-
         }
-
     }
 
     /**
@@ -193,7 +233,6 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
         display.getSize(screenSize);
         width = screenSize.x;
         height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
         elementWidth = width / NUM_COLUMNS;
         elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
 
@@ -206,11 +245,47 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
     public void loadIntentsAndViews() {
         color_scrollview = findViewById(R.id.ColorScrollView);
         animal_scrollview = findViewById(R.id.AnimalScrollView);
+        username_scrollview = findViewById(R.id.UsernameScrollView);
+        username_LL = findViewById(R.id.usernameLL);
 
         colorLL = findViewById(R.id.ColorLL);
         animalLL = findViewById(R.id.AnimalLL);
         goButton = findViewById(R.id.Go);
         goButton.setAlpha(0.0f);
         nameField = findViewById(R.id.name);
+    }
+
+    public void setUpUserNames()
+    {
+        ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
+
+        username_LL.removeAllViews();
+
+        for (int index = 0; index < allStudents.size(); ++index) {
+
+            Button nameText = new Button(this);
+
+            nameText.setLayoutParams(new LinearLayout.LayoutParams(width, TEXT_HEIGHT));
+
+            nameText.setOnClickListener(StudentLogin.this);
+
+            nameText.setTag(index + " " + allStudents.get(index).getName());
+            nameText.setText(allStudents.get(index).getName());
+            nameText.setBackgroundColor(Color.WHITE);
+            nameText.setTextColor(Color.BLACK);
+            nameText.setTextSize(TEXT_SIZE);
+            nameText.setTypeface(imprima);
+
+            usernameViews.add(nameText);
+            usernameNames.add(allStudents.get(index).getName());
+
+            View separator = new View(this);
+
+            separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, SEPARATOR_HEIGHT));
+
+            username_LL.addView(nameText);
+            username_LL.addView(separator);
+        }
+
     }
 }

@@ -24,7 +24,6 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
     ParentTeacher currPT = null;
     Button emailButton;
 
-
     ArrayList<Student> studentList;
 
     @Override
@@ -63,11 +62,6 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         loadStudents();
-        /*
-        System.out.println("Hit activity result.");
-        existingRhymesLL.removeAllViews();
-        loadExistingRhymes(true);
-        */
     }
 
     public void loadStudents()
@@ -91,31 +85,16 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
         }
 
         arrayAdapter = new ArrayAdapter(this, R.layout.progress_individual_words, studentNames);
-        //SavePref(attemptedwords);
 
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(arrayAdapter);
-        //LoadFromPref();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //String studentName = adapterView.getItemAtPosition(i).toString();
-                // Use the position in the list to reference the current Student object
+                //Use the position in the list to reference the current Student object
                 Student currStudent = students.get(i);
 
-                // Link to Eric's analytics screen for that student
-                /*
-                String uuid = "";
-                for (Student student : students) {
-                    if (student.getName().equals(studentName)) {
-                        uuid = student.getUuid();
-                        break;
-                    }
-                }
-                */
-
-                // TODO: Currently using the name the student chose for themselves, NOT the one the parent/teacher chooses
                 Intent myIntent = new Intent(view.getContext(), StudentProgressMenu.class);
                 myIntent.putExtra("name", currStudent.getName());
                 myIntent.putExtra("uuid", currStudent.getUuid());
@@ -123,10 +102,5 @@ public class ParentTeacherMainMenu extends AppCompatActivity {
 
             }
         });
-
-
     }
-
-
-
 }

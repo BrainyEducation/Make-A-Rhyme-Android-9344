@@ -50,9 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     HashMap<String, ArrayList<Integer>> typeToImageMapping = new HashMap<String, ArrayList<Integer>>();
     String activeType = "";
     Word selectedWord;
-    int wordIndex, typeIndex;
+    int wordIndex;
     int height, width, elementWidth, elementHeight;
-    final int ELEMENTS_ON_SCREEN = 5;
     final int NUM_COLUMNS = 2;
     final int TEXT_HEIGHT = 200;
     Typeface imprima;
@@ -140,10 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             separator.setLayoutParams(new LinearLayout.LayoutParams(elementWidth, Constants.SEPARATOR_HEIGHT));
 
-            //System.out.println("Curr Type: ");
-            //System.out.println(currType);
-            //System.out.println(wordList.get(index));
-            //System.out.println(wordList.get(index).getText());
             if (!currType.equals("Friends") && (wordList.get(index)).getLockedStatus()) {
                 // Is Locked
                 tempWordImage.setAlpha(Constants.LOCKED_ALPHA);
@@ -172,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {"Body Parts", "ankle", /*"arm",*/ "chin", "elbow", "face", "feet", "foot", "hair",
                     "hand", "head", "lip", "mouth", "nose", "thigh", "thumb", "toe"},
                 {"Animals", "ape", /*"ant"*/ "bat", "bear", "bee", "camel", "cat", "centipede",
-                        "collie", "cow", "cub", "dog", "dogs", "donkey", "elk", /*"fly",*/ "fox",
+                        "collie", "cow", /*"cub",*/ "dog", "dogs", "donkey", "elk", /*"fly",*/ "fox",
                         "goat", "kitten", "mole", "monkey", "moth", "mouse", "paw",/*"pet",*/"pig",
                         "rabbit", /*"ram",*/ "sheep", "skunk", "snail", "tail", "tiger", "toad",
                         "wasp", "whale", "wolf", "worms", "zebra"},
@@ -206,11 +201,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "rescue", "scold", "see", "sing", "ski", "skip", "sleep", "slip", "smell",
                         "smile", "spill", "stand", "stop", "swim", /*"throw"*/ "twinkle", "wash",
                         /*"weigh",*/ "whisper", "yawn"},
-                {"Describe", "afraid", "cloudy", "dark", "eight", "eight", "five", "high", "hot",
+                {"Describe", "afraid", "cloudy", "dark",/*"eight", "eight",*/ "five", "high", "hot",
                         "loud", "naughty", "old", "quiet", "rude", "silly", "six", "sixteen",
                         "sleepy", "slow", "smart", "stripes", "twelve"},
-                {"Colors", "black", "blue", "brown", "gold", "green", "purple", "red", "silver",
-                        "white", "yellow"}
+                {"Colors", "black", "blue", "brown", "gold", "green", "purple", /*"red",*/ "silver",
+                        /*"white",*/ "yellow"}
         };
         for(int i = 0; i < words.length; i++)
         {
@@ -310,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(selectedWord.getAudioName().length() > 0) {
                 //Most words
                 for (String s : typeToWordMapping.keySet()) {
-                    if (s != activeType && !s.equals("Friends"))
+                    if (!s.equals(activeType) && !s.equals("Friends"))
                         for (Word w : typeToWordMapping.get(s)) {
                             if (w.getText().length() == selectedWord.getText().length())
                                 lengthWords.add(w.getText());
@@ -374,11 +369,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
 
+        getStudentFromUUID(); // Have to call this again to get updated version of student (with added attempts)
+
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
 
-                getStudentFromUUID(); // Have to call this again to get updated version of student (with added attempts)
-
+                //getStudentFromUUID();
                 selectedWord.setUnlocked();
                 unlockedWords.add(selectedWord);
                 // Update the saved status of the word
@@ -415,7 +411,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         finish();
                     }
                 }, 0);   // Instantaneous
-
             }
         }
     }
@@ -432,7 +427,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         display.getSize(screenSize);
         width = screenSize.x;
         height = screenSize.y;
-        //elementHeight = height / ELEMENTS_ON_SCREEN;
         elementWidth = width / NUM_COLUMNS;
         elementHeight = elementWidth; // This is to keep the aspect ratio consistent (temporary)
 
@@ -444,7 +438,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void miscellaneousSetUp()
     {
-        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
     }
 
@@ -524,7 +517,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             separator.setBackgroundColor(getResources().getColor(R.color.colorBackground));
 
-            //up_btnT.setLayoutParams();
             typeViews.add(tempType);
             typeLL.addView(tempType);
             typeLL.addView(generateImagePreview(tempType));
@@ -558,8 +550,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
+<<<<<<< HEAD
      * Returns user to previous activity
      * @param view
+=======
+     * Returns the user to the Rhyme screen.
+>>>>>>> DocumentationPatchesKyle
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
@@ -597,6 +593,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    /**
+     * Uses the Student class with a static method to get a list of all students that are saved locally.
+     * Spins through this list and checks if the UUID that is being passed around matches one of these students.
+     * This ensures that the student variable used on the page is the saved one, preventing a modified one
+     * from being passed between pages without being saved to the system.
+     */
     public void getStudentFromUUID()
     {
         ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
@@ -607,13 +609,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
         }
-
-        /*
-        // Testing only
-        for (int index = 0; index < currStudent.getUnlockedWords().size(); ++index) {
-            System.out.println(currStudent.getUnlockedWords().get(index).getText());
-        }
-        */
     }
 
 

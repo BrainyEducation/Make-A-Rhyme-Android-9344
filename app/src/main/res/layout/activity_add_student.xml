@@ -71,22 +71,6 @@
             android:fontFamily="@font/imprima"
             android:gravity="center"
             android:typeface="serif"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/imprima"
-            android:textSize="30sp"
-            android:layout_marginLeft="10dp"
-            android:text="Student Name:"/>
-        <EditText
-            android:id="@+id/studentName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textSize="30sp"
-            android:fontFamily="@font/imprima"
-            android:gravity="center"
-            android:typeface="serif"/>
         <Button
             android:layout_width="match_parent"
             android:textSize="30sp"

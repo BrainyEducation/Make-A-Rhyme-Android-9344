@@ -3,6 +3,8 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme;
 import java.util.ArrayList;
 import java.util.UUID;
 
+// Unused (obsolete)
+/*
 public class Teacher {
 
     // ArrayList<Student> studentList;
@@ -34,3 +36,4 @@ public class Teacher {
         return password;
     }
 }
+*/

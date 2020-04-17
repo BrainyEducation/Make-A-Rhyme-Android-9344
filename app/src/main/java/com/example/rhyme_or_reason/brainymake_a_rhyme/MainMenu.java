@@ -40,7 +40,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     Typeface imprima;
     int height, width;
     String uuid;
-    Student currentStudent;
 
     int RHYME_HEIGHT;
 
@@ -73,8 +72,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         loadRhymeStoryOptions();
 
         setUpScroll();
-
-        //MainActivity.attemptsMap = getMapFromSharedPref();
     }
 
     /**
@@ -190,7 +187,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     }
 
     /**
+<<<<<<< HEAD
      * Returns user to previous activity
+=======
+     * Returns the user to the application welcome screen (indirectly; passes through login or registration screens)
+>>>>>>> DocumentationPatchesKyle
      */
     public void ClickedBackButton(View v) {
         onBackPressed();
@@ -217,15 +218,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             }
         });
     }
-
-//    public HashMap getMapFromSharedPref() {
-//        SharedPreferences sharedpref = getSharedPreferences("AttemptsMap", MODE_PRIVATE);
-//        String val = new Gson().toJson(new HashMap<String, ArrayList<int[]>>());
-//        String jsonStr = sharedpref.getString("ProgressMap", val);
-//        TypeToken<HashMap<String, ArrayList<int[]>>> token = new TypeToken<HashMap<String, ArrayList<int[]>>>() {};
-//        HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
-//        return mapFromPref;
-//    }
 
     /**
      * Handles profile press click; takes user to settings menu

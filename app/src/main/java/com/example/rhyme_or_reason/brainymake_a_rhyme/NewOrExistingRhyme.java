@@ -32,7 +32,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     int HEIGHT_UNIT;
     private ScrollView existingRhymesScrollview;
     Typeface imprima;
-    final int TEXT_SIZE = 30;
     RhymeTemplate chosenRhymeTemplate;
 
     private ImageButton up_btn;
@@ -45,8 +44,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_or_existing_rhyme);
-
-        System.out.println("Hit oncreate.");
 
         sizingSetUp();
 
@@ -82,7 +79,7 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
      */
     public void loadIntentsAndViews()
     {
-        uuid = getIntent().getExtras().get("uuid").toString();
+        uuid = getIntent().getExtras().getString("uuid");
 
         chosenRhymeTemplate = (RhymeTemplate)getIntent().getSerializableExtra("rhyme_template");
 
@@ -116,27 +113,18 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
 
         for (int index = 0; index < numExistingRhymes; ++index) {
 
-            System.out.println("1");
-
             RhymeTemplate currRhyme = retrieveRhymeTemplate(this.getApplicationContext(), index, chosenRhymeTemplate.getName(), uuid);
-
-            System.out.println("2");
 
             ImageView rhymeImage = new ImageView(this);
             rhymeImage.setTag(index);
             rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int) (width * Constants.ASPECT_RATIO)));
-            //int pictureResourceID = getResources().getIdentifier(currRhyme.getImageName(), "drawable", getPackageName());
 
             byte[] savedIllustration =  currRhyme.getSavedIllustration();
             Bitmap savedIllustrationBitmap = BitmapFactory.decodeByteArray(savedIllustration,0,savedIllustration.length);
 
             rhymeImage.setImageBitmap(savedIllustrationBitmap);
 
-            System.out.println("3");
-
             rhymeImage.setOnClickListener(this);
-
-            //rhymeImage.setImageResource(pictureResourceID);
 
             View separator = new View(this);
 
@@ -167,8 +155,6 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
         System.out.println("Hit onClick.");
-
-        // Need to update this
 
         RhymeTemplate toSend;
 
@@ -232,18 +218,14 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     }
 
     /**
-     * Responsible for updating the list of existing rhymes, or returning to the main menu if
-     * there are no existing rhymes.
+     * After creating a rhyme (by clicking the back button on the rhyme screen), will automatically
+     * go back another page to the Main Menu
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        onBackPressed();
-        /*
-        System.out.println("Hit activity result.");
-        existingRhymesLL.removeAllViews();
-        loadExistingRhymes(true);
-        */
+        finish();
+        //onBackPressed();
     }
 
 }

@@ -64,6 +64,8 @@
             android:textSize="30sp"
             android:fontFamily="@font/imprima"
             android:gravity="center"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:typeface="serif"/>
         <TextView
             android:layout_width="match_parent"
@@ -81,6 +83,8 @@
             android:fontFamily="@font/imprima"
             android:gravity="center"
             android:typeface="serif"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:inputType="textPassword"/>
 
         <Button

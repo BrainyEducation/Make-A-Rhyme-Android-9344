@@ -36,16 +36,13 @@ public class ProgressWordList extends AppCompatActivity {
         uuid = getIntent().getExtras().get("uuid").toString();
         Log.d("message", uuid);
         getStudentFromUUID();
-        //currStudent.loadMap(this.getApplicationContext(), uuid);
         Log.d("student", currStudent.getName());
         Log.d("map", currStudent.getAttemptsMap().keySet().toString());
         ArrayList<String> attemptedwords = new ArrayList<String>(currStudent.getAttemptsMap().keySet());
         arrayAdapter = new ArrayAdapter(this, R.layout.progress_individual_words, attemptedwords);
-        //SavePref(attemptedwords);
 
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(arrayAdapter);
-        //LoadFromPref();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,7 +63,6 @@ public class ProgressWordList extends AppCompatActivity {
                 onEmailClick(v);
             }
         });
-
     }
 
     /**
@@ -94,16 +90,7 @@ public class ProgressWordList extends AppCompatActivity {
 
     public void onEmailClick(View v) {
 
-        //forceStopAudio();
-
-
         Intent newIntent = new Intent(ProgressWordList.this,EmailActivity.class);
-        //View parentView = findViewById(R.id.totalIllustration);
-
-        //String path = EmailSystem.saveViewAsPngAndReturnPath(parentView, this);
-
-
-        //newIntent.putStringArrayListExtra("rhyme_words", wordList);
 
         newIntent.putExtra("imageUri", "");
 
@@ -111,7 +98,6 @@ public class ProgressWordList extends AppCompatActivity {
 
         sb.append(currStudent.getName());
         sb.append(" has learned the following words:\n\n");
-
 
         ArrayList<Word> unlockedWords = currStudent.getUnlockedWords();
         for (int j = 0; j < unlockedWords.size(); j++) {
@@ -127,6 +113,4 @@ public class ProgressWordList extends AppCompatActivity {
 
         startActivity(newIntent);
     }
-
-
 }

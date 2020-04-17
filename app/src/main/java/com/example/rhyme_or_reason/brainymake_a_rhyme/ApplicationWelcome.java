@@ -28,6 +28,8 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.view.Gravity.CENTER;
+
 public class ApplicationWelcome extends AppCompatActivity {
 
     ArrayList<RhymeTemplate> templateOptions = new ArrayList<>();
@@ -40,6 +42,8 @@ public class ApplicationWelcome extends AppCompatActivity {
     int height, width;
     ImageView welcomeImage;
     Button kidsButton;
+    Button parentsButton;
+    Button registrationButton;
     int colorToggle = 0;
 
     int RHYME_HEIGHT;
@@ -55,13 +59,11 @@ public class ApplicationWelcome extends AppCompatActivity {
 
         miscellaneousSetUp();
 
-        //MainActivity.attemptsMap = getMapFromSharedPref();
+        //buttonScaling();
 
         // Responsible for flipping the color from black to white every second
         final Handler handler = new Handler();
         final int delay = 1000; //milliseconds
-
-        kidsButton = findViewById(R.id.child_login);
 
         handler.postDelayed(new Runnable(){
             public void run(){
@@ -79,16 +81,12 @@ public class ApplicationWelcome extends AppCompatActivity {
 
     }
 
-    /**
-     * Workaround designed to allow the pictures for pre-existing rhymes to show up in the
-     * illustration when the page first loads. The page layout needs to be set for this to work,
-     * hence why it cannot be included in onCreate.
-     */
     @Override
     public void onWindowFocusChanged(boolean b)
     {
         super.onWindowFocusChanged(b);
 
+        buttonScaling();
     }
 
     /**
@@ -100,13 +98,15 @@ public class ApplicationWelcome extends AppCompatActivity {
         rhymesLL = findViewById(R.id.RhymesLL);
         topBar = findViewById(R.id.topLayout);
         welcomeImage = findViewById(R.id.WelcomeImage);
+        kidsButton = findViewById(R.id.child_login);
+        parentsButton = findViewById(R.id.parent_login);
+        registrationButton = findViewById(R.id.registration);
 
         // Illustration boundaries
         LinearLayout.LayoutParams illustration_params = new LinearLayout.LayoutParams(
                 width, (int)(width * .811)
         );
         illustration_params.setMargins(0, 0, 0, 0);
-        //illustration_params.gravity = CENTER;
 
         welcomeImage.setLayoutParams(illustration_params);
         welcomeImage.setBackgroundResource(R.drawable.logo);
@@ -117,7 +117,6 @@ public class ApplicationWelcome extends AppCompatActivity {
      */
     public void miscellaneousSetUp()
     {
-        //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
         RHYME_HEIGHT = (int)(width * Constants.ASPECT_RATIO);
     }
@@ -139,12 +138,21 @@ public class ApplicationWelcome extends AppCompatActivity {
     }
 
     /**
-     * Launches the rhyme UI
+     * Launches the rhyme UI (or the registration UI if it's the first user)
      */
     public void ClickedLoginStudent(View v)
     {
-        Intent newIntent = new Intent(this, StudentLogin.class);
-        startActivityForResult(newIntent, 1);
+        ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
+
+        // In the event that there are no students currently registered, redirect to registration screen.
+        if (allStudents.size() == 0) {
+            Intent newIntent = new Intent(this, StudentRegistration.class);
+            startActivityForResult(newIntent, 1);
+        } else {
+            Intent newIntent = new Intent(this, StudentLogin.class);
+            startActivityForResult(newIntent, 1);
+        }
+
     }
 
     /**
@@ -179,13 +187,51 @@ public class ApplicationWelcome extends AppCompatActivity {
         startActivityForResult(newIntent, 1);
     }
 
-    public HashMap getMapFromSharedPref() {
-        SharedPreferences sharedpref = getSharedPreferences("AttemptsMap", MODE_PRIVATE);
-        String val = new Gson().toJson(new HashMap<String, ArrayList<int[]>>());
-        String jsonStr = sharedpref.getString("ProgressMap", val);
-        TypeToken<HashMap<String, ArrayList<int[]>>> token = new TypeToken<HashMap<String, ArrayList<int[]>>>() {};
-        HashMap<String, ArrayList<int[]>> mapFromPref = new Gson().fromJson(jsonStr, token.getType());
-        return mapFromPref;
+    /**
+     * Scales fractionally depending on the size of the device so that it looks the same regardless
+     * of what the user is using the app on.
+     */
+    public void buttonScaling()
+    {
+        LinearLayout.LayoutParams welcomeParams = new LinearLayout.LayoutParams(
+                28 * HEIGHT_UNIT / 10,
+                28 * HEIGHT_UNIT / 10
+        );
+        welcomeParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+        welcomeParams.gravity = CENTER;
+
+        welcomeImage.setLayoutParams(welcomeParams);
+
+        ////////
+
+        LinearLayout.LayoutParams kidsParams = new LinearLayout.LayoutParams(
+                9 * width / 10,
+                18 * HEIGHT_UNIT / 10
+        );
+        kidsParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+
+        kidsButton.setLayoutParams(kidsParams);
+
+        ////////
+
+        LinearLayout.LayoutParams parentsParams = new LinearLayout.LayoutParams(
+                9 * width / 10,
+                8 * HEIGHT_UNIT / 10
+        );
+        parentsParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+
+        parentsButton.setLayoutParams(parentsParams);
+
+        ////////
+
+        LinearLayout.LayoutParams registrationParams = new LinearLayout.LayoutParams(
+                9 * width / 10,
+                8 * HEIGHT_UNIT / 10
+        );
+        registrationParams.setMargins(width / 20, HEIGHT_UNIT / 10, width / 20, HEIGHT_UNIT / 10);
+
+        registrationButton.setLayoutParams(registrationParams);
+
     }
 
 }

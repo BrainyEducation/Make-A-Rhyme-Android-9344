@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class EmailActivity extends AppCompatActivity implements View.OnClickListener{
+public class EmailActivity extends AppCompatActivity {
 
     TextInputLayout textInputLayout;
     TableRow tableRowTemplate;
@@ -48,6 +48,13 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
     String subjectText = "";
     String textForEmail = "";
     boolean paused = false;
+
+    Button submitButton;
+    TextView enteredEmailAddresses;
+
+    /**
+     * TODO: Jonathan comment explanation for all functions
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +71,6 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         loadIntentsAndViews();
 
         stitchStoryText();
-
     }
 
     public void loadIntentsAndViews()
@@ -73,6 +79,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         illustration = getIntent().getByteArrayExtra("illustration");
         storyText = getIntent().getStringExtra("general_rhyme_text");
         subjectText = getIntent().getStringExtra("subject_line");
+        submitButton = (Button) findViewById(R.id.SubmitButton);
+        enteredEmailAddresses = findViewById(R.id.EmailAddressesLabel);
+        submitButton.setAlpha(0.0f);
+        enteredEmailAddresses.setAlpha(0.0f);
     }
 
     public void stitchStoryText()
@@ -111,12 +121,9 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         String body = textForEmail;
         String path = (String) getIntent().getExtras().get("imageUri");
 
-
         emailSystem.setEmailVariables( emails.toArray(new String[0]), subject, body, path);
 
-
         Intent in = emailSystem.createEmailIntent(this);
-
 
         try {
             startActivity(Intent.createChooser(in, "Send mail..."));
@@ -140,7 +147,9 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-
+        submitButton.setAlpha(1.0f); // Allow button to be clicked after a button is added
+        enteredEmailAddresses.setAlpha(1.0f);
+        textInputLayout.getEditText().setText(""); // Reset the text field for another entry
         emails.add(email);
         emailHashSet.add(email);
         String displayText = emailSystem.shortenedEmailText(email);
@@ -176,14 +185,13 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
                 emails.remove(rowNum);
                 emailTable.removeViewAt(rowNum+1);
                 emailHashSet.remove(email);
+                if (emails.size() == 0) {
+                    submitButton.setAlpha(0.0f);
+                    enteredEmailAddresses.setAlpha(0.0f);
+                }
             }
         };
         return returnListener;
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 
     /**

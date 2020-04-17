@@ -95,10 +95,6 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
      */
     public void onClick(View v) {
 
-        System.out.println("Hit onClick.");
-
-        // Need to update this
-
         RhymeTemplate toSend;
 
         toSend = listOfRhymes.get((Integer)v.getTag());
@@ -140,7 +136,6 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
                 ImageView rhymeImage = new ImageView(this);
                 rhymeImage.setTag(index);
                 rhymeImage.setLayoutParams(new LinearLayout.LayoutParams(width, (int) (width * Constants.ASPECT_RATIO)));
-                //int pictureResourceID = getResources().getIdentifier(currRhyme.getImageName(), "drawable", getPackageName());
 
                 byte[] savedIllustration = currRhyme.getSavedIllustration();
                 Bitmap savedIllustrationBitmap = BitmapFactory.decodeByteArray(savedIllustration, 0, savedIllustration.length);
@@ -150,8 +145,6 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
                 System.out.println("3");
 
                 rhymeImage.setOnClickListener(this);
-
-                //rhymeImage.setImageResource(pictureResourceID);
 
                 View separator = new View(this);
 
