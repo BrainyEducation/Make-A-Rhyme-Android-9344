@@ -168,7 +168,7 @@ public class StoryAudioManager {
                 if (wordList == null || traversedBlanks >= wordList.size() || wordList.get(traversedBlanks).equals("")) {
                     Log.d("Blank detected","blank");
                 } else {
-                    setMediaPlayerFile(wordList.get(traversedBlanks));
+                    setMediaPlayerFile(wordList.get(traversedBlanks).toLowerCase());
                     //traversedBlanks++;
                 }
                 if (!continueAudioFlag) {
