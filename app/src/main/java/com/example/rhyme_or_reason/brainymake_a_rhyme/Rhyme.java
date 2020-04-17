@@ -152,7 +152,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     public void onPlayAudio(View v) {
         if (displayPlayButton && playCooldown) {
             storyAudioManager.clearMediaPlayer();
-            storyAudioManager.playStoryThread(storyTitle);
+            storyAudioManager.playStoryThread(storyTitle, iB);
             displayPlayButton = false;
             iB.setImageResource(R.drawable.ic_pause);
             playCooldown = false;
@@ -187,42 +187,6 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         stopThread.start();
     }
 
-
-    /*
-    public void onPlayAudio(View v) {
-        if (displayPlayButton && playCooldown) {
-            storyAudioManager.clearMediaPlayer();
-            storyAudioManager.playStoryThread("Pet Party Picnic Story");
-            displayPlayButton = false;
-            iB.setImageResource(R.drawable.ic_pause);
-            playCooldown = false;
-            blockPlayButton();
-        } else if (!displayPlayButton && playCooldown){
-            storyAudioManager.setContinueAudioFlag(false);
-            storyAudioManager.clearMediaPlayer();
-            displayPlayButton = true;
-            iB.setImageResource(R.drawable.ic_play);
-            playCooldown = false;
-            blockPlayButton();
-            storyAudioManager.clearMediaPlayer();
-            storyAudioManager.setWordList(wordList);
-        }
-    }
-
-    private void blockPlayButton() {
-        Thread stopThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(333);
-                    playCooldown = true;
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-        stopThread.start();
-    }
-    */
 
     /**
      * Occurs when the user selects an empty gap to fill with a word; saves the index of the button
@@ -367,7 +331,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "Down, in the oozy, slop-sloshery muck gunk.\n" +
                 "How awfully— fun to sit sunk to the chin,\n" +
                 "The [D-3_5_6_7] and you grinned—and just had to jump in.\n" +
-                "Grumpy grownups scrubbed clean the kids odds and ends,\n" +
+                "Grumpy grownups scrubbed clean the kids' odds and ends,\n" +
                 "Everyone made lots of new mud-loving friends!\n";
     }
 
@@ -1161,6 +1125,9 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         */
     }
 
+    /**
+     * Attempts to force the audio player to stop without crashing the app
+     */
     private void forceStopAudio() {
         try {
             storyAudioManager.setContinueAudioFlag(false);
