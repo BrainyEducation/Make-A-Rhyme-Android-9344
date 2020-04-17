@@ -55,6 +55,7 @@
             android:textSize="30sp"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/imprima"
+            android:imeOptions="actionDone"
             android:text="Name (Username)"/>
         <ScrollView
             android:id="@+id/UsernameScrollView"
