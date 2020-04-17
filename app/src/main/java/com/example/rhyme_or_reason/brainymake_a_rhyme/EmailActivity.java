@@ -171,6 +171,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         emailSystem.saveEmails(emails, uuid, this);
     }
 
+    /**
+     * Does the necessary work to add emails only to the UI
+     * @param email
+     */
     private void addEmailHelper(String email) {
         String displayText = emailSystem.shortenedEmailText(email);
 

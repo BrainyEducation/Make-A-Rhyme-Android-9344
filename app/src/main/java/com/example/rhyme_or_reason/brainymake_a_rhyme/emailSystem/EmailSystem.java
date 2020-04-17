@@ -153,6 +153,13 @@ public class EmailSystem
         return ImageSaver.saveImageAndReturnPath(parentView, context, "brainy_image");
     }
 
+    /**
+     * Saves an ArrayList of emails into SharedPreferences for persistence into uuid + "storedEmailLists"
+     * The list is converted into a set
+     * @param emailList
+     * @param uuid
+     * @param context
+     */
     public void saveEmails(ArrayList<String> emailList, String uuid, Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
@@ -168,6 +175,12 @@ public class EmailSystem
 
     }
 
+    /**
+     * Retrieves an ArrayList of emails from SharedPreferences for persistence into uuid + "storedEmailLists"
+     * @param uuid
+     * @param context
+     * @return
+     */
     public ArrayList<String> retrieveEmails(String uuid, Context context) {
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(context);
