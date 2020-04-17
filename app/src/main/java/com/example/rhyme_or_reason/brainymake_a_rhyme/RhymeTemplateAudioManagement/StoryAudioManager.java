@@ -26,10 +26,6 @@ public class StoryAudioManager {
 
     private MediaPlayer mediaPlayer;
 
-    /**
-     *
-     * @param context Android context that is running the activity using this object
-     */
     public StoryAudioManager(Context context) {
         this.context = context;
         mp3Data = new StoryAudioConstants();
@@ -49,29 +45,19 @@ public class StoryAudioManager {
         }
     }
 
-    /**
-     * Sets an internal list of Strings representing the list of words
-     * @param wordList
-     */
     public void setWordList(ArrayList<String> wordList) {
         this.wordList = wordList;
     }
 
 
-    /**
-     * This function tries all that it can do to shutoff the MediaPlayer and cause it to
-     * reset into its original state
-     */
-    private void clearMediaPlayer() {
+    public void clearMediaPlayer() {
         try {
             mediaPlayer.stop();
         } catch (Exception e) {
-            return;
         }
         try {
             mediaPlayer.release();
         } catch (Exception e) {
-            return;
         }
         try {
             mediaPlayer.reset();
@@ -81,19 +67,17 @@ public class StoryAudioManager {
         mediaPlayer = new MediaPlayer();
     }
 
-    /**
-     * Assigns mediaPlayer an mp3 file to run
-     * @param mediafilename the name of the mp3 resource. It should not have any file extension.
-     */
-    private void setMediaPlayerFile(String mediafilename) {
-        AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(mediafilename, "raw",context.getPackageName()));
+    private void setMediaPlayerFile(String s) {
+        AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(s, "raw",context.getPackageName()));
         try
         {
+            /*
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer.reset();
-            }
+            }*/
+            clearMediaPlayer();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.reset();
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
@@ -115,10 +99,6 @@ public class StoryAudioManager {
     }
 
 
-    /**
-     * Plays the audio files of a story on a separate thread
-     * @param storyName the name of the story. String is case sensitive
-     */
     public void playStoryThread(final String storyName) {
         setContinueAudioFlag(true);
         Thread stopThread = new Thread() {
@@ -143,8 +123,8 @@ public class StoryAudioManager {
      * @param storyName
      */
     private void play_story(String storyName) {
-        Log.d("story stuff",wordList.get(0));
         ArrayList<String> fileNames = new ArrayList<>();
+        Log.d("storyName", storyName);
         StoryAudioConstantContainer constantContainer = mp3Data.storyNameToConstantContainer.get(storyName);
         int numberOfFiles = constantContainer.numberOfFiles;
         String fileprefix = constantContainer.fileNamePrefix;
@@ -156,20 +136,27 @@ public class StoryAudioManager {
 
         for (int i = 0; i < numberOfFiles; i++) {
             final boolean[] lock = {true};
+            clearMediaPlayer();
             setMediaPlayerFile(fileNames.get(i));
             mediaPlayer.start();
             try {
-                Thread.sleep(200);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 Log.d("wait","broken");
             }
-            while (mediaPlayer.isPlaying()) {
-                if (!continueAudioFlag) {
-                    break;
+            try {
+                while (mediaPlayer.isPlaying()) {
+                    if (!continueAudioFlag) {
+                        break;
+                    }
+                    continue;
                 }
-                continue;
+            } catch (IllegalStateException e) {
+                Log.d("wait","broken");
             }
-            mediaPlayer.stop();
+
+            //mediaPlayer.stop();
+            clearMediaPlayer();
             if (!continueAudioFlag) {
                 return;
             }
@@ -180,29 +167,45 @@ public class StoryAudioManager {
             if (isThereARealBlankBetweenFiles.get(i)) {
                 if (wordList == null || traversedBlanks >= wordList.size() || wordList.get(traversedBlanks).equals("")) {
                     Log.d("Blank detected","blank");
+                    traversedBlanks++;
                 } else {
                     setMediaPlayerFile(wordList.get(traversedBlanks));
                     //traversedBlanks++;
-                }
-                mediaPlayer.start();
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    Log.d("wait","broken");
-                }
-                while (mediaPlayer.isPlaying()) {
                     if (!continueAudioFlag) {
-                        break;
+                        return;
                     }
+                    mediaPlayer.start();
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        Log.d("wait","broken");
+                    }
+                    try {
+                        while (mediaPlayer.isPlaying()) {
+                            if (!continueAudioFlag) {
+                                break;
+                            }
+                            continue;
+                        }
+                    } catch (IllegalStateException e) {
+                        Log.d("wait","broken");
+                    }
+
+
+                    try {
+                        mediaPlayer.stop();
+                    } catch (IllegalStateException e) {
+
+                    }
+
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        Log.d("wait","broken");
+                    }
+                    traversedBlanks++;
                 }
 
-                mediaPlayer.stop();
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    Log.d("wait","broken");
-                }
-                traversedBlanks++;
             }
         }
 

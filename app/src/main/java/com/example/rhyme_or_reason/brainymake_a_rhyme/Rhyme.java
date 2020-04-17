@@ -77,6 +77,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
     StoryAudioManager storyAudioManager;
     ArrayList<String> wordList = new ArrayList<>();
 
+    String storyTitle = "";
     String storyText = "";
     String uuid = "";
 
@@ -106,6 +107,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         if (currRhyme.getName().equals("Pet Party Picnic")) {
             setImageCoordsPetPartyPicnic();
             petPartyPicnicSetUp();
+
         } else if (currRhyme.getName().equals("Muddy Park")) {
             setImageCoordsMuddyPark();
             muddyParkSetUp();
@@ -113,6 +115,8 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             setImageCoordsStrangerParade();
             strangerParadeSetUp();
         }
+        //note this variable is sensitive to spaces and is case sensitive
+        storyTitle = currRhyme.getName();
 
         storySetUp();
 
@@ -146,17 +150,22 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      * @param v
      */
     public void onPlayAudio(View v) {
-        //ImageButton iB = findViewById(R.id.playButton);
-
-        if (displayPlayButton) {
-            storyAudioManager.playStoryThread("Pet Party Picnic Story");
+        if (displayPlayButton && playCooldown) {
+            storyAudioManager.clearMediaPlayer();
+            storyAudioManager.playStoryThread(storyTitle);
             displayPlayButton = false;
             iB.setImageResource(R.drawable.ic_pause);
-
-        } else {
+            playCooldown = false;
+            blockPlayButton();
+        } else if (!displayPlayButton && playCooldown){
             storyAudioManager.setContinueAudioFlag(false);
+            storyAudioManager.clearMediaPlayer();
             displayPlayButton = true;
             iB.setImageResource(R.drawable.ic_play);
+            playCooldown = false;
+            blockPlayButton();
+            storyAudioManager.clearMediaPlayer();
+            storyAudioManager.setWordList(wordList);
         }
     }
 
@@ -1017,7 +1026,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         displayPlayButton = true;
         storyAudioManager.setContinueAudioFlag(false);
 
-        //forceStopAudio();
+        forceStopAudio();
 
         Bitmap illustrationBitmap = takeScreenShot();
 
@@ -1110,7 +1119,7 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
      */
     public void onEmailClick(View v) {
 
-        //forceStopAudio();
+        forceStopAudio();
         storyAudioManager.setContinueAudioFlag(false);
         displayPlayButton = true;
 
@@ -1149,6 +1158,17 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
             System.out.println(currStudent.getSavedRhymes().get(index).getName());
         }
         */
+    }
+
+    private void forceStopAudio() {
+        try {
+            storyAudioManager.setContinueAudioFlag(false);
+        } catch (IllegalStateException e) {
+            try {
+                storyAudioManager.clearMediaPlayer();
+            } catch (Exception nestedException) {
+            }
+        }
     }
 
 }
