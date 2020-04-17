@@ -2,13 +2,20 @@ package com.example.rhyme_or_reason.brainymake_a_rhyme.emailSystem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.content.FileProvider;
 import android.view.View;
+
+import com.example.rhyme_or_reason.brainymake_a_rhyme.Student;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -139,8 +146,42 @@ public class EmailSystem
     /**
      * Takes a view, saves it as a png file, and returns a string representing the path to
      * the file
+     * @param parentView the view that will be converted into a PNG
+     * @param context the context that the parentView belongs to
      */
     public static String saveViewAsPngAndReturnPath(View parentView, Context context) {
         return ImageSaver.saveImageAndReturnPath(parentView, context, "brainy_image");
     }
+
+    public void saveEmails(ArrayList<String> emailList, String uuid, Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        HashSet<String> emailSet = new HashSet<>();
+        for (String s : emailList) {
+            emailSet.add(s);
+        }
+
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+
+        prefsEditor.putStringSet(uuid+"storedEmailLists", emailSet);
+        prefsEditor.commit();
+
+    }
+
+    public ArrayList<String> retrieveEmails(String uuid, Context context) {
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+
+
+        Set<String> emailSet = appSharedPrefs.getStringSet(uuid+"storedEmailLists", new HashSet<String>());
+        ArrayList<String> emailList = new ArrayList<>();
+
+        for (String s : emailSet) {
+            emailList.add(s);
+        }
+
+        return emailList;
+    }
+
 }

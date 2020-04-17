@@ -48,6 +48,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
     String subjectText = "";
     String textForEmail = "";
     boolean paused = false;
+    String uuid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         emailHashSet = new HashSet<>();
         emailSystem = new EmailSystem();
         tableRowTemplate.setVisibility(View.GONE);
+        uuid = getIntent().getExtras().getString("uuid");
+        emails = emailSystem.retrieveEmails(uuid, this);
 
         loadIntentsAndViews();
 
@@ -77,6 +80,9 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
         illustration = getIntent().getByteArrayExtra("illustration");
         storyText = getIntent().getStringExtra("general_rhyme_text");
         subjectText = getIntent().getStringExtra("subject_line");
+        for (String s : emails) {
+            addEmailHelper(s);
+        }
     }
 
     /**
@@ -160,6 +166,12 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
         emails.add(email);
         emailHashSet.add(email);
+        addEmailHelper(email);
+
+        emailSystem.saveEmails(emails, uuid, this);
+    }
+
+    private void addEmailHelper(String email) {
         String displayText = emailSystem.shortenedEmailText(email);
 
         TextView exampleEmailTextView = (TextView) tableRowTemplate.getChildAt(0);
@@ -173,7 +185,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
         emailTextView.setText(displayText);
         emailRemovalButton.setText(exampleEmailRemovalButton.getText());
-        emailRemovalButton.setOnClickListener(generateRemoveEmailListener(email));
+        emailRemovalButton.setOnClickListener(generateRemoveEmailListener(email, this));
 
         newEmailRow.addView(emailTextView);
         newEmailRow.addView(emailRemovalButton);
@@ -194,7 +206,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
      * @param email the email address to remove
      * @return
      */
-    private View.OnClickListener generateRemoveEmailListener(final String email) {
+    private View.OnClickListener generateRemoveEmailListener(final String email, final Context parentContext) {
         View.OnClickListener  returnListener = new View.OnClickListener() {
 
             @Override
@@ -203,6 +215,7 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
                 emails.remove(rowNum);
                 emailTable.removeViewAt(rowNum+1);
                 emailHashSet.remove(email);
+                emailSystem.saveEmails(emails, uuid, parentContext);
             }
         };
         return returnListener;
