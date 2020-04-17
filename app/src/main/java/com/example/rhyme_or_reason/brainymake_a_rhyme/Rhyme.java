@@ -328,36 +328,37 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
         storyText = "Once on a pretend time didn’t you tell me\n" +
                 "How you hosted a happy pet-pair party?\n" +
                 "You decided on goodies to buy at the store,\n" +
-                "And with your [D_5_6_7] made a guest list of four,\n" +
-                "Invited [E_5_6_7] and its [A_1] to attend,\n" +
-                "And a [G_5_6_7] paired with its [B-1] best friend.\n" +
+                "And with your favorite pet [D_5_6_7] \n" +
+                "Made a guest list for four,\n" +
+                "Invited [E_5_6_7] with a pet [A_1] to attend,\n" +
+                "And [G_5_6_7] paired with a pet [B-1] best friend.\n" +
                 "You spread a bright blanket with places for six,\n" +
                 "and bowls for [D_5_6_7] food, [D_5_6_7] food, and a mix\n" +
                 "of treats for the picky [G_5_6_7]. For the rest\n" +
-                "cold milk, [J-14] on napkins, and the best\n" +
+                "cold milk, [J-14] on a platter, and the best\n" +
                 "ice cream—chocolate, vanilla, strawberry—\n" +
                 "topped with sprinkles, [K-14], a bright red cherry,\n" +
                 "and butterscotch syrup! Gosh it was yummy,\n" +
                 "Yum yummy in my tum, tum, tummy!\n" +
                 "The [D_5_6_7] and [D_5_6_7] and [G_5_6_7] played so well,\n" +
                 "And everyone loved it, so I heard tell,\n" +
-                "The [A-1] bragged that you were so clever,\n" +
-                "And the [B-1] declared it the best party ever!\n";
+                "Kept bragging [A-1] was so clever,\n" +
+                "And [B-1] declared it the best party ever!\n";
 
     }
 
     public void muddyParkSetUp()
     {
         storyText = "Once on a pretend time didn’t you tell me\n" +
-                "You once walked your [D-3_5_6_7] to the park to run free,\n" +
-                "There met [A-2] with a pet [E-3_5_6_7] come to play.\n" +
+                "You once walked a [D-3_5_6_7] to the park to run free,\n" +
+                "There met [A-2] with a pet [E-3_5_6_7].\n" +
                 "The pets scuffled and tussled every which way—\n" +
-                "Your [D-3_5_6_7] chased the [E-3_5_6_7] all around,\n" +
+                "The [D-3_5_6_7] chased the [E-3_5_6_7] all around,\n" +
                 "The swings, towers, trash cans round the playground,\n" +
                 "Under a see-saw the  [E-3_5_6_7] tried to hide,\n" +
-                "Then climbed and tumbled down the slide,\n" +
+                "Then climbed up and tumbled back down the slide,\n" +
                 "Upset a kid’s play pool, shook water and dripped\n" +
-                "A slippery mud puddle, and your [D-3_5_6_7] tripped,\n" +
+                "A slippery mud puddle, and the [D-3_5_6_7] tripped,\n" +
                 "The clumsy [B-1] who flopped and wallowed\n" +
                 "And knocked down some poor [C-1] who followed\n" +
                 "Trying to help, but flip-flopped down too,\n" +
@@ -365,27 +366,27 @@ public class Rhyme extends AppCompatActivity implements View.OnClickListener {
                 "Dragged down with the [E-3_5_6_7], all three sunk\n" +
                 "Down, in the oozy, slop-sloshery muck gunk.\n" +
                 "How awfully— fun to sit sunk to the chin,\n" +
-                "Your [D-3_5_6_7] and you grinned—and just had to jump in.\n" +
-                "Grumpy grownups scrubbed clean your odds and ends,\n" +
-                "But you made lots of new mud-loving friends!\n";
+                "The [D-3_5_6_7] and you grinned—and just had to jump in.\n" +
+                "Grumpy grownups scrubbed clean the kids odds and ends,\n" +
+                "Everyone made lots of new mud-loving friends!\n";
     }
 
     public void strangerParadeSetUp()
     {
-        storyText = "Who made the strange parade at my house?\n" +
+        storyText = "Who made the strange parade at our house?\n" +
                 "—With a [A-13] in front pulled by a mouse,\n" +
                 "Bumped in back by some [E-5_6_7] slurping ice cream,\n" +
                 "And a [G-5_6_7] and [H-5_6_7]  yoked as a team,\n" +
-                "Hauling a [B-13] on which some [J-5_6_7] rode,\n" +
+                "Hauling a [B-13] a top which some [J-5_6_7] rode,\n" +
                 "And giggled to see a [K-1_3_5_6_7] kiss a toad,\n" +
                 "And a [L-1_3_5_6_7] and [N-1_3_5_6_7] danced together,\n" +
-                "As some [P-1_3_5_6_7] tickled them with a peacock feather.\n" +
-                "A sleepy [Q-1_3_5_6_7] had a wee [R-1_3_5_6_7] hanging down,\n" +
-                "From its back and a [S-1_3_5_6_7] made a frown,\n" +
+                "As some [P-1_3_5_6_7] tickled both with a peacock feather.\n" +
+                "A [Q-1_3_5_6_7] and a [R-1_3_5_6_7] on a rope hanging down,\n" +
+                "And tossed eggs at a [S-1_3_5_6_7] who tried not to frown,\n" +
                 "While a [U-1_3_5_6_7] gobbled [Y-14] and burped,\n" +
                 "At a [V-1_3_5_6_7], who spilled  chocolate milk as it slurped,\n" +
                 "And a strange smelling [W-1_3_5_6_7] on a [C-8_9_10_13]  winked at me—\n" +
-                "As I sat on a [D-8_9_10_13] for an hour to sight-see.\n" +
+                "As we sat on a [D-8_9_10_13] for an hour to sight-see.\n" +
                 "Who could dream up a strange parade of this kind?\n" +
                 "Did I maybe just make it all up in my mind?\n";
     }
