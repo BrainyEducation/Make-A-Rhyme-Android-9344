@@ -18,11 +18,13 @@
         <activity
             android:name=".ParentLogin"
             android:label="@string/title_activity_parent_login"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false"/>
         <activity
             android:name=".ApplicationWelcome"
             android:label="@string/title_activity_application_welcome"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,18 +34,22 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".Quiz"
             android:label="@string/title_activity_quiz"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".NameFriend"
             android:label="@string/title_activity_name_friend"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -51,26 +57,33 @@
 
         <activity
             android:name=".Rhyme"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".StudentProgress"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".ProgressWordList"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".EmailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".NewOrExistingRhyme"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".ClassProgress"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -84,10 +97,12 @@
 
         <activity
             android:name=".ParentTeacherMainMenu"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".AddStudent"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false" />
         <activity
             android:name=".Registration1"
             android:theme="@style/AppTheme.NoActionBar"
@@ -105,10 +120,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:noHistory="false"/>
         <activity android:name=".StudentProgressMenu"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false"/>
         <activity
             android:name=".ParentTeacherCreatedRhymes"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="false"/>
     </application>
 
 </manifest>

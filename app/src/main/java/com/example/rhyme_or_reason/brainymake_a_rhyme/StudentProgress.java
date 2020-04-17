@@ -43,12 +43,12 @@ public class StudentProgress extends AppCompatActivity {
         ///////////////////////////////////////////////////
         averageIncorrections = (TextView) findViewById(R.id.AverageIncorrections);
         numAttempts = (TextView) findViewById(R.id.NumAttempts);
-        highestNumConsec = (TextView) findViewById(R.id.highestConsec);
+        //highestNumConsec = (TextView) findViewById(R.id.highestConsec);
         averageIncorrectionsNumber = (TextView) findViewById(R.id.AverageIncorrectionsNumber);
         numAttemptsNumber = (TextView) findViewById(R.id.NumAttemptsNumber);
-        highestNumConsecNumber = (TextView) findViewById(R.id.highestConsecutiveNumber);
-        averageIncorrections.setText("Average Incorrect Selections Per Attempt: ");
-        numAttempts.setText("Number of Attempts To Read: ");
+        //highestNumConsecNumber = (TextView) findViewById(R.id.highestConsecutiveNumber);
+        averageIncorrections.setText("Avg Incorrect Selections: ");
+        numAttempts.setText("# of Attempts To Read: ");
         ////////////////////////////////////////////////////
 
         String w = getIntent().getExtras().get("word").toString();

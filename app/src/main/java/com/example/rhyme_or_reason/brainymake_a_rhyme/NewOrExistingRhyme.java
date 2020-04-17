@@ -224,7 +224,8 @@ public class NewOrExistingRhyme extends AppCompatActivity implements View.OnClic
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        onBackPressed();
+        finish();
+        //onBackPressed();
     }
 
 }
