@@ -48,13 +48,10 @@ public class EmailActivity extends AppCompatActivity {
     String subjectText = "";
     String textForEmail = "";
     boolean paused = false;
+    String uuid = "";
 
     Button submitButton;
     TextView enteredEmailAddresses;
-
-    /**
-     * TODO: Jonathan comment explanation for all functions
-     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +64,18 @@ public class EmailActivity extends AppCompatActivity {
         emailHashSet = new HashSet<>();
         emailSystem = new EmailSystem();
         tableRowTemplate.setVisibility(View.GONE);
+        uuid = getIntent().getExtras().getString("uuid");
+        emails = emailSystem.retrieveEmails(uuid, this);
 
         loadIntentsAndViews();
 
         stitchStoryText();
     }
 
+    /**
+     * Loads this activity with the necessary data to produce the email intent from whatever
+     * activity preceded this one
+     */
     public void loadIntentsAndViews()
     {
         chosenWords =  getIntent().getStringArrayListExtra("rhyme_words");
@@ -83,8 +86,18 @@ public class EmailActivity extends AppCompatActivity {
         enteredEmailAddresses = findViewById(R.id.EmailAddressesLabel);
         submitButton.setAlpha(0.0f);
         enteredEmailAddresses.setAlpha(0.0f);
+
+        for (String s : emails) {
+            addEmailHelper(s);
+            submitButton.setAlpha(1.0f); // Allow button to be clicked if emails are in this list
+            enteredEmailAddresses.setAlpha(1.0f);
+        }
     }
 
+    /**
+     * Takes the raw story text (from Rhyme.java) and  combines it with the words that the user has selected
+     * and places it into the textForEmail instance variable
+     */
     public void stitchStoryText()
     {
         boolean inSquareBrackets = false;
@@ -110,6 +123,11 @@ public class EmailActivity extends AppCompatActivity {
         textForEmail = textForEmail.replace("  ", " ");
     }
 
+    /**
+     * Hitting the email button triggers this function that opens up the messaging client selection menu
+     * supplied by the Android OS
+     * @param v
+     */
     public void sendEmail(View v) {
         if (emails.size() == 0) {
             displayError("No emails have been added");
@@ -132,6 +150,10 @@ public class EmailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Adds an email to the UI and updates emailSystem with a list of the added emails
+     * @param v
+     */
     public void addEmail(View v) {
         final String email = textInputLayout.getEditText().getText().toString();
         if (!emailSystem.isValidEmail(email)) {
@@ -152,6 +174,16 @@ public class EmailActivity extends AppCompatActivity {
         textInputLayout.getEditText().setText(""); // Reset the text field for another entry
         emails.add(email);
         emailHashSet.add(email);
+        addEmailHelper(email);
+
+        emailSystem.saveEmails(emails, uuid, this);
+    }
+
+    /**
+     * Does the necessary work to add emails only to the UI
+     * @param email
+     */
+    private void addEmailHelper(String email) {
         String displayText = emailSystem.shortenedEmailText(email);
 
         TextView exampleEmailTextView = (TextView) tableRowTemplate.getChildAt(0);
@@ -165,18 +197,28 @@ public class EmailActivity extends AppCompatActivity {
 
         emailTextView.setText(displayText);
         emailRemovalButton.setText(exampleEmailRemovalButton.getText());
-        emailRemovalButton.setOnClickListener(generateRemoveEmailListener(email));
+        emailRemovalButton.setOnClickListener(generateRemoveEmailListener(email, this));
 
         newEmailRow.addView(emailTextView);
         newEmailRow.addView(emailRemovalButton);
         emailTable.addView(newEmailRow);
     }
 
-    private void displayError(String s) {
-        Snackbar.make(emailTable, s, Snackbar.LENGTH_LONG).show();
+    /**
+     * Displays the error as a Snackbar activity
+     * @param errorMessage
+     */
+    private void displayError(String errorMessage) {
+        Snackbar.make(emailTable, errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
-    private View.OnClickListener generateRemoveEmailListener(final String email) {
+    /**
+     * When an email is added, this function provides the event listener that allows the user to remove
+     * an added email
+     * @param email the email address to remove
+     * @return
+     */
+    private View.OnClickListener generateRemoveEmailListener(final String email, final Context parentContext) {
         View.OnClickListener  returnListener = new View.OnClickListener() {
 
             @Override
@@ -185,10 +227,12 @@ public class EmailActivity extends AppCompatActivity {
                 emails.remove(rowNum);
                 emailTable.removeViewAt(rowNum+1);
                 emailHashSet.remove(email);
+
                 if (emails.size() == 0) {
                     submitButton.setAlpha(0.0f);
                     enteredEmailAddresses.setAlpha(0.0f);
                 }
+                emailSystem.saveEmails(emails, uuid, parentContext);
             }
         };
         return returnListener;
@@ -220,6 +264,7 @@ public class EmailActivity extends AppCompatActivity {
      */
     public void ClickedBackButton(View view) {
         ImageSaver.clearHashmap();
+
         onBackPressed();
     }
 

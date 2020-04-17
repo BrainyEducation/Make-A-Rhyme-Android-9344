@@ -32,8 +32,6 @@
                 android:textSize="30sp"
                 android:typeface="serif" />
 
-
-
             <Button
                 android:id="@+id/ProgressButton"
                 style="?android:attr/borderlessButtonStyle"

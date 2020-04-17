@@ -35,12 +35,29 @@
                 android:typeface="serif"
                 android:padding="0dp"/>
 
+
             <Button
-                android:id="@+id/emailButtonAnalytics"
+                android:id="@+id/emailButtonInactive"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text=""
+                android:textColor="#666"
+                android:textSize="30sp"
+                android:typeface="serif" />
+
+            <Button
+                android:id="@+id/emailButton"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
                 android:fontFamily="@font/imprima"
                 android:gravity="center"
                 android:padding="0dp"
@@ -48,19 +65,6 @@
                 android:textColor="#666"
                 android:textSize="30sp"
                 android:typeface="serif" />
-
-            <Button
-                android:id="@+id/HelpButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:fontFamily="@font/imprima"
-                android:gravity="center"
-                android:textColor="#666"
-                android:textSize="30sp"
-                android:typeface="serif"
-                android:padding="0dp"/>
         </RelativeLayout>
 
         <RelativeLayout

@@ -7,6 +7,9 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.ImageButton;
+
+import com.example.rhyme_or_reason.brainymake_a_rhyme.R;
 
 import java.io.Console;
 import java.io.IOException;
@@ -45,11 +48,19 @@ public class StoryAudioManager {
         }
     }
 
+    /**
+     * Setter function for the list of words that the user has selected
+     * @param wordList
+     */
     public void setWordList(ArrayList<String> wordList) {
         this.wordList = wordList;
     }
 
 
+    /**
+     * This function does its best to reset the mediaPlayer finite state machine without
+     * causing the app to crash
+     */
     public void clearMediaPlayer() {
         try {
             mediaPlayer.stop();
@@ -67,16 +78,14 @@ public class StoryAudioManager {
         mediaPlayer = new MediaPlayer();
     }
 
+    /**
+     * Tries its best to reset the mediaPlayer instance var and give it the next mp3 file to play
+     * @param s the name of the file without any file extension
+     */
     private void setMediaPlayerFile(String s) {
         AssetFileDescriptor afd = context.getResources().openRawResourceFd(context.getResources().getIdentifier(s, "raw",context.getPackageName()));
         try
         {
-            /*
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer.reset();
-            }*/
             clearMediaPlayer();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.reset();
@@ -99,7 +108,13 @@ public class StoryAudioManager {
     }
 
 
-    public void playStoryThread(final String storyName) {
+    /**
+     * Plays the audio files associated with the given story on a separate thread and resets the image button
+     * when the audio is done playing
+     * @param storyName the name of the story to play
+     * @param iB the ImageButton that triggered this function
+     */
+    public void playStoryThread(final String storyName, final ImageButton iB) {
         setContinueAudioFlag(true);
         Thread stopThread = new Thread() {
             @Override
@@ -107,6 +122,7 @@ public class StoryAudioManager {
                 try {
                     sleep(1000);
                     play_story(storyName);
+                    iB.setImageResource(R.drawable.ic_play);
                 } catch (InterruptedException e) {
                     Log.d("playStoryThread",e.toString());
                     e.printStackTrace();
@@ -118,7 +134,10 @@ public class StoryAudioManager {
 
     /**
      * Syncs up the audio files for the story with the audio files that correspond to words
-     * that have filled in the blank. Currently, it does not have a parameter for passing in a list
+     * that have filled in the blank.
+     *
+     * Note, due to the user being able to pause this function any time they choose,
+     * there is extensive error checking for IllegalStateExceptions with regard to the mediaPlayer
      *
      * @param storyName
      */
@@ -155,7 +174,6 @@ public class StoryAudioManager {
                 Log.d("wait","broken");
             }
 
-            //mediaPlayer.stop();
             clearMediaPlayer();
             if (!continueAudioFlag) {
                 return;
@@ -167,37 +185,45 @@ public class StoryAudioManager {
             if (isThereARealBlankBetweenFiles.get(i)) {
                 if (wordList == null || traversedBlanks >= wordList.size() || wordList.get(traversedBlanks).equals("")) {
                     Log.d("Blank detected","blank");
+                    traversedBlanks++;
                 } else {
                     setMediaPlayerFile(wordList.get(traversedBlanks).toLowerCase());
                     //traversedBlanks++;
-                }
-                if (!continueAudioFlag) {
-                    return;
-                }
-                mediaPlayer.start();
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    Log.d("wait","broken");
-                }
-                try {
-                    while (mediaPlayer.isPlaying()) {
-                        if (!continueAudioFlag) {
-                            break;
-                        }
-                        continue;
+                    if (!continueAudioFlag) {
+                        return;
                     }
-                } catch (IllegalStateException e) {
-                    Log.d("wait","broken");
+                    mediaPlayer.start();
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        Log.d("wait","broken");
+                    }
+                    try {
+                        while (mediaPlayer.isPlaying()) {
+                            if (!continueAudioFlag) {
+                                break;
+                            }
+                            continue;
+                        }
+                    } catch (IllegalStateException e) {
+                        Log.d("wait","broken");
+                    }
+
+
+                    try {
+                        mediaPlayer.stop();
+                    } catch (IllegalStateException e) {
+
+                    }
+
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        Log.d("wait","broken");
+                    }
+                    traversedBlanks++;
                 }
 
-                mediaPlayer.stop();
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    Log.d("wait","broken");
-                }
-                traversedBlanks++;
             }
         }
 

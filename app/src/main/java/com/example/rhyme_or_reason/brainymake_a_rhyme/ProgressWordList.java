@@ -56,7 +56,7 @@ public class ProgressWordList extends AppCompatActivity {
             }
         });
 
-        emailButton = (Button) findViewById(R.id.emailButtonSingleStudent);
+        emailButton = (Button) findViewById(R.id.emailButton);
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

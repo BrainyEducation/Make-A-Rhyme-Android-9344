@@ -1,5 +1,6 @@
 package com.example.rhyme_or_reason.brainymake_a_rhyme;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,9 +53,9 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
 
         sizingSetUp();
 
-        loadIntentsAndViews();
-
         miscellaneousSetUp();
+
+        loadIntentsAndViews();
 
         loadExistingRhymes(false);
 
@@ -71,8 +72,6 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
      * existing rhymes up and down in addition to scrolling by finger
      */
     public void setUpScrollArrows() {
-        up_btn = findViewById(R.id.ScrollUpBtn);
-        down_btn = findViewById(R.id.ScrollDownBtn);
         up_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +113,7 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
     {
         //Word.initialize(this.getApplicationContext());
         imprima = ResourcesCompat.getFont(this, R.font.imprima);
+        RHYME_HEIGHT = (int)(width * Constants.ASPECT_RATIO);
     }
 
     /**
@@ -122,10 +122,14 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
      */
     public void loadExistingRhymes(boolean justReturned) {
 
+        int rhymeCount = 0;
+
         for (int count = 0; count < Constants.backgroundNames.size(); ++count) {
             String tempRhymeName = Constants.backgroundNames.get(count);
 
             int numExistingRhymes = getNumberOfExistingRhymes(this.getApplicationContext(), tempRhymeName, uuid);
+
+            rhymeCount += numExistingRhymes;
 
             for (int index = 0; index < numExistingRhymes; ++index) {
 
@@ -156,6 +160,11 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
                 existingRhymesLL.addView(separator);
             }
         }
+
+        if (rhymeCount == 0) {
+            up_btn.setAlpha(0.0f);
+            down_btn.setAlpha(0.0f);
+        }
     }
 
     /**
@@ -170,6 +179,9 @@ public class ParentTeacherCreatedRhymes extends AppCompatActivity implements Vie
         existingRhymesLL = findViewById(R.id.RhymesLL);
 
         topBar = findViewById(R.id.topLayout);
+
+        up_btn = findViewById(R.id.ScrollUpBtn);
+        down_btn = findViewById(R.id.ScrollDownBtn);
     }
 
     /**

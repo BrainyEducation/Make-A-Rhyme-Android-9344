@@ -11,13 +11,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class ImageSaver {
 
     private static HashMap<String, String> filenameToPathMap = new HashMap<>();
 
     /**
+     * This function saves an image to the Android device. The filename and the path to that file is saved
+     * in an internal Hashmap
      *
      * @param parentView an Android view to be rasterized into a png image
      * @param context the Android Context object that the view belongs to
@@ -40,19 +41,24 @@ public class ImageSaver {
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {
-            Log.d("notfound", e.toString());
+            Log.d("FileNotFoundException", e.toString());
         } catch (IOException e) {
-            Log.d("ioFileOutput",e.toString());
+            Log.d("IOException",e.toString());
         }
         filenameToPathMap.put(fileName, path);
-        Log.d("ATTACHMULTIPLEPUT", path);
         return path;
     }
 
+    /**
+     * @return a HashMap that maps a filename to the file path to that resource
+     */
     public static HashMap<String, String> getFilenameToPathMap() {
         return filenameToPathMap;
     }
 
+    /**
+     * This function clears out the internal filename to file path HashMap
+     */
     public static void clearHashmap() {
         getFilenameToPathMap().clear();
     }

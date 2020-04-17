@@ -85,7 +85,7 @@ public class StudentProgress extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
 
-        emailButton = (Button) findViewById(R.id.emailButtonAnalytics);
+        emailButton = (Button) findViewById(R.id.emailButton);
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,8 +109,12 @@ public class StudentProgress extends AppCompatActivity {
     }
 
 
+    /**
+     * Triggers the creation of the email activity and passes over the image of the graph
+     * and the necessary email information
+     * @param v
+     */
     public void onEmailClick(View v) {
-
         uuid = getIntent().getExtras().get("uuid").toString();
 
         Intent newIntent = new Intent(StudentProgress.this, EmailActivity.class);
