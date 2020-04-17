@@ -30,6 +30,12 @@ public class StudentProgress extends AppCompatActivity {
     TextView numAttemptsNumber;
     TextView highestNumConsecNumber;
 
+    /**
+     * Displays text analytics in the top half of the screen
+     * Displays a line graph in the bottom half of the screen showing the number of incorrect
+     * selections per attempt of the word
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +80,7 @@ public class StudentProgress extends AppCompatActivity {
         graph.getViewport().setMinX(1);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxX(5);
-        graph.getViewport().setMaxY(10);
+
         graph.getGridLabelRenderer().setVerticalAxisTitle("Incorrect Selections");
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Attempts");
 //            graph.getGridLabelRenderer().setNumHorizontalLabels(5);
@@ -91,6 +97,11 @@ public class StudentProgress extends AppCompatActivity {
         });
     }
 
+    /**
+     * Activity when user clicks on back button
+     * Returns to the previous activity
+     * @param view
+     */
     public void ClickedBackButton(View view) {
         try {
             ImageSaver.saveImageAndReturnPath(graph, this, getIntent().getExtras().get("Word").toString());
@@ -124,6 +135,9 @@ public class StudentProgress extends AppCompatActivity {
 
     }
 
+    /**
+     * Retrieves the student associated with the UUID updated in the onCreate method
+     */
     public void getStudentFromUUID() {
         ArrayList<Student> allStudents = Student.retrieveStudents(this.getApplicationContext());
 

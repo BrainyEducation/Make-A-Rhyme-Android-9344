@@ -26,6 +26,11 @@ public class ClassProgress extends AppCompatActivity {
     BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
     Button emailButton;
 
+    /**
+     * Displays a line graph showing the number of words attempted for each student
+     * for the ParentTeacher
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +98,11 @@ public class ClassProgress extends AppCompatActivity {
         });
     }
 
+    /**
+     * Activity when user clicks on back button
+     * Returns to the previous activity
+     * @param view
+     */
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
