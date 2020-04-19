@@ -27,5 +27,6 @@ Version 1.0.0 (Build 5)
 
 * No automatic font scaling for API 25 and lower (some fonts are smaller than necessary)
 * There is no restriction/recommendation for which words children place in blanks
+* There is no capability of removing students (from the device and from a teacher's class)
 
 ## Install Guide
