@@ -38,7 +38,7 @@ Version 1.0.0 (Build 5)
   * Go to the GitHub page for Brainy Make-A-Rhyme Android
   * Click on the green button labeled: "Clone or download"
   * Copy the URL that shows up
-  * In Terminal/Command Prompt, use the command "git clone <git-url>"
+  * In Terminal/Command Prompt, use the command "git clone git-url"
   * This will clone the repository into your local directory
 
 ### Using The Application
