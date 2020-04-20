@@ -31,7 +31,7 @@ Version 1.0.0 (Build 5)
 
 ## Install Guide
 * Pre-requisites: Android Device
-* Windows 7, 8, or 10 required if testing Android Studio on Android device (excluding emulators).
+* Windows 7, 8, or 10 required if testing Android Studio on Android device (excluding emulators)
 * Must connect the device to the computer's USB port so that Android Studio recognizes the device
 * Device Manager -> Right-click name of device connected to USB port -> Update Driver Software ->
   Browse computer for driver software -> Locate the USB driver folder -> Install
