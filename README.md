@@ -57,9 +57,9 @@ Version 1.0.0 (Build 5)
   * Select a virtual device (or select 'Create New Virtual Device')
   * Click 'OK' to run the application in the emulator
   
- ### Troubleshooting
+### Troubleshooting
  
- * Common Issues for Android Studio
+* Common Issues for Android Studio
   * Gradle sync issues - Check versions of the dependencies listed in build.gradle (if recently updated, consider reverting a package to its previous version)
   * Build failing unexpectedly - First, try Build -> Clean Project. Second, try restarting Android Studio. Last, try restarting your computer.
   * Miscellaneous errors - In Android Studio, press 'Run' in the bottom left corner of the screen -> Look for red text -> Examine red text for error name -> copy the error message into a search engine; other people often have experience with the same issue
